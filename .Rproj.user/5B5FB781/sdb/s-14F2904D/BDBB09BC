@@ -1,0 +1,17 @@
+{
+    "contents" : "\ngetData <- function(type,data, ...){\n  args <- list(...)\n  palette <- args$palette\n  codes <- read.csv(system.file(\"data/dane-codes.csv\",package = \"dmaps\"))\n\n  if(type == \"depto\" && !names(data) %in% c(\"depto\",\"group\"))\n    stop(\"for type depto, names of data must be 'depto' and 'group'\")\n  if(type == \"mpio\" && !names(data) %in% c(\"mpio\",\"group\"))\n    stop(\"for type mpio, names of data must be 'mpio' and 'group'\")\n  if(is.null(data$info))\n    data$info <-\"\"\n\n  if(!is.null(data$group)){\n    key <- unique(data$group)\n    keyColor <- catColor(key, palette)\n  }\n  if(is.null(data$group) && !is.null(data$value)){\n    key <- unique(data$value)\n    keyColor <- numColor(key, palette)\n    data$group <- as.character(data$value)\n    ## use library(Hmisc), cut2 function to generate numeric intervals\n  }\n\n\n  if(type %in% c(\"depto\")){\n    data$code <- codes$departamentoId[match(data$depto,codes$departamento)]\n    data$code <- sprintf(\"%02d\", data$code)\n    }\n  if(type == \"mpio\"){\n    data$code <- codes$municipioId[match(data$municipio,codes$departamento)]\n  }\n\n  message(keyColor)\n  fillKeys <- as.list(keyColor)\n  names(fillKeys) <- key\n  fillKeys$defaultFill <- args$defaultFill\n\n  fills <- Map(function(i){\n    list(fillKey=data$group[i], info = data$info[i])\n    },1:nrow(data))\n  names(fills) <- as.character(data$code)\n\n  list(fills = fills, fillKeys = fillKeys, bubblesData = list())\n}\n\n\ngetOpts <- function(opts = NULL,...){\n  args <- list(...)\n  defaultOpts <- list(\n    scale = 2,\n    translateX = 0,\n    translateY = 0,\n    defaultFill = \"#B8CDB9\",\n    borderColor = \"#00FF000\",\n    borderWidth = 1,\n    highlightFillColor = \"#999999\",\n    highlightBorderColor = \"#444444\",\n    highlightBorderWidth = 0,\n    legend = TRUE,\n    legendTitle = \"\",\n    legendDefaultFillTitle = NULL,\n    palette = \"RdYlBu\"\n  )\n  optNames <- names(defaultOpts)\n  o <- list()\n  for(i in optNames){\n    o[i] <- opts[[i]] %||% defaultOpts[[i]]\n  }\n  o\n}\n",
+    "created" : 1435758089779.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3298195687",
+    "id" : "BDBB09BC",
+    "lastKnownWriteTime" : 1435783144,
+    "path" : "~/jprepo/dmaps/R/settings.R",
+    "project_path" : "R/settings.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

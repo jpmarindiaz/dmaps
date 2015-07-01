@@ -1,0 +1,17 @@
+{
+    "contents" : "\nlibrary(devtools)\nlibrary(htmlwidgets)\ndocument()\nload_all()\ndevtools::install()\n\nlibrary(dmaps)\n\ndepto = c(\"Antioquia\",\"Amazonas\",\"Cundinamarca\",\"Nariño\")\ngroup = c(\"A\",\"A\",\"C\",\"E\")\nvalue = c( 50, 20, 2,20)\ninfo = c(\"<h1>Ant</h1> info\",\"Ama Info\",\"Cund Info\")\n\ndata <- data.frame(depto = depto, group = group, info = info)\ndata <- data.frame(depto = depto, group = group)\ndata <- data.frame(depto = depto, value = value)\n\n# Seq palette\n# Blues BuGn BuPu GnBu Greens Greys Oranges OrRd PuBu PuBuGn PuRd Purples RdPu Reds YlGn YlGnBu YlOrBr YlOrRd\n# Divergent\n# BrBG PiYG PRGn PuOr RdBu RdGy RdYlBu RdYlGn Spectral\n# Qualitative\n# Accent Dark2 Paired Pastel1 Pastel2 Set1 Set2 Set3\n\n\nopts <- list(\n  scale = 2,\n  translateX = 0,\n  translateY = 0,\n  #defaultFill = \"#FFFFFF\",\n  #borderColor = \"#00FF00\",\n  borderWidth = 1,\n  highlightFillColor = \"#999999\",\n  highlightBorderColor = \"#0000FF\",\n  highlightBorderWidth = 0,\n  legend = TRUE,\n  legendTitle = \"Grupo\",\n  legendDefaultFillTitle = \"No hay datos\"\n  #,palette = \"Set2\"\n)\n\ndmaps(\"depto\",data, opts)\ndmaps(\"depto\",data)\n\n\n# Saving widgets\ns <- d3plus(\"tree\", countries)\nhtmlwidgets::saveWidget(s,\"index.html\", selfcontained = FALSE)\nhtmlwidgets::saveWidget(s,\"index.html\")\n\n\n# Grouping bubbles\nbubbles <- read.csv(system.file(\"data/bubbles.csv\", package = \"d3plus\"))\nd3plus(\"bubbles\", bubbles)\nbubbles <- read.csv(system.file(\"data/senado-tlc-corea.csv\", package = \"d3plus\"))\nd3plus(\"bubbles\", bubbles)\nd3plus(\"bubbles\", bubbles[c(2,1,3)])\n\n\n# Some lines\ndata <- read.csv(system.file(\"data/expenses.csv\", package = \"d3plus\"))\nd3plus(\"lines\", data)\n\n# Some networks\nedges <- read.csv(system.file(\"data/edges.csv\", package = \"d3plus\"))\nnodes <- read.csv(system.file(\"data/nodes.csv\", package = \"d3plus\"))\nd3plus(\"rings\",edges)\nd3plus(\"rings\", edges, focusDropdown = TRUE)\nd3plus(\"rings\", edges, nodes = nodes,focusDropdown = TRUE)\nd3plus(\"network\", edges)\nd3plus(\"network\",edges,nodes = nodes)\n\n# A scatter plot\ncountries <- read.csv(system.file(\"data/countries.csv\", package = \"d3plus\"))\nd3plus(\"scatter\", countries)\ncountries$big <- ceiling(10*runif(1:nrow(countries)))\nd3plus(\"scatter\", countries)\n\n\n\n\n# Some treemaps\nd3plus(\"tree\", countries)\nd3plus(\"tree\", bubbles[c(\"name\",\"value\")])\n\n\n\n\n\n\n# A nice shiny app\nlibrary(shiny)\napp <- shinyApp(\n  ui = bootstrapPage(\n    checkboxInput(\"swapNCols\",\"Swap columns\",value=FALSE),\n    d3plusOutput(\"viz\")\n  ),\n  server = function(input, output) {\n    countries <- read.csv(system.file(\"data/countries.csv\", package = \"d3plus\"))\n    output$viz <- renderD3plus({\n      d <- countries\n      if(input$swapNCols){\n        d <- d[c(1,3,2)]\n      }\n      d3plus(\"tree\",d)\n    })\n  }\n)\nrunApp(app)\n\n\n\n\n\n\n\n\n",
+    "created" : 1435773593657.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2437528409",
+    "id" : "9CB7E080",
+    "lastKnownWriteTime" : 1435782108,
+    "path" : "~/jprepo/dmaps/inst/sandbox/examples.R",
+    "project_path" : "inst/sandbox/examples.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

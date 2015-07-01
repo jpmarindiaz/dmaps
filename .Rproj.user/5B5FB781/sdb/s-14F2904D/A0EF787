@@ -1,0 +1,17 @@
+{
+    "contents" : "Package: dmaps\nTitle: R Htmlwidget for datamaps with latam maps\nVersion: 0.0.1\nDate: 2015-05-20\nAuthor: Juan Pablo Marin Diaz\nMaintainer: Juan Pablo Marín Díaz <jpmarindiaz@gmail.com>\nDescription: R Htmlwidget for datamaps with latam maps\nDepends:\n  R (>= 3.1.2),\n  htmlwidgets\nLicense: MIT + file LICENSE\nLazyData: true\n",
+    "created" : 1435783154931.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3501397511",
+    "id" : "A0EF787",
+    "lastKnownWriteTime" : 1435783214,
+    "path" : "~/jprepo/dmaps/DESCRIPTION",
+    "project_path" : "DESCRIPTION",
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "dcf"
+}

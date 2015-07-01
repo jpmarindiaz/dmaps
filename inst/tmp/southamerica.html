@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <!-- I recommend you host this file on your own, since this will change without warning -->
+    <script src="http://datamaps.github.io/scripts/datamaps.world.min.js?v=1"></script>
+    <h2>Datamaps Playground</h2>
+
+
+    <!-- <div id="container1" style="position: relative; width: 80%; max-height: 450px;"></div> -->
+    <div id="container1" style="height:600px"></div>
+
+    <script>
+    //basic map config with custom fills, mercator projection
+    var map = new Datamap({
+        scope: 'world',
+        element: document.getElementById('container1'),
+
+        // Zoom in on Africa
+        setProjection: function(element) {
+            var projection = d3.geo.equirectangular()
+                .center([-63, -10])
+                .rotate([4.4, 0])
+                .scale(400)
+                .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+            var path = d3.geo.path()
+                .projection(projection);
+
+            return {
+                path: path,
+                projection: projection
+            };
+        },
+
+        fills: {
+            defaultFill: '#FFFF33',
+            latam: 'rgba(0,244,244,0.9)',
+            gt50: 'red'
+        },
+
+        data: {
+            MEX: {
+                fillKey: 'latam'
+            },
+            CHL: {
+                fillKey: 'latam'
+            },
+            BOL: {
+                fillKey: 'latam'
+            },
+            BRA: {
+                fillKey: 'latam'
+            },
+            ARG: {
+                fillKey: 'latam'
+            },
+            COL: {
+                fillKey: 'latam'
+            },
+            VEN: {
+                fillKey: 'latam'
+            },
+            PER: {
+                fillKey: 'latam'
+            },
+            URU: {
+                fillKey: 'latam'
+            }
+        }
+    })
+
+
+    //sample of the arc plugin
+
+    //bubbles, custom popup on hover template
+
+    </script>
+</body>

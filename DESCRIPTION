@@ -1,0 +1,12 @@
+Package: dmaps
+Title: R Htmlwidget for datamaps with latam maps
+Version: 0.0.1
+Date: 2015-05-20
+Author: Juan Pablo Marin Diaz
+Maintainer: Juan Pablo Marín Díaz <jpmarindiaz@gmail.com>
+Description: R Htmlwidget for datamaps with latam maps
+Depends:
+  R (>= 3.1.2),
+  htmlwidgets
+License: MIT + file LICENSE
+LazyData: true
