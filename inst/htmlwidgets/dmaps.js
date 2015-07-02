@@ -12,6 +12,7 @@ HTMLWidgets.widget({
     },
 
     renderValue: function(el, x, instance) {
+        d3.select(el).selectAll("*").remove()
 
         vizId = el.id;
         // var d3plus = instance;
