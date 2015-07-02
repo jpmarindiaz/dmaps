@@ -8,9 +8,9 @@ devtools::install()
 library(dmaps)
 
 depto = c("Antioquia","Amazonas","Cundinamarca","Nariño")
-group = c("A","A","C","E")
+group = c("X","X","Y","Z")
 value = c( 50, 20, 2,20)
-info = c("<h1>Ant</h1> info","Ama Info","Cund Info")
+info = c("<h1>Ant</h1> info","Ama Info","Cund Info","<strong>NAR</strong>")
 
 data <- data.frame(depto = depto, group = group, info = info)
 data <- data.frame(depto = depto, group = group)
