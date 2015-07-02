@@ -35,7 +35,6 @@ getData <- function(type,data, ...){
     data$code <- codes$municipioId[match(data$municipio,codes$departamento)]
   }
 
-  message(keyColor)
   fillKeys <- as.list(keyColor)
   names(fillKeys) <- key
   fillKeys$defaultFill <- args$defaultFill
