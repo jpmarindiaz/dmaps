@@ -7,14 +7,15 @@ devtools::install()
 
 library(dmaps)
 
-depto = c("Antioquia","Amazonas","Cundinamarca","Nariño")
-group = c("X","X","Y","Z")
-value = c( 50, 20, 2,20)
-info = c("<h1>Ant</h1> info","Ama Info","Cund Info","<strong>NAR</strong>")
+depto = c("Antioquia","Amazonas","Cundinamarca","Nariño", "Bogotá")
+group = c("X","X","Y","Z","Z")
+value = c( 50, 20, 2,20,10)
+info = c("<h1>Ant</h1> info","Ama Info","Cund Info","<strong>NAR</strong>","YES!!!")
 
 data <- data.frame(depto = depto, group = group, info = info)
 data <- data.frame(depto = depto, group = group)
 data <- data.frame(depto = depto, value = value)
+dmaps("depto",data)
 
 
 
