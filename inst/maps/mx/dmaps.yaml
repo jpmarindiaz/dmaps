@@ -1,0 +1,12 @@
+mx_states:
+  label: Mexico states
+  file: states.topo.json
+  scope: states
+  geographyName: name
+  geographyId: id
+  projection: 
+    name: albersUsa
+    center: [-97, 25]
+    rotate: [4.4, 0]
+    scale: 2
+

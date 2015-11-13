@@ -1,0 +1,12 @@
+us_counties:
+  label: Mexico states
+  file: counties.topo.json
+  scope: counties
+  geographyName: 
+  geographyId: id
+  projection: 
+    name: albersUsa
+    center: [-97, 25]
+    rotate: [4.4, 0]
+    scale: 2
+

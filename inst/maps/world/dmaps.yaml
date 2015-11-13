@@ -1,0 +1,12 @@
+world_countries:
+  label: World Countries
+  file: countries.topo.json
+  scope: world
+  geographyName: name
+  geographyId: id
+  projection: 
+    name: equirectangular
+    center: [97, 0]
+    rotate: [0, 0]
+    scale: 1
+

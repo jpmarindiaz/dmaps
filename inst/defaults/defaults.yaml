@@ -1,0 +1,8 @@
+- name: colombia0
+  project: datasketch
+  categoriesUrlName: ["Histórias","Querido Diario","Butaca","Blogueo","Quién es Quién","El Cruce","Silla Blanca","Elecciones","Silla Caribe","IQ","Crimen y Castigo"]
+  categoriesUrlMatch: ["/historias","/queridodiario","/butaca","/blogs","/quienesquien","/datanews","/silla-blanca","/elecciones2015","/silla-caribe","/iq","/crimenycastigo"]
+  domains: ["lasillallena.lasillavacia.com","lasillavacia.com"]
+  domainNames: ["sillallena","sillavacia"]
+  country: colombia
+  topNPages: 10

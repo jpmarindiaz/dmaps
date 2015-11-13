@@ -1,0 +1,27 @@
+#' @export
+availableDmaps <- function(){
+  names(dmapMeta())
+}
+
+#' @export
+dmapMeta <- function(mapName = NULL){
+  dir <- system.file("maps",package="dmaps", mustWork=TRUE)
+  regex <- paste0(".*yaml$")
+  files <- Filter(function(f){grepl(regex,f)},list.files(dir, recursive = TRUE))
+  l <- lapply(files,function(name){
+    ll <- yaml.load_file(file.path(dir,name))
+    ll <- Map(function(ll){
+      basePath <- "https://cdn.rawgit.com/jpmarindiaz/dmaps/master/inst"
+      ll$path <- file.path(basePath,dirname(name),ll$file)
+      ll
+    },ll)
+    ll
+  })
+
+  #names(l) <- file_path_sans_ext(files)
+  x <- unlist(l, recursive=FALSE, use.names = TRUE)
+  if(!is.null(mapName)){
+    return(x[[mapName]])
+  }
+  x
+}

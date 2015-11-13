@@ -13,3 +13,8 @@ is.empty <- function (x)
 {
   !as.logical(length(x))
 }
+
+file_path_sans_ext <- function (x)
+{
+  sub("([^.]+)\\.[[:alnum:]]+$", "\\1", x)
+}

@@ -11,7 +11,7 @@ dmaps <- function(type = "depto", data, opts = NULL,width = '100%', height = '10
   defaultFill <- opts$defaultFill
   palette <- opts$palette
 
-  d <- getData("depto",data, defaultFill = defaultFill, palette = palette)
+  d <- getData(type,data, defaultFill = defaultFill, palette = palette)
 
   settings <- opts
   settings$mapType <- type

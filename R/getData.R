@@ -4,10 +4,14 @@ getData <- function(type,data, ...){
   palette <- args$palette
   codes <- read.csv(system.file("data/dane-codes.csv",package = "dmaps"))
 
-  if(type == "depto" && !names(data) %in% c("depto","group"))
-    stop("for type depto, names of data must be 'depto' and 'group'")
-  if(type == "mpio" && !names(data) %in% c("mpio","group"))
+  if(type == "colombia0" && !names(data) %in% c("depto","group"))
+    stop("for type colombia0, names of data must be 'depto' and 'group'")
+  if(type == "colombia1" && !names(data) %in% c("mpio","group"))
     stop("for type mpio, names of data must be 'mpio' and 'group'")
+
+  if(type == "ecuador0" && !names(data) %in% c("prov","group"))
+    stop("for type colombia0, names of data must be 'prov' and 'group'")
+
   if(is.null(data$info))
     data$info <-""
 
@@ -27,12 +31,16 @@ getData <- function(type,data, ...){
 
 
 
-  if(type %in% c("depto")){
+  if(type %in% c("colombia0")){
     data$code <- codes$departamentoId[match(data$depto,codes$departamento)]
     data$code <- sprintf("%02d", data$code)
     }
-  if(type == "mpio"){
+  if(type == "colombia1"){
     data$code <- codes$municipioId[match(data$municipio,codes$departamento)]
+  }
+  if(type %in% c("ecuador0")){
+    data$code <- codes$departamentoId[match(data$depto,codes$departamento)]
+    data$code <- sprintf("%02d", data$code)
   }
 
   fillKeys <- as.list(keyColor)
