@@ -14,6 +14,7 @@ dmaps <- function(mapName, data = NULL, opts = NULL,width = '100%', height = '10
   dmap <- dmapMeta(mapName)
 
 
+
   opts <- getOpts(opts)
   defaultFill <- opts$defaultFill
   palette <- opts$palette

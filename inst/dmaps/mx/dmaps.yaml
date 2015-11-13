@@ -5,7 +5,7 @@ mx_states:
   scope: states
   geographyName: name
   geographyId: id
-  projection: 
+  projectionDefaults: 
     albers:
       scale: 1.5
       translate: [480, 250]

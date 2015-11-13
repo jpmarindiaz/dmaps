@@ -28,9 +28,6 @@ dmaps("co_departments",data)
 
 
 opts <- list(
-  scale = 2,
-  translateX = 0,
-  translateY = 0,
   #defaultFill = "#FFFFFF",
   #borderColor = "#00FF00",
   borderWidth = 1,

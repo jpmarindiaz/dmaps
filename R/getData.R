@@ -41,8 +41,10 @@ getData <- function(dmap,data, ...){
 
 getOpts <- function(opts = NULL,...){
   args <- list(...)
+
   defaultOpts <- list(
     projectionName = NULL, # This is set on each dmap.yaml
+    projectionOpts = NULL,
     scale = NULL, # This is set on each dmap.yaml
     translateX = 0,
     translateY = 0,
@@ -58,6 +60,14 @@ getOpts <- function(opts = NULL,...){
     legendDefaultFillTitle = NULL,
     palette = "RdYlBu"
   )
+
+
+  projectionName <- projectionName %||% "equirectangular"
+  loadProjectionOpts <- function(projection){
+
+  }
+
+  ## Cambiar por rapply
   optNames <- names(defaultOpts)
   o <- list()
   for(i in optNames){
