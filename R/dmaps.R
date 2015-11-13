@@ -5,20 +5,27 @@
 #' @import htmlwidgets
 #'
 #' @export
-dmaps <- function(type = "depto", data, opts = NULL,width = '100%', height = '100%',...) {
+dmaps <- function(mapName, data = NULL, opts = NULL,width = '100%', height = '100%',...) {
+  message(mapName)
+  # mapName <- "co_departamentos"
+  if(!mapName %in% availableDmaps())
+    stop("No map with that name, check available maps with availableDmaps()")
+
+  dmap <- dmapMeta(mapName)
+
 
   opts <- getOpts(opts)
   defaultFill <- opts$defaultFill
   palette <- opts$palette
 
-  d <- getData(type,data, defaultFill = defaultFill, palette = palette)
+  d <- getData(dmap,data, defaultFill = defaultFill, palette = palette)
 
   settings <- opts
-  settings$mapType <- type
 
   # pass the data and settings using 'x'
   x <- list(
     data = d,
+    dmap = dmap,
     settings = settings
   )
 

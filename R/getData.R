@@ -1,16 +1,13 @@
 
-getData <- function(type,data, ...){
+getData <- function(dmap,data, ...){
+  if(is.null(data))
+    return(list(fills = list(), fillKeys = list(), bubblesData = list()))
   args <- list(...)
+  codePath <- "inst/dmaps/"
   palette <- args$palette
-  codes <- read.csv(system.file("data/dane-codes.csv",package = "dmaps"))
+  codes <- read.csv(dmap$codesPath, colClasses = "character")
 
-  if(type == "colombia0" && !names(data) %in% c("depto","group"))
-    stop("for type colombia0, names of data must be 'depto' and 'group'")
-  if(type == "colombia1" && !names(data) %in% c("mpio","group"))
-    stop("for type mpio, names of data must be 'mpio' and 'group'")
-
-  if(type == "ecuador0" && !names(data) %in% c("prov","group"))
-    stop("for type colombia0, names of data must be 'prov' and 'group'")
+  data$code <- codes$id[match(data$name,codes$name)]
 
   if(is.null(data$info))
     data$info <-""
@@ -29,20 +26,6 @@ getData <- function(type,data, ...){
     stop("need to provide a group or a value")
   }
 
-
-
-  if(type %in% c("colombia0")){
-    data$code <- codes$departamentoId[match(data$depto,codes$departamento)]
-    data$code <- sprintf("%02d", data$code)
-    }
-  if(type == "colombia1"){
-    data$code <- codes$municipioId[match(data$municipio,codes$departamento)]
-  }
-  if(type %in% c("ecuador0")){
-    data$code <- codes$departamentoId[match(data$depto,codes$departamento)]
-    data$code <- sprintf("%02d", data$code)
-  }
-
   fillKeys <- as.list(keyColor)
   names(fillKeys) <- key
   fillKeys$defaultFill <- args$defaultFill
@@ -59,7 +42,8 @@ getData <- function(type,data, ...){
 getOpts <- function(opts = NULL,...){
   args <- list(...)
   defaultOpts <- list(
-    scale = 2,
+    projectionName = NULL, # This is set on each dmap.yaml
+    scale = NULL, # This is set on each dmap.yaml
     translateX = 0,
     translateY = 0,
     defaultFill = "#B8CDB9",
@@ -69,6 +53,7 @@ getOpts <- function(opts = NULL,...){
     highlightBorderColor = "#444444",
     highlightBorderWidth = 0,
     legend = TRUE,
+    graticule = TRUE,
     legendTitle = "",
     legendDefaultFillTitle = NULL,
     palette = "RdYlBu"

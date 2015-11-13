@@ -21,8 +21,8 @@ HTMLWidgets.widget({
         // select the viz element and remove existing children
         // d3.select(el).select(vizId).selectAll("*").remove();
 
-        console.log("SETTINGS:\n",x.settings);
-        console.log("DATA:\n",x.data);
+        console.log("SETTINGS:\n", x.settings);
+        console.log("DATA:\n", x.data);
 
         // var usrOpts = {
         //     mapType: "mpio",
@@ -34,26 +34,46 @@ HTMLWidgets.widget({
         // };
 
         var usrOpts = x.settings;
+        var dmap = x.dmap;
 
-        var mapType = usrOpts.mapType || "mpio"; // depto
-        var mapTypeDefaults = {
-            mpio: {
-                scope: "mpio",
-                dataUrl: "https://rm-public.s3.amazonaws.com/assets/topo/mpio.min.topo.json",
-                geographyName: "NOMBRE_MPI"
-            },
-            depto: {
-                scope: "depto",
-                dataUrl: 'https://rm-public.s3.amazonaws.com/assets/topo/depto.topo.json',
-                geographyName: "name"
-            }
-        };
+
+        // var mapType = usrOpts.mapType || "mpio"; // depto
+        // var mapTypeDefaults = {
+        //     mpio: {
+        //         scope: "mpio",
+        //         dataUrl: "https://rm-public.s3.amazonaws.com/assets/topo/mpio.min.topo.json",
+        //         geographyName: "NOMBRE_MPI"
+        //     },
+        //     depto: {
+        //         scope: "depto",
+        //         dataUrl: 'https://rm-public.s3.amazonaws.com/assets/topo/depto.topo.json',
+        //         geographyName: "name"
+        //     }
+        // };
+
+        // var opts = {
+        //     scope: mapTypeDefaults[mapType].scope,
+        //     dataUrl: mapTypeDefaults[mapType].dataUrl,
+        //     geographyName: mapTypeDefaults[mapType].geographyName,
+        //     scale: usrOpts.scale || 2,
+        //     translateX: usrOpts.translateX || 0,
+        //     translateY: usrOpts.translateY || 0,
+        //     defaultFill: usrOpts.defaultFill || '#0C9EB2',
+        //     borderColor: usrOpts.borderColor || '#F3F5FF',
+        //     borderWidth: usrOpts.borderWidth || 0.5,
+        //     highlightFillColor: usrOpts.highlightFillColor || '#516a52',
+        //     highlightBorderColor: usrOpts.highlightBorderColor || '#279945',
+        //     highlightBorderWidth: usrOpts.highlightBorderWidth || 0,
+        // };
 
         var opts = {
-            scope: mapTypeDefaults[mapType].scope,
-            dataUrl: mapTypeDefaults[mapType].dataUrl,
-            geographyName: mapTypeDefaults[mapType].geographyName,
-            scale: usrOpts.scale || 2,
+            scope: dmap.scope,
+            dataUrl: dmap.path,
+            geographyName: dmap.geographyName,
+            projectionName: dmap.projection.name || "equirectangular",
+            projectionCenter: dmap.projection.center,
+            projectionRotate: dmap.projection.rotate,
+            scale: usrOpts.scale || dmap.projection.scale,
             translateX: usrOpts.translateX || 0,
             translateY: usrOpts.translateY || 0,
             defaultFill: usrOpts.defaultFill || '#0C9EB2',
@@ -64,60 +84,44 @@ HTMLWidgets.widget({
             highlightBorderWidth: usrOpts.highlightBorderWidth || 0,
         };
 
-        var data = {
-            fillKeys: {
-                defaultFill: opts.defaultFill,
-                latam: '#458063',
-                bubble1: '#432342',
-                bubble2: '#485308',
-                Guerrilla: '#f45298'
-            },
-            fills: {
-                44847: {
-                    fillKey: ['Guerrilla']
-                },
-                70400: {
-                    fillKey: ['bubble1']
-                },
-                54670: {
-                    fillKey: ['latam']
-                }
-            },
-            bubblesdata: [{
-                "name": "Medellín",
-                "latitude": 6.2914,
-                "longitude": -75.536,
-                "radius": 16,
-            }, {
-                "name": "Apartadó",
-                "latitude": 7.8856,
-                "longitude": -76.635,
-                "radius": 7,
-                "fillKey": "Guerrilla"
-            }, {
-                "name": "Bello",
-                "latitude": 6.3389,
-                "longitude": -75.562,
-                "radius": 6.3389,
-                "fillKey": "Guerrilla"
-            }, {
-                "name": "Bello",
-                "latitude": 6.3389,
-                "longitude": -75.562,
-                "radius": 6.3389,
-                "fillKey": "C"
-            }, {
-                "name": "San José del Guaviare",
-                "latitude": 2.5683,
-                "longitude": -72.642,
-                "radius": 5.25,
-                "fillKey": "Guerrilla"
-            }]
+        var getProjection = function(projectionName, opts, element) {
+            if (projectionName == "mercator") {
+                var projection = d3.geo.mercator()
+                    .center(opts.projectionCenter)
+                    .rotate(opts.projectionRotate)
+                    .scale(opts.scale * element.offsetWidth)
+                    .translate([element.offsetWidth / 2 + opts.translateX, element.offsetHeight / 2 + opts.translateY]);
+                return (projection)
+            }
+            if (projectionName == "equirectangular") {
+                var projection = d3.geo.mercator()
+                    .center(opts.projectionCenter)
+                    .rotate(opts.projectionRotate)
+                    .scale(opts.scale * element.offsetWidth)
+                    .translate([element.offsetWidth / 2 + opts.translateX, element.offsetHeight / 2 + opts.translateY]);
+                return (projection)
+            }
+            if (projectionName == "albers"){
+                var projection = d3.geo.albers()
+                    // .center(opts.projectionCenter)
+                    // .rotate(opts.projectionRotate)
+                    // .scale(opts.scale * element.offsetWidth)
+                    // .translate([element.offsetWidth / 2 + opts.translateX, element.offsetHeight / 2 + opts.translateY]);
+                return(projection)             
+            }
+            if (projectionName == "orthographic"){
+                var projection = d3.geo.orthographic()
+                    .scale(opts.scale)
+                    .clipAngle(90);
+                return (projection)
+            }
+            null
         };
 
         var data = x.data;
 
-        //basic map config with custom fills, mercator projection
+        console.log("Scale: ", opts.scale, dmap.projection.scale)
+            //basic map config with custom fills, mercator projection
         var map = new Datamap({
             element: document.getElementById(vizId),
             geographyConfig: {
@@ -126,26 +130,21 @@ HTMLWidgets.widget({
                 highlightFillColor: opts.highlightFillColor,
                 highlightBorderColor: opts.highlightBorderColor,
                 highlightBorderWidth: opts.highlightBorderWidth,
-                // dataUrl: 'js/municipios.col.json'
+                dataUrl: opts.dataUrl,
                 popupTemplate: function(geography, data) {
                     // console.log(data)
                     var info = null;
-                    if(data){
-                        info = data.info || geography.properties[opts.geographyName] 
+                    if (data) {
+                        info = data.info || geography.properties[opts.geographyName]
                     }
-                    var htmlInfo = info || geography.properties[opts.geographyName] 
-                    return '<div class="hoverinfo">' +  htmlInfo
+                    var htmlInfo = info || geography.properties[opts.geographyName]
+                    return '<div class="hoverinfo">' + htmlInfo
                 },
-                dataUrl: opts.dataUrl,
             },
             scope: opts.scope,
             responsive: true,
             setProjection: function(element) {
-                var projection = d3.geo.mercator()
-                    .center([-73.5, 4.2])
-                    .rotate([0, 0])
-                    .scale(opts.scale * element.offsetWidth)
-                    .translate([element.offsetWidth / 2 + opts.translateX, element.offsetHeight / 2 + opts.translateY]);
+                var projection = getProjection(opts.projectionName, opts, element);
                 var path = d3.geo.path()
                     .projection(projection);
 
@@ -179,14 +178,18 @@ HTMLWidgets.widget({
 
         });
 
-        if(usrOpts.legend){
+        if(usrOpts.graticule){
+              map.graticule();
+        }
+
+        if (usrOpts.legend) {
             map.legend({
                 legendTitle: usrOpts.legendTitle || "",
                 defaultFillName: usrOpts.legendDefaultFillTitle,
             })
         }
 
-        if(data.bubblesData.length){
+        if (data.bubblesData.length) {
             map.bubbles(
                 data.bubblesdata, {
                     borderWidth: 2,
@@ -201,7 +204,7 @@ HTMLWidgets.widget({
                     popupTemplate: function(geo, data) {
                         return "<div class='hoverinfo'>" + data.name + "";
                     }
-                });            
+                });
         }
 
 

@@ -1,12 +1,19 @@
 mx_states:
   label: Mexico states
   file: states.topo.json
+  codes: dane-codes-departamento.csv
   scope: states
   geographyName: name
   geographyId: id
   projection: 
-    name: albersUsa
-    center: [-97, 25]
-    rotate: [4.4, 0]
-    scale: 2
+    albers:
+      scale: 1.5
+      translate: [480, 250]
+      rotation: [96, 0]
+      center: [-0.6, 38.7]
+      parallels: [29.5, 45.5]
+    equirectangular:
+      center: [-97, 25]
+      rotate: [4.4, 0]
+      scale: 1.7
 

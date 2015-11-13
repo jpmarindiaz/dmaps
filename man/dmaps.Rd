@@ -4,7 +4,7 @@
 \alias{dmaps}
 \title{<Add Title>}
 \usage{
-dmaps(type = "depto", data, opts = NULL, width = "100\%",
+dmaps(mapName, data = NULL, opts = NULL, width = "100\%",
   height = "100\%", ...)
 }
 \description{

@@ -1,12 +1,13 @@
 world_countries:
   label: World Countries
   file: countries.topo.json
+  codes: dane-codes-departamento.csv
   scope: world
   geographyName: name
   geographyId: id
   projection: 
-    name: equirectangular
-    center: [97, 0]
+    name: orthogonal
+    center: [0, 0]
     rotate: [0, 0]
-    scale: 1
+    scale: 0.15
 

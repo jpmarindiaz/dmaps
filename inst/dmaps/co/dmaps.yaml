@@ -1,6 +1,7 @@
-co_deptos:
+co_departments:
   label: Colombia departaments
   file: depto.topo.json
+  codes: dane-codes-departamento.csv
   scope: depto
   geographyName: name
   geographyId: id
@@ -9,14 +10,15 @@ co_deptos:
     center: [-73.5, 4.2]
     rotate: [0, 0]
     scale: 2
-co_mpios:
+co_municipalities:
   label: Colombia municipalities
   file: mpio.min.topo.json
+  codes: dane-codes.csv
   scope: mpio
   geographyName: NOMBRE_MPI
   geographyId: id
   projection:
-    name: mercator
+    name: equirectangular
     center: [-73.5, 4.2]
     rotate: [0, 0]
     scale: 2

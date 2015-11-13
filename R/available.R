@@ -5,7 +5,7 @@ availableDmaps <- function(){
 
 #' @export
 dmapMeta <- function(mapName = NULL){
-  dir <- system.file("maps",package="dmaps", mustWork=TRUE)
+  dir <- system.file("dmaps",package="dmaps", mustWork=TRUE)
   regex <- paste0(".*yaml$")
   files <- Filter(function(f){grepl(regex,f)},list.files(dir, recursive = TRUE))
   l <- lapply(files,function(name){
@@ -13,6 +13,8 @@ dmapMeta <- function(mapName = NULL){
     ll <- Map(function(ll){
       basePath <- "https://cdn.rawgit.com/jpmarindiaz/dmaps/master/inst/dmaps"
       ll$path <- file.path(basePath,dirname(name),ll$file)
+      fp <- file.path("dmaps",dirname(name),ll$codes)
+      ll$codesPath <- system.file(fp,package="dmaps")
       ll
     },ll)
     ll
