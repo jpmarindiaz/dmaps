@@ -2,6 +2,8 @@
 
 export(availableDmaps)
 export(dmapMeta)
+export(dmapProjectionOptions)
+export(dmapProjections)
 export(dmaps)
 export(dmapsOutput)
 export(renderDmaps)

@@ -8,6 +8,7 @@
 dmaps <- function(mapName, data = NULL, opts = NULL,width = '100%', height = '100%',...) {
   message(mapName)
   # mapName <- "co_departamentos"
+  # mapName <- "world_countries"
   if(!mapName %in% availableDmaps())
     stop("No map with that name, check available maps with availableDmaps()")
 
@@ -15,13 +16,12 @@ dmaps <- function(mapName, data = NULL, opts = NULL,width = '100%', height = '10
 
 
 
-  opts <- getOpts(opts)
-  defaultFill <- opts$defaultFill
-  palette <- opts$palette
+  settings <- getSettings(dmap,opts)
+  defaultFill <- settings$defaultFill
+  palette <- settings$palette
 
   d <- getData(dmap,data, defaultFill = defaultFill, palette = palette)
 
-  settings <- opts
 
   # pass the data and settings using 'x'
   x <- list(

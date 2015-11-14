@@ -7,6 +7,10 @@ dependencies:
     version: 1.6.0
     src: "htmlwidgets/lib/topojson"
     script: topojson.min.js
+  - name: d3-geo-projection
+    version: 0
+    src: "htmlwidgets/lib/d3-geo-projection"
+    script: d3.geo.projection.v0.min.js
   - name: datamaps
     version: 0.4.0
     src: "htmlwidgets/lib/datamaps"

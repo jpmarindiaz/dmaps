@@ -1,19 +1,28 @@
 mx_states:
   label: Mexico states
   file: states.topo.json
-  codes: dane-codes-departamento.csv
+  codes: states.csv
   scope: states
   geographyName: name
   geographyId: id
-  projectionDefaults: 
+  projections: 
     albers:
-      scale: 1.5
-      translate: [480, 250]
-      rotation: [96, 0]
-      center: [-0.6, 38.7]
+      scale: 1.75 #1000 
+      translate: [0, 0]
+      rotate: [100, 0]
+      center: [0, 25]
       parallels: [29.5, 45.5]
+      translateX: 0
+      translateY: 0
+    mercator:
+      center: [-102.5, 25]
+      rotate: [0, 0]
+      scale: 1.75
+      translateX: 0
+      translateY: 0
     equirectangular:
-      center: [-97, 25]
-      rotate: [4.4, 0]
-      scale: 1.7
-
+      center: [-102.5, 25]
+      rotate: [0, 0]
+      scale: 1.75
+      translateX: 0
+      translateY: 0

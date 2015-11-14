@@ -8,11 +8,51 @@ install()
 library(dmaps)
 
 availableDmaps()
-dmaps("world_countries")
 
+
+mapName <- "mx_states"
+name = c("Coahuila","Guanajuato","México","Nuevo León", "Yucatán")
+group = c("X","X","Y","Z","Z")
+value = c( 50, 20, 2,20,10)
+data <- data.frame(name = name, group = group)
+tpl <- "{name}<br>Group:{group}"
+data$info <- pystr::pystr_format(tpl, data)
+dmaps(mapName,data)
+
+
+
+
+dmaps("mx_states")
+dmaps("mx_states", opts=list(projection="equirectangular"))
+dmaps("mx_states", opts=list(projection="mercator"))
+
+
+dmapMeta("world_countries")
+mapName <- "world_countries"
+dmaps("world_countries", opts=list(projection="satellite"))
+
+dmaps("world_countries")
+dmapProjections("world_countries")
+dmapProjectionOptions("world_countries","equirectangular")
+dmaps("world_countries", opts=list(projection="equirectangular"))
+dmaps("world_countries", opts=list(projection="mercator"))
+
+
+dmaps("world_countries", opts=list(projection="equirectangular"))
+dmaps("world_countries", opts=list(projection="mercator"))
+opts = list(projction="orthographic",projectionOpts=list(clipAngle=120))
+dmaps("world_countries", opts = opts)
+
+
+
+
+
+
+
+
+mapName <- "co_departments"
 dmaps("co_departments")
 dmaps("co_municipalities")
-dmaps("mx_states")
 
 name = c("Antioquia","Amazonas","Cundinamarca","Nariño", "Bogotá")
 group = c("X","X","Y","Z","Z")

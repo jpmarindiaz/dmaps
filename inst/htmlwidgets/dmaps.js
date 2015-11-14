@@ -23,59 +23,20 @@ HTMLWidgets.widget({
 
         console.log("SETTINGS:\n", x.settings);
         console.log("DATA:\n", x.data);
-
-        // var usrOpts = {
-        //     mapType: "mpio",
-        //     scale: 2,
-        //     translateX: 0,
-        //     translateY: 0,
-        //     defaultFill: '#B3D5D7',
-        //     borderWidth: 1,
-        // };
-
         var usrOpts = x.settings;
         var dmap = x.dmap;
-
-
-        // var mapType = usrOpts.mapType || "mpio"; // depto
-        // var mapTypeDefaults = {
-        //     mpio: {
-        //         scope: "mpio",
-        //         dataUrl: "https://rm-public.s3.amazonaws.com/assets/topo/mpio.min.topo.json",
-        //         geographyName: "NOMBRE_MPI"
-        //     },
-        //     depto: {
-        //         scope: "depto",
-        //         dataUrl: 'https://rm-public.s3.amazonaws.com/assets/topo/depto.topo.json',
-        //         geographyName: "name"
-        //     }
-        // };
-
-        // var opts = {
-        //     scope: mapTypeDefaults[mapType].scope,
-        //     dataUrl: mapTypeDefaults[mapType].dataUrl,
-        //     geographyName: mapTypeDefaults[mapType].geographyName,
-        //     scale: usrOpts.scale || 2,
-        //     translateX: usrOpts.translateX || 0,
-        //     translateY: usrOpts.translateY || 0,
-        //     defaultFill: usrOpts.defaultFill || '#0C9EB2',
-        //     borderColor: usrOpts.borderColor || '#F3F5FF',
-        //     borderWidth: usrOpts.borderWidth || 0.5,
-        //     highlightFillColor: usrOpts.highlightFillColor || '#516a52',
-        //     highlightBorderColor: usrOpts.highlightBorderColor || '#279945',
-        //     highlightBorderWidth: usrOpts.highlightBorderWidth || 0,
-        // };
 
         var opts = {
             scope: dmap.scope,
             dataUrl: dmap.path,
             geographyName: dmap.geographyName,
-            projectionName: dmap.projection.name || "equirectangular",
-            projectionCenter: dmap.projection.center,
-            projectionRotate: dmap.projection.rotate,
-            scale: usrOpts.scale || dmap.projection.scale,
-            translateX: usrOpts.translateX || 0,
-            translateY: usrOpts.translateY || 0,
+            projectionName: usrOpts.projection,
+            projectionOpts: usrOpts.projectionOpts,
+            // projectionCenter: dmap.projection.center,
+            // projectionRotate: dmap.projection.rotate,
+            // scale: usrOpts.scale || dmap.projection.scale,
+            // translateX: usrOpts.translateX || 0,
+            // translateY: usrOpts.translateY || 0,
             defaultFill: usrOpts.defaultFill || '#0C9EB2',
             borderColor: usrOpts.borderColor || '#F3F5FF',
             borderWidth: usrOpts.borderWidth || 0.5,
@@ -84,35 +45,55 @@ HTMLWidgets.widget({
             highlightBorderWidth: usrOpts.highlightBorderWidth || 0,
         };
 
-        var getProjection = function(projectionName, opts, element) {
+        var getProjection = function(projectionName, projectionOpts, element) {
+            // console.log("projection: ", projectionName, projectionOpts)
+            if (projectionName == "equirectangular") {
+                var projection = d3.geo.equirectangular()
+                    .center(projectionOpts.center)
+                    .rotate(projectionOpts.rotate)
+                    .scale(projectionOpts.scale * element.offsetWidth)
+                    .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
+                return (projection)
+            }
             if (projectionName == "mercator") {
                 var projection = d3.geo.mercator()
-                    .center(opts.projectionCenter)
-                    .rotate(opts.projectionRotate)
-                    .scale(opts.scale * element.offsetWidth)
-                    .translate([element.offsetWidth / 2 + opts.translateX, element.offsetHeight / 2 + opts.translateY]);
+                    .center(projectionOpts.center)
+                    .rotate(projectionOpts.rotate)
+                    .scale(projectionOpts.scale * element.offsetWidth)
+                    .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
                 return (projection)
             }
-            if (projectionName == "equirectangular") {
-                var projection = d3.geo.mercator()
-                    .center(opts.projectionCenter)
-                    .rotate(opts.projectionRotate)
-                    .scale(opts.scale * element.offsetWidth)
-                    .translate([element.offsetWidth / 2 + opts.translateX, element.offsetHeight / 2 + opts.translateY]);
-                return (projection)
-            }
-            if (projectionName == "albers"){
+            if (projectionName == "albers") {
                 var projection = d3.geo.albers()
-                    // .center(opts.projectionCenter)
-                    // .rotate(opts.projectionRotate)
-                    // .scale(opts.scale * element.offsetWidth)
-                    // .translate([element.offsetWidth / 2 + opts.translateX, element.offsetHeight / 2 + opts.translateY]);
-                return(projection)             
+                    // .scale(projectionOpts.scale)
+                    .scale(projectionOpts.scale * element.offsetWidth)
+                    .rotate(projectionOpts.rotate)
+                    .center(projectionOpts.center)
+                    .parallels(projectionOpts.parallels)
+                    // .translate(projectionOpts.translate);
+                    .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
+                return (projection)
             }
-            if (projectionName == "orthographic"){
+            if (projectionName == "orthographic") {
                 var projection = d3.geo.orthographic()
-                    .scale(opts.scale)
-                    .clipAngle(90);
+                    .scale(projectionOpts.scale * element.offsetWidth)
+                    .clipAngle(projectionOpts.clipAngle)
+                    .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
+
+                return (projection)
+            }
+            if (projectionName == "satellite") {
+                var projection = d3.geo.satellite()
+                    .scale(projectionOpts.scale)
+                    .distance(projectionOpts.distance)
+                    .rotate(projectionOpts.rotate)
+                    .center(projectionOpts.center)
+                    .tilt(projectionOpts.tilt)
+                    .clipAngle(projectionOpts.clipAngle)
+                    .precision(projectionOpts.precision);
+                    // .scale(projectionOpts.scale * element.offsetWidth)
+                    // .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
+
                 return (projection)
             }
             null
@@ -120,8 +101,10 @@ HTMLWidgets.widget({
 
         var data = x.data;
 
-        console.log("Scale: ", opts.scale, dmap.projection.scale)
+        console.log("Opts: ", opts.projectionName, opts.projectionOpts)
             //basic map config with custom fills, mercator projection
+        console.log(document.getElementById(vizId).offsetWidth)
+
         var map = new Datamap({
             element: document.getElementById(vizId),
             geographyConfig: {
@@ -144,7 +127,7 @@ HTMLWidgets.widget({
             scope: opts.scope,
             responsive: true,
             setProjection: function(element) {
-                var projection = getProjection(opts.projectionName, opts, element);
+                var projection = getProjection(opts.projectionName, opts.projectionOpts, element);
                 var path = d3.geo.path()
                     .projection(projection);
 
@@ -178,8 +161,8 @@ HTMLWidgets.widget({
 
         });
 
-        if(usrOpts.graticule){
-              map.graticule();
+        if (usrOpts.graticule) {
+            map.graticule();
         }
 
         if (usrOpts.legend) {

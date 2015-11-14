@@ -5,9 +5,29 @@ world_countries:
   scope: world
   geographyName: name
   geographyId: id
-  projection: 
-    name: orthogonal
-    center: [0, 0]
-    rotate: [0, 0]
-    scale: 0.15
-
+  projections: 
+    orthographic:
+      clipAngle: 90
+      scale: 0.33
+      translateX: 0
+      translateY: 30
+    equirectangular:
+      center: [11, 0]
+      rotate: [0, 0]
+      scale: 0.13
+      translateX: 0
+      translateY: 0
+    mercator:
+      center: [11, 0]
+      rotate: [0, 0]
+      scale: 0.13
+      translateX: 0
+      translateY: 0
+    satellite:
+      scale: 4500
+      distance: 1.1
+      rotate: [76.00, -34.50, 32.12]
+      center: [-2, 5]
+      tilt: 25
+      clipAngle: 60
+      precision: .1

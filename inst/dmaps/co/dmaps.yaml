@@ -5,17 +5,19 @@ co_departments:
   scope: depto
   geographyName: name
   geographyId: id
-  projectionDefaults:
+  projections:
     mercator:
-      name: mercator
       center: [-73.5, 4.2]
       rotate: [0, 0]
       scale: 2
+      translateX: 0
+      translateY: 0
     equirectangular:
-      name: mercator
       center: [-73.5, 4.2]
       rotate: [0, 0]
       scale: 2
+      translateX: 0
+      translateY: 0
 co_municipalities:
   label: Colombia municipalities
   file: mpio.min.topo.json
@@ -23,14 +25,18 @@ co_municipalities:
   scope: mpio
   geographyName: NOMBRE_MPI
   geographyId: id
-  projectionDefaults:
+  projections:
     mercator:
       name: mercator
       center: [-73.5, 4.2]
       rotate: [0, 0]
       scale: 2
+      translateX: 0
+      translateY: 0
     equirectangular:
       name: mercator
       center: [-73.5, 4.2]
       rotate: [0, 0]
       scale: 2
+      translateX: 0
+      translateY: 0

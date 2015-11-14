@@ -27,3 +27,21 @@ dmapMeta <- function(mapName = NULL){
   }
   x
 }
+
+#' @export
+dmapProjections <- function(mapName){
+  l <- dmapMeta(mapName)
+  names(l$projections)
+}
+
+#' @export
+dmapProjectionOptions <- function(mapName, projection, withDefaults = TRUE){
+  l <- dmapMeta(mapName)
+  if(!projection %in% names(l$projections))
+    stop(mapName, "does not support this projection")
+  projection <- l$projections[[projection]]
+  if(!withDefaults) return(names(projection))
+  projection
+}
+
+
