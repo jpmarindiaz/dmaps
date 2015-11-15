@@ -13,7 +13,10 @@ plot(map)
 map_wgr84 <- spTransform(map, CRS=CRS("+init=EPSG:4326"))
 writeOGR(map_wgr84, "tmp.json", "tmp",driver='GeoJSON')
 
-map_2 <- spTransform(map, CRS=CRS("+init=EPSG:4326 +k_0=0.0020157689989"))
+map_2 <- spTransform(map, CRS=CRS("+init=EPSG:4326 +k_0=0.0020157689989 +x_0=265059.01009 +y_0=5294295.52816"))
+geojsonio::geojson_write(map_2, file = "inst/tmp/tmp2.geojson")
+
+map_2 <- spTransform(map, CRS=CRS("+proj=latlong"))
 geojsonio::geojson_write(map_2, file = "inst/tmp/tmp2.geojson")
 
 
