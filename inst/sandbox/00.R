@@ -21,6 +21,8 @@ dmaps(mapName,data)
 
 
 
+dmaps("mx_states")
+
 
 dmaps("mx_states")
 dmaps("mx_states", opts=list(projection="equirectangular"))
