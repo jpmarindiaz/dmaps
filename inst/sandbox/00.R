@@ -10,7 +10,7 @@ library(dmaps)
 availableDmaps()
 
 dmaps("ch_cantons")
-
+dmaps("ch_cantons", opts=list(projection="equirectangular"))
 
 mapName <- "mx_states"
 name = c("Coahuila","Guanajuato","México","Nuevo León", "Yucatán")
