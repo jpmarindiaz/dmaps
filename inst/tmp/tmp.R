@@ -14,7 +14,7 @@ map_wgr84 <- spTransform(map, CRS=CRS("+init=EPSG:4326"))
 writeOGR(map_wgr84, "tmp.json", "tmp",driver='GeoJSON')
 
 map_2 <- spTransform(map, CRS=CRS("+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"))
-geojsonio::geojson_write(map_2, file = "tmp2.geojson")
+geojsonio::geojson_write(map_2, file = "inst/tmp/tmp2.geojson")
 
 
 
