@@ -6,12 +6,20 @@ library(rgdal)
 
 # http://rud.is/b/2014/11/16/moving-the-earth-well-alaska-hawaii-with-r/
 map <- readOGR(dsn="inst/tmp/ch-all.geo.json", layer="OGRGeoJSON")
+str(map)
+plot(map)
 
 # convert it to WSG84
 map_wgr84 <- spTransform(map, CRS=CRS("+init=EPSG:4326"))
-str(map_wgr84)
-
 writeOGR(map_wgr84, "tmp.json", "tmp",driver='GeoJSON')
+
+map_2 <- spTransform(map, CRS=CRS("+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"))
+geojsonio::geojson_write(map_2, file = "tmp2.geojson")
+
+
+
+str(map_wgr84)
+CRS(map)
 
 geojsonio::geojson_write(map_wgr84, file = "tmp.geojson")
 
