@@ -21,7 +21,7 @@ co_departments:
 co_municipalities:
   label: Colombia municipalities
   file: mpio.min.topo.json
-  codes: dane-codes.csv
+  codes: dane-codes-municipio.csv
   scope: mpio
   geographyName: NOMBRE_MPI
   geographyId: id

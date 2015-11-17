@@ -5,7 +5,9 @@
 #' @import htmlwidgets
 #'
 #' @export
-dmaps <- function(mapName, data = NULL, opts = NULL,width = '100%', height = '100%',...) {
+dmaps <- function(mapName, data = NULL, groupCol = NULL,
+                  regionCols = NULL,  infoTpl = NULL, opts = NULL,
+                  width = '100%', height = '100%',...) {
   message(mapName)
   # mapName <- "co_departamentos"
   # mapName <- "world_countries"
@@ -14,7 +16,25 @@ dmaps <- function(mapName, data = NULL, opts = NULL,width = '100%', height = '10
 
   dmap <- dmapMeta(mapName)
 
+  infoTpl <- infoTpl %||% defaultTpl(data)
+  data$info <- pystr_format(infoTpl,data)
 
+  if(!is.null(groupCol)){
+    if(!groupCol%in% names(data)){
+      stop("groupCol not in data")
+    }else{
+      data$group <- data[[groupCol]]
+    }
+  }
+
+  if(!is.null(regionCols)){
+  if(!all(regionCols %in% names(data))){
+    stop("regionCols not in data")
+  }
+  else{
+    data$name <- apply(data[regionCols],1,paste, collapse = " - ")
+  }
+  }
 
   settings <- getSettings(dmap,opts)
   defaultFill <- settings$defaultFill

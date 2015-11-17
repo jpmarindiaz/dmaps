@@ -7,7 +7,17 @@ getData <- function(dmap,data, ...){
   palette <- args$palette
   codes <- read.csv(dmap$codesPath, colClasses = "character")
 
-  data$code <- codes$id[match(data$name,codes$name)]
+  #if(is.null(data$name))
+  #  stop("Need a region name")
+
+  matchCode <- function(codes,data){
+    codeName <-codes$name
+    x <- dictionaryMatch(data$name,codeName)
+    idx <- match(x,codes$name)
+    codes$id[idx]
+  }
+  if(!is.null(data$name))
+    data$code <- matchCode(codes,data)
 
   if(is.null(data$info))
     data$info <-""
@@ -23,7 +33,10 @@ getData <- function(dmap,data, ...){
     ## use library(Hmisc), cut2 function to generate numeric intervals
   }
   if(is.null(data$group) && is.null(data$value)){
-    stop("need to provide a group or a value")
+    #stop("need to provide a group or a value")
+    data$group <- ""
+    key <- NULL
+    keyColor <- args$defaultFill
   }
 
   fillKeys <- as.list(keyColor)
@@ -48,7 +61,7 @@ getSettings <- function(dmap, opts = NULL,...){
   defaultOpts <- list(
     projection = projectionName,
     projectionOpts = projectionOpts,
-    defaultFill = "#B8CDB9",
+    defaultFill = "#DCE5E0",
     borderColor = "#00FF000",
     borderWidth = 1,
     highlightFillColor = "#999999",
@@ -58,7 +71,8 @@ getSettings <- function(dmap, opts = NULL,...){
     graticule = FALSE,
     legendTitle = "",
     legendDefaultFillTitle = NULL,
-    palette = "RdYlBu"
+    palette = "RdYlBu",
+    styles = ""
   )
 
 

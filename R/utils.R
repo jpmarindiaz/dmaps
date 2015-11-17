@@ -1,3 +1,10 @@
+
+defaultTpl <- function(data, nms = NULL){
+  nms <- nms %||% names(data)
+  title <- paste0("<strong>",nms,"</strong>")
+  paste(paste0(title,": {",nms,"}"),collapse="\n<br>\n")
+}
+
 `%||%` <- function (x, y)
 {
   if (is.empty(x))

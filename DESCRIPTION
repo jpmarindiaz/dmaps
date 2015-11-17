@@ -7,6 +7,6 @@ Maintainer: Juan Pablo Marín Díaz <jpmarindiaz@gmail.com>
 Description: R Htmlwidget for datamaps with latam maps
 Depends:
   R (>= 3.1.2),
-  htmlwidgets, leaflet, yaml
+  htmlwidgets, leaflet, yaml, pystr
 License: MIT + file LICENSE
 LazyData: true

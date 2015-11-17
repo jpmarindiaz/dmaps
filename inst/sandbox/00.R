@@ -9,6 +9,39 @@ library(dmaps)
 
 availableDmaps()
 
+dmaps("co_municipalities")
+
+mapName <- "co_municipalities"
+data <- read.csv("inst/data/co_municipalities/iniciativas.csv", stringsAsFactors = FALSE)
+dmaps(mapName, data = data,
+      groupCol = "Organización",
+      regionCols = c("Municipio","Departamento"),
+      opts = list())
+
+css <- "
+.datamaps-legend {
+  position: absolute;
+  top: 100%;
+}
+.datamaps-legend dl {
+  text-align: left;
+  display: inline-block;
+}
+.datamaps-hoverover {
+  color: #455408
+  max-width:300px
+}
+"
+
+dmaps(mapName, data = data,
+      groupCol = "Organización",
+      regionCols = c("Municipio","Departamento"),
+      opts = list(styles = css))
+
+
+
+
+
 dmaps("ch_cantons")
 dmaps("ch_cantons", opts=list(projection="equirectangular"))
 
@@ -56,7 +89,6 @@ dmaps("world_countries", opts = opts)
 
 mapName <- "co_departments"
 dmaps("co_departments")
-dmaps("co_municipalities")
 
 name = c("Antioquia","Amazonas","Cundinamarca","Nariño", "Bogotá")
 group = c("X","X","Y","Z","Z")

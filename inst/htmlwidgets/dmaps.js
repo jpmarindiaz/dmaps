@@ -3,23 +3,22 @@ HTMLWidgets.widget({
     name: "dmaps",
     type: "output",
 
-    initialize: function(el, width, height) {
-        // return d3plus.viz();
-    },
+    initialize: function(el, width, height) {},
 
-    resize: function(el, width, height, instance) {
-        // instance.draw();
-    },
+    resize: function(el, width, height, instance) {},
 
     renderValue: function(el, x, instance) {
         d3.select(el).selectAll("*").remove()
 
-        vizId = el.id;
-        // var d3plus = instance;
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = x.settings.styles;
+        // css.innerHTML = "body {background-color:black; color: red}"
+        document.body.appendChild(css);
 
-        // console.log(vizId)
-        // select the viz element and remove existing children
-        // d3.select(el).select(vizId).selectAll("*").remove();
+
+
+        vizId = el.id;
 
         console.log("SETTINGS:\n", x.settings);
         console.log("DATA:\n", x.data);
@@ -91,8 +90,8 @@ HTMLWidgets.widget({
                     .tilt(projectionOpts.tilt)
                     .clipAngle(projectionOpts.clipAngle)
                     .precision(projectionOpts.precision);
-                    // .scale(projectionOpts.scale * element.offsetWidth)
-                    // .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
+                // .scale(projectionOpts.scale * element.offsetWidth)
+                // .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
 
                 return (projection)
             }
@@ -157,6 +156,21 @@ HTMLWidgets.widget({
                 strokeWidth: 1,
                 arcSharpness: 1,
                 animationSpeed: 600
+            },
+            done: function(datamap) {
+                // https://github.com/markmarkoh/datamaps/pull/122
+                datamap.svg.call(d3.behavior.zoom().on("zoom", redraw));
+                function redraw() {
+                    var prefix = '-webkit-transform' in document.body.style ?
+                        '-webkit-' : '-moz-transform' in document.body.style ?
+                        '-moz-' : '-ms-transform' in document.body.style ?
+                        '-ms-' : '';
+                    var x = d3.event.translate[0];
+                    var y = d3.event.translate[1];
+                    datamap.svg.selectAll("g")
+                        .style(prefix + 'transform',
+                            'translate(' + x + 'px, ' + y + 'px) scale(' + (d3.event.scale) + ')');
+                }
             }
 
         });
