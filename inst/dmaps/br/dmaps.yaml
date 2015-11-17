@@ -1,5 +1,5 @@
-mx_states:
-  label: Mexico states
+br_states:
+  label: Brazil states
   file: states.topo.json
   codes: states.csv
   scope: states
@@ -26,3 +26,4 @@ mx_states:
       scale: 1.75
       translateX: 0
       translateY: 0
+# https://github.com/davelandry/bra-atlas/tree/master/topojson

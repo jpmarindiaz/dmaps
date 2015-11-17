@@ -33,10 +33,7 @@ getData <- function(dmap,data, ...){
     ## use library(Hmisc), cut2 function to generate numeric intervals
   }
   if(is.null(data$group) && is.null(data$value)){
-    #stop("need to provide a group or a value")
-    data$group <- ""
-    key <- NULL
-    keyColor <- args$defaultFill
+    return(list(fills = list(), fillKeys = list(), bubblesData = list()))
   }
 
   fillKeys <- as.list(keyColor)
