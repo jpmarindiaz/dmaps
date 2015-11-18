@@ -11,7 +11,8 @@ dmapMeta <- function(mapName = NULL){
   l <- lapply(files,function(name){
     ll <- yaml.load_file(file.path(dir,name))
     ll <- Map(function(ll){
-      basePath <- "https://cdn.rawgit.com/jpmarindiaz/dmaps/master/inst/dmaps"
+      #basePath <- "https://cdn.rawgit.com/jpmarindiaz/dmaps/master/inst/dmaps"
+      basePath <- "https://rawgit.com/jpmarindiaz/dmaps/master/inst/dmaps"
       ll$path <- file.path(basePath,dirname(name),ll$file)
       fp <- file.path("dmaps",dirname(name),ll$codes)
       ll$codesPath <- system.file(fp,package="dmaps")

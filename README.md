@@ -12,9 +12,9 @@
 ```
 
 # Todo
-méxico states 
-https://gist.github.com/blaquans/10379191
-http://bl.ocks.org/markmarkoh/10900301
+
+Brazil
+Fix brazil topojson ids
 
 AFG
 https://gist.github.com/markmarkoh/8856417
