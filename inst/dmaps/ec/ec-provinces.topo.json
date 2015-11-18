@@ -973,6 +973,7 @@
                     [0, 1, 2, 3, 4, 5, 6]
                 ],
                 "type": "Polygon",
+                "id":1,
                 "properties": {
                     "id_prov": 1,
                     "dpa_provin": "01",
@@ -1007,6 +1008,7 @@
                     [7, 8, 9, 10, 11]
                 ],
                 "type": "Polygon",
+                "id":2,
                 "properties": {
                     "id_prov": 2,
                     "dpa_provin": "02",
@@ -1041,6 +1043,7 @@
                     [-7, 12, 13, 14, 15]
                 ],
                 "type": "Polygon",
+                "id":3,
                 "properties": {
                     "id_prov": 3,
                     "dpa_provin": "03",
@@ -1075,6 +1078,7 @@
                     [16, 17, 18, 19]
                 ],
                 "type": "Polygon",
+                "id":4,
                 "properties": {
                     "id_prov": 4,
                     "dpa_provin": "04",
@@ -1109,6 +1113,7 @@
                     [20, 21, -12, 22, 23, 24]
                 ],
                 "type": "Polygon",
+                "id":5,
                 "properties": {
                     "id_prov": 5,
                     "dpa_provin": "05",
@@ -1143,6 +1148,7 @@
                     [25, -1, -16, 26, -9, 27]
                 ],
                 "type": "Polygon",
+                "id":6,
                 "properties": {
                     "id_prov": 6,
                     "dpa_provin": "06",
@@ -1177,6 +1183,7 @@
                     [-5, 28, 29, 30]
                 ],
                 "type": "Polygon",
+                "id":7,
                 "properties": {
                     "id_prov": 7,
                     "dpa_provin": "07",
@@ -1211,6 +1218,7 @@
                     [-19, 31, 32, 33, 34, 35, 36]
                 ],
                 "type": "Polygon",
+                "id":8,
                 "properties": {
                     "id_prov": 8,
                     "dpa_provin": "08",
@@ -1256,6 +1264,7 @@
                     ]
                 ],
                 "type": "MultiPolygon",
+                "id":9,
                 "properties": {
                     "id_prov": 9,
                     "dpa_provin": "09",
@@ -1290,6 +1299,7 @@
                     [46, 47, 48, -32, -18]
                 ],
                 "type": "Polygon",
+                "id":10,
                 "properties": {
                     "id_prov": 10,
                     "dpa_provin": "10",
@@ -1324,6 +1334,7 @@
                     [49, 50, -29, -4]
                 ],
                 "type": "Polygon",
+                "id":11,
                 "properties": {
                     "id_prov": 11,
                     "dpa_provin": "11",
@@ -1358,6 +1369,7 @@
                     [-23, -11, -46, 51, 52]
                 ],
                 "type": "Polygon",
+                "id":12,
                 "properties": {
                     "id_prov": 12,
                     "dpa_provin": "12",
@@ -1392,6 +1404,7 @@
                     [53, 54, -44, 55, 56, -36]
                 ],
                 "type": "Polygon",
+                "id":13,
                 "properties": {
                     "id_prov": 13,
                     "dpa_provin": "13",
@@ -1426,6 +1439,7 @@
                     [57, 58, -2, -26, 59, 60]
                 ],
                 "type": "Polygon",
+                "id":14,
                 "properties": {
                     "id_prov": 14,
                     "dpa_provin": "14",
@@ -1460,6 +1474,7 @@
                     [61, 62, 63, -21, 64, 65]
                 ],
                 "type": "Polygon",
+                "id":15,
                 "properties": {
                     "id_prov": 15,
                     "dpa_provin": "15",
@@ -1494,6 +1509,7 @@
                     [66, 67, -61, 68, -63]
                 ],
                 "type": "Polygon",
+                "id":16,
                 "properties": {
                     "id_prov": 16,
                     "dpa_provin": "16",
@@ -1528,6 +1544,7 @@
                     [-64, -69, -60, -28, -8, -22]
                 ],
                 "type": "Polygon",
+                "id":17,
                 "properties": {
                     "id_prov": 18,
                     "dpa_provin": "18",
@@ -1562,6 +1579,7 @@
                     [-48, 69, -65, -25, 70, -34, 71]
                 ],
                 "type": "Polygon",
+                "id":18,
                 "properties": {
                     "id_prov": 17,
                     "dpa_provin": "17",
@@ -1596,6 +1614,7 @@
                     [72, -50, -3, -59]
                 ],
                 "type": "Polygon",
+                "id":19,
                 "properties": {
                     "id_prov": 19,
                     "dpa_provin": "19",
@@ -1650,6 +1669,7 @@
                     ]
                 ],
                 "type": "MultiPolygon",
+                "id":20,
                 "properties": {
                     "id_prov": 20,
                     "dpa_provin": "20",
@@ -1684,6 +1704,7 @@
                     [80, -66, -70, -47, -17, 81]
                 ],
                 "type": "Polygon",
+                "id":21,
                 "properties": {
                     "id_prov": 21,
                     "dpa_provin": "21",
@@ -1718,6 +1739,7 @@
                     [82, -67, -62, -81]
                 ],
                 "type": "Polygon",
+                "id":22,
                 "properties": {
                     "id_prov": 22,
                     "dpa_provin": "22",
@@ -1752,6 +1774,7 @@
                     [-24, -53, 83, -54, -35, -71]
                 ],
                 "type": "Polygon",
+                "id":23,
                 "properties": {
                     "id_prov": 23,
                     "dpa_provin": "23",
@@ -1786,6 +1809,7 @@
                     [-43, 84, -56]
                 ],
                 "type": "Polygon",
+                "id":24,
                 "properties": {
                     "id_prov": 24,
                     "dpa_provin": "24",
@@ -1828,6 +1852,7 @@
                     ]
                 ],
                 "type": "MultiPolygon",
+                "id":25,
                 "properties": {
                     "id_prov": 25,
                     "dpa_provin": "90",

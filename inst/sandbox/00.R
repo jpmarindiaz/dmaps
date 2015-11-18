@@ -14,11 +14,19 @@ availableDmaps()
 
 mapName <- "ec_provinces"
 dmaps(mapName)
+d <- data.frame("regiones"=c("MANABI"))
+d$group <- sample(LETTERS[1:3],1)
+dmaps(mapName,d, regionCols = "regiones")
+data <- data.frame(name=c("MANABI"))
+data$group <- sample(LETTERS[1:3],1)
+dmaps(mapName,data)
+
+# Brazil
+mapName <- "br_states"
+dmaps(mapName)
 data <- read.csv(system.file("inst/data/ecuador0-codes.csv",package = "dmaps"))
 d <- data[c("name","pob_mas")]
 d$group <- sample(LETTERS[1:3],25,replace = TRUE)
-
-
 
 
 

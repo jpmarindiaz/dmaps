@@ -2,20 +2,20 @@ ec_provinces:
   label: Ecuardor provinces
   file: ec-provinces.topo.json
   codes: ec-provinces.csv
-  scope: provinces
-  geographyName: name
+  scope: ecuador
+  geographyName: nombre
   geographyId: id
   projections: 
     mercator:
-      center: [-73.5, 4.2]
+      center: [-83.5, -1]
       rotate: [0, 0]
-      scale: 5
+      scale: 3.3
       translateX: 0
       translateY: 0
     equirectangular:
-      center: [-73.5, 4.2]
+      center: [-83.5, -1]
       rotate: [0, 0]
-      scale: 95
+      scale: 3.3
       translateX: 0
       translateY: 0
 
