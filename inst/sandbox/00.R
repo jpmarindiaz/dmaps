@@ -9,22 +9,18 @@ library(dmaps)
 
 availableDmaps()
 
+# Brazil
+mapName <- "br_states"
+dmaps(mapName, data = data.frame(name="RJ"))
+
 
 # Ecuador
-
 mapName <- "ec_provinces"
 dmaps(mapName)
 d <- data.frame("regiones"=c("MANABI"))
 d$group <- sample(LETTERS[1:3],1)
 dmaps(mapName,d, regionCols = "regiones")
 
-
-# Brazil
-mapName <- "br_states"
-dmaps(mapName)
-data <- read.csv(system.file("inst/data/ecuador0-codes.csv",package = "dmaps"))
-d <- data[c("name","pob_mas")]
-d$group <- sample(LETTERS[1:3],25,replace = TRUE)
 
 
 

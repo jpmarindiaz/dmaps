@@ -2,22 +2,14 @@ br_states:
   label: Brazil states
   file: br-states.topo.json
   codes: br-states.csv
-  scope: states
+  scope: bra_states
   geographyName: name
   geographyId: id
   projections: 
-    albers:
-      scale: 1.75 #1000 
-      translate: [0, 0]
-      rotate: [100, 0]
-      center: [0, 25]
-      parallels: [29.5, 45.5]
-      translateX: 0
-      translateY: 0
     mercator:
-      center: [-102.5, 25]
+      center: [-55, -12]
       rotate: [0, 0]
-      scale: 1.75
+      scale: 0.8
       translateX: 0
       translateY: 0
     equirectangular:
@@ -26,4 +18,11 @@ br_states:
       scale: 1.75
       translateX: 0
       translateY: 0
-# https://github.com/davelandry/bra-atlas/tree/master/topojson
+    albers:
+      scale: 1.75 #1000 
+      translate: [0, 0]
+      rotate: [100, 0]
+      center: [0, 25]
+      parallels: [29.5, 45.5]
+      translateX: 0
+      translateY: 0
