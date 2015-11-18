@@ -7,22 +7,22 @@ ch_cantons:
   geographyId: id
   projections: 
     mercator:
-      center: [6.85, 46.8]
+      center: [8.4, 46.8]
       rotate: [0, 0]
-      scale: 0.1
+      scale: 9
       translateX: 0
       translateY: 0
     equirectangular:
-      center: [6.85, 46.8]
+      center: [8.4, 46.8]
       rotate: [0, 0]
-      scale: 1.75
+      scale: 9
       translateX: 0
       translateY: 0
     albers:
-      scale: 1.75 #1000 
+      scale: 13
       translate: [0, 0]
-      rotate: [100, 0]
-      center: [6.85, 46.8]
-      parallels: [29.5, 45.5]
+      rotate: [-10, 0]
+      center: [-1.5, 46.8]
+      parallels: [40, 50]
       translateX: 0
       translateY: 0

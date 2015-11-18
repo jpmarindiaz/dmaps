@@ -1,16 +1,11 @@
 world_countries:
   label: World Countries
-  file: countries.topo.json
-  codes: dane-codes-departamento.csv
+  file: world-countries.topo.json
+  codes: world-countries.csv
   scope: world
   geographyName: name
   geographyId: id
   projections: 
-    orthographic:
-      clipAngle: 90
-      scale: 0.33
-      translateX: 0
-      translateY: 30
     equirectangular:
       center: [11, 0]
       rotate: [0, 0]
@@ -23,6 +18,11 @@ world_countries:
       scale: 0.13
       translateX: 0
       translateY: 0
+    orthographic:
+      clipAngle: 90
+      scale: 0.33
+      translateX: 0
+      translateY: 30
     satellite:
       scale: 4500
       distance: 1.1
