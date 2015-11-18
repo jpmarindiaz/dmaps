@@ -11,7 +11,7 @@ availableDmaps()
 
 # Brazil
 mapName <- "br_states"
-dmaps(mapName, data = data.frame(name="RJ"))
+dmaps(mapName, data = data.frame(name="Rio de Janeiro",group="Samba"))
 
 
 # Ecuador

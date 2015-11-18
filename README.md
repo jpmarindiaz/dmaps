@@ -13,8 +13,7 @@
 
 # Todo
 
-Brazil
-Fix brazil topojson ids
+Create maps with ID data
 
 AFG
 https://gist.github.com/markmarkoh/8856417
