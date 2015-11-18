@@ -11,8 +11,8 @@ getData <- function(dmap,data, ...){
   #  stop("Need a region name")
 
   matchCode <- function(codes,data){
-    codeName <-codes$name
-    x <- dictionaryMatch(data$name,codeName)
+    dict <- codes[c("name","alternativeNames")]
+    x <- dictionaryMatch(data$name,dict)
     idx <- match(x,codes$name)
     codes$id[idx]
   }
@@ -52,6 +52,23 @@ getData <- function(dmap,data, ...){
 getSettings <- function(dmap, opts = NULL,...){
   args <- list(...)
 
+  defaultStyles <- "
+.datamaps-legend dt, .datamaps-legend dd {
+    float: none;
+}
+.datamaps-legend {
+    left: {left}%;
+    top: {top}%;
+    max-width: 30%;
+}
+.datamaps-hoverover {
+  color: #444;
+  max-width:35%
+}
+"
+defaultStyles <- pystr_format(defaultStyles,list(top=opts$legend$top %||% 0,left=opts$legend$left %||% 1))
+opts$styles <- paste(defaultStyles, opts$styles,sep="\n")
+
   projectionName <- opts[["projection"]] %||% names(dmap$projections)[1]
   projectionOpts <- dmap$projections[[projectionName]]
 
@@ -59,7 +76,7 @@ getSettings <- function(dmap, opts = NULL,...){
     projection = projectionName,
     projectionOpts = projectionOpts,
     defaultFill = "#DCE5E0",
-    borderColor = "#00FF000",
+    borderColor = "#ffffff",
     borderWidth = 1,
     highlightFillColor = "#999999",
     highlightBorderColor = "#444444",

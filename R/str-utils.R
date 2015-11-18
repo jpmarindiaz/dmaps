@@ -6,21 +6,25 @@ removeAccents <- function(string){
 }
 
 dictionaryMatch <- function(inputStr,dict, empty=c("")){
-  dict <- unique(dict)
-  l <- lapply(inputStr, function(inputStr){
+  l <- strsplit(paste(dict$name,dict$alternativeNames,sep="|"),"|",fixed = TRUE)
+  names(l) <- seq_along(l)
+  l <- reshape2::melt(l)
+  names(l) <- c("name","id")
+  l$id <- as.numeric(l$id)
+  ids <- lapply(inputStr, function(str){
     #message(inputStr)
-    #inputStr <- "CAUCA"
-    if(inputStr %in% empty){return(empty[1])}
-    inputStr <- tolower(inputStr)
-    inputStr <- removeAccents(inputStr)
-    dict_tmp <- tolower(dict)
+    #str <- "CAUCA"
+    # str <- "Bogota - Cundinamarca"
+    if(str %in% empty){return(empty[1])}
+    str <- tolower(str)
+    str <- removeAccents(str)
+    dict_tmp <- tolower(l[,1])
     dict_tmp <- removeAccents(dict_tmp)
-    tmp <- adist(inputStr, dict_tmp)
+    tmp <- adist(str, dict_tmp)
     tmp <- as.vector(tmp)
-    dict[which.min(tmp)]
+    l$id[which.min(tmp)]
   })
-  unlist(l)
+  ids <- unlist(ids)
+  dict$name[ids]
 }
-
-
 

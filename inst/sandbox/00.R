@@ -20,23 +20,15 @@ dmaps(mapName, data = data,
 
 css <- "
 .datamaps-legend {
-  position: absolute;
-  top: 100%;
-}
-.datamaps-legend dl {
-  text-align: left;
-  display: inline-block;
-}
-.datamaps-hoverover {
-  color: #455408
-  max-width:300px
+  background-color: aliceblue;
+  padding:10px;
 }
 "
 
 dmaps(mapName, data = data,
       groupCol = "Organización",
       regionCols = c("Municipio","Departamento"),
-      opts = list(styles = css))
+      opts = list(styles = css, legend = list(top = 10,left=80)))
 
 
 
