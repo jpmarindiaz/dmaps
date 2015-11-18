@@ -1,5 +1,5 @@
 
-getData <- function(dmap,data, ...){
+getData <- function(dmap,data,bubbles, ...){
   if(is.null(data))
     return(list(fills = list(), fillKeys = list(), bubblesData = list()))
   args <- list(...)
@@ -44,6 +44,8 @@ getData <- function(dmap,data, ...){
     list(fillKey=data$group[i], info = data$info[i])
   },1:nrow(data))
   names(fills) <- as.character(data$code)
+
+
 
   list(fills = fills, fillKeys = fillKeys, bubblesData = list())
 }

@@ -103,6 +103,11 @@ HTMLWidgets.widget({
 
         var data = x.data;
 
+        var getFills = function(data,opts){
+            if(data.fillKeys.length ==0) return({defaultFill: opts.defaultFill})
+            return(data.fillKeys)
+        }
+
         console.log("Opts: ", opts)
 
         var map = new Datamap({
@@ -136,7 +141,7 @@ HTMLWidgets.widget({
                     projection: projection
                 };
             },
-            fills: data.fillKeys,
+            fills: getFills(data,opts),
             data: data.fills,
             bubblesConfig: {
                 borderWidth: 2,

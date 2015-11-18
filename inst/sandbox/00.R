@@ -9,6 +9,26 @@ library(dmaps)
 
 availableDmaps()
 
+# World
+
+mapName <- "world_countries"
+dmapMeta(mapName)
+dmaps("world_countries")
+dmaps("world_countries", opts=list(defaultFill="#FF6c34"))
+dmaps("world_countries", opts=list(projection="mercator"))
+dmaps(mapName,data=data.frame(name="Brazil",group="Big"))
+dmaps("world_countries", opts=list(zoomable=TRUE))
+dmaps("world_countries", opts=list(projection="satellite",zoomable=FALSE))
+
+dmapProjections("world_countries")
+dmapProjectionOptions("world_countries","equirectangular")
+dmaps("world_countries", opts=list(projection="equirectangular"))
+
+dmaps("world_countries", opts=list(projection="equirectangular"))
+dmaps("world_countries", opts=list(projection="mercator"))
+opts = list(projection="orthographic",projectionOpts=list(clipAngle=120))
+dmaps("world_countries", opts = opts)
+
 
 # Latam
 
@@ -20,24 +40,6 @@ dmaps("latam_countries", opts=list(projection="mercator",zoomable=TRUE))
 dmaps("latam_countries", opts=list(projection="orthographic",zoomable=FALSE,graticule = TRUE))
 
 
-
-# World
-
-mapName <- "world_countries"
-dmaps("world_countries")
-dmaps(mapName,data=data.frame(name="Brazil",group="fd100"))
-dmaps("world_countries", opts=list(zoomable=TRUE))
-dmaps("world_countries", opts=list(projection="satellite",zoomable=FALSE))
-
-dmapProjections("world_countries")
-dmapProjectionOptions("world_countries","equirectangular")
-dmaps("world_countries", opts=list(projection="equirectangular"))
-dmaps("world_countries", opts=list(projection="mercator"))
-
-dmaps("world_countries", opts=list(projection="equirectangular"))
-dmaps("world_countries", opts=list(projection="mercator"))
-opts = list(projection="orthographic",projectionOpts=list(clipAngle=120))
-dmaps("world_countries", opts = opts)
 
 
 # Brazil

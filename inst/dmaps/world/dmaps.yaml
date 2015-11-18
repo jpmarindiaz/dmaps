@@ -7,20 +7,22 @@ world_countries:
   geographyId: id
   projections: 
     equirectangular:
-      center: [11, 0]
-      rotate: [0, 0]
-      scale: 0.13
+      center: [0, -20]
+      rotate: [-11, 0]
+      scale: 0.15
       translateX: 0
       translateY: 0
     mercator:
-      center: [11, 0]
-      rotate: [0, 0]
-      scale: 0.13
+      center: [0, 45]
+      rotate: [-11, 0]
+      scale: 0.15
       translateX: 0
       translateY: 0
     orthographic:
       clipAngle: 90
       scale: 0.33
+      center: [0, 0]
+      rotate: [-11,0]
       translateX: 0
       translateY: 30
     satellite:
@@ -54,8 +56,8 @@ latam_countries:
     orthographic:
       clipAngle: 90
       scale: 0.38
-      rotate: [70, 10]
       center: [0, 0]
+      rotate: [70, 10]
       translateX: 0
       translateY: 0
     satellite:
