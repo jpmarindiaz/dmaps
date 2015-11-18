@@ -1,0 +1,21 @@
+ec_provinces:
+  label: Ecuardor provinces
+  file: ec-provinces.topo.json
+  codes: ec-provinces.csv
+  scope: provinces
+  geographyName: name
+  geographyId: id
+  projections: 
+    mercator:
+      center: [-73.5, 4.2]
+      rotate: [0, 0]
+      scale: 5
+      translateX: 0
+      translateY: 0
+    equirectangular:
+      center: [-73.5, 4.2]
+      rotate: [0, 0]
+      scale: 95
+      translateX: 0
+      translateY: 0
+

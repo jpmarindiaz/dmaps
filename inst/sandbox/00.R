@@ -10,13 +10,25 @@ library(dmaps)
 availableDmaps()
 
 
+# Ecuador
+
+mapName <- "ec_provinces"
+dmaps(mapName)
+data <- read.csv(system.file("inst/data/ecuador0-codes.csv",package = "dmaps"))
+d <- data[c("name","pob_mas")]
+d$group <- sample(LETTERS[1:3],25,replace = TRUE)
+
+
+
+
+
 # World
 
 dmapMeta("world_countries")
 mapName <- "world_countries"
 dmaps("world_countries")
 dmaps("world_countries", opts=list(zoomable=TRUE))
-dmaps("world_countries", opts=list(projection="satellite"))
+dmaps("world_countries", opts=list(projection="satellite",zoomable=FALSE))
 
 dmapProjections("world_countries")
 dmapProjectionOptions("world_countries","equirectangular")
@@ -25,9 +37,8 @@ dmaps("world_countries", opts=list(projection="mercator"))
 
 dmaps("world_countries", opts=list(projection="equirectangular"))
 dmaps("world_countries", opts=list(projection="mercator"))
-opts = list(projction="orthographic",projectionOpts=list(clipAngle=120))
+opts = list(projection="orthographic",projectionOpts=list(clipAngle=120))
 dmaps("world_countries", opts = opts)
-
 
 
 # Switzerland
@@ -39,7 +50,6 @@ dmaps("ch_cantons", opts=list(projection="albers"))
 data <- data.frame(name = c("Zurich","Geneve"), group = c("Yes","No"))
 data <- data.frame(name = c("Zurigo","Genf"), group = c("Yes","No"))
 dmaps("ch_cantons",data, opts=list(projection="albers"))
-
 
 
 # Mexico
@@ -126,16 +136,7 @@ dmaps("co_departments",data, opts)
 
 
 
-dmaps("")
 
-
-
-
-type <- "ecuador0"
-data <- read.csv(system.file("inst/data/ecuador0-codes.csv",package = "dmaps"))
-d <- data[c("name","pob_mas")]
-d$group <- sample(LETTERS[1:3],25,replace = TRUE)
-dmaps("ecuador0", d)
 
 
 
@@ -160,6 +161,9 @@ opts <- list(
 
 dmaps("depto",data, opts)
 dmaps("depto",data)
+
+
+
 
 
 # Saving widgets
