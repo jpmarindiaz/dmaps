@@ -31,3 +31,38 @@ world_countries:
       tilt: 25
       clipAngle: 60
       precision: .1
+latam_countries:
+  label: World Countries
+  file: latin-america-caribbean-countries.topo.json
+  codes: world-countries.csv
+  scope: region_wb_Latin_America_and_Caribbean_subunits
+  geographyName: name
+  geographyId: id
+  projections: 
+    equirectangular:
+      center: [-70, -10]
+      rotate: [0, 0]
+      scale: 0.38
+      translateX: 0
+      translateY: 0
+    mercator:
+      center: [-70, -16]
+      rotate: [0, 0]
+      scale: 0.33
+      translateX: 0
+      translateY: 0
+    orthographic:
+      clipAngle: 90
+      scale: 0.38
+      rotate: [70, 10]
+      center: [0, 0]
+      translateX: 0
+      translateY: 0
+    satellite:
+      scale: 4500
+      distance: 1.1
+      rotate: [76.00, -34.50, 32.12]
+      center: [-2, 5]
+      tilt: 25
+      clipAngle: 60
+      precision: .1

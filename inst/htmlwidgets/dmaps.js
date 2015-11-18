@@ -78,6 +78,8 @@ HTMLWidgets.widget({
                 var projection = d3.geo.orthographic()
                     .scale(projectionOpts.scale * element.offsetWidth)
                     .clipAngle(projectionOpts.clipAngle)
+                    .rotate(projectionOpts.rotate)
+                    .center(projectionOpts.center)
                     .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
 
                 return (projection)

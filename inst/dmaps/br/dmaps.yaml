@@ -13,7 +13,7 @@ br_states:
       translateX: 0
       translateY: 0
     equirectangular:
-      center: [-102.5, 25]
+      center: [-55, -12]
       rotate: [0, 0]
       scale: 1.75
       translateX: 0
@@ -21,8 +21,8 @@ br_states:
     albers:
       scale: 1.75 #1000 
       translate: [0, 0]
-      rotate: [100, 0]
-      center: [0, 25]
+      rotate: [10, 0]
+      center: [-55, -12]
       parallels: [29.5, 45.5]
       translateX: 0
       translateY: 0

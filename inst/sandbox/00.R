@@ -9,6 +9,37 @@ library(dmaps)
 
 availableDmaps()
 
+
+# Latam
+
+dmaps("latam_countries")
+mapName <- "latam_countries"
+dmaps(mapName,data=data.frame(name="Brazil",group="fd100"))
+dmaps("latam_countries", opts=list(projection="equirectangular"))
+dmaps("latam_countries", opts=list(projection="mercator",zoomable=TRUE))
+dmaps("latam_countries", opts=list(projection="orthographic",zoomable=FALSE,graticule = TRUE))
+
+
+
+# World
+
+mapName <- "world_countries"
+dmaps("world_countries")
+dmaps(mapName,data=data.frame(name="Brazil",group="fd100"))
+dmaps("world_countries", opts=list(zoomable=TRUE))
+dmaps("world_countries", opts=list(projection="satellite",zoomable=FALSE))
+
+dmapProjections("world_countries")
+dmapProjectionOptions("world_countries","equirectangular")
+dmaps("world_countries", opts=list(projection="equirectangular"))
+dmaps("world_countries", opts=list(projection="mercator"))
+
+dmaps("world_countries", opts=list(projection="equirectangular"))
+dmaps("world_countries", opts=list(projection="mercator"))
+opts = list(projection="orthographic",projectionOpts=list(clipAngle=120))
+dmaps("world_countries", opts = opts)
+
+
 # Brazil
 mapName <- "br_states"
 dmaps(mapName, data = data.frame(name="Rio de Janeiro",group="Samba"))
@@ -24,23 +55,6 @@ dmaps(mapName,d, regionCols = "regiones")
 
 
 
-# World
-
-dmapMeta("world_countries")
-mapName <- "world_countries"
-dmaps("world_countries")
-dmaps("world_countries", opts=list(zoomable=TRUE))
-dmaps("world_countries", opts=list(projection="satellite",zoomable=FALSE))
-
-dmapProjections("world_countries")
-dmapProjectionOptions("world_countries","equirectangular")
-dmaps("world_countries", opts=list(projection="equirectangular"))
-dmaps("world_countries", opts=list(projection="mercator"))
-
-dmaps("world_countries", opts=list(projection="equirectangular"))
-dmaps("world_countries", opts=list(projection="mercator"))
-opts = list(projection="orthographic",projectionOpts=list(clipAngle=120))
-dmaps("world_countries", opts = opts)
 
 
 # Switzerland
