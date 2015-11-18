@@ -1,8 +1,8 @@
 ch_cantons:
   label: Switzerlan cantons
-  file: ch-all.topo.json
-  codes: ch-all.csv
-  scope: ch-all
+  file: ch-cantons.topo.json
+  codes: ch-cantons.csv
+  scope: cantons
   geographyName: name
   geographyId: id
   projections: 
@@ -13,7 +13,7 @@ ch_cantons:
       translateX: 0
       translateY: 0
     equirectangular:
-      center: [-102.5, 25]
+      center: [6.85, 46.8]
       rotate: [0, 0]
       scale: 1.75
       translateX: 0
@@ -22,7 +22,7 @@ ch_cantons:
       scale: 1.75 #1000 
       translate: [0, 0]
       rotate: [100, 0]
-      center: [0, 25]
+      center: [6.85, 46.8]
       parallels: [29.5, 45.5]
       translateX: 0
       translateY: 0

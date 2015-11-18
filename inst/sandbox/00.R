@@ -9,6 +9,27 @@ library(dmaps)
 
 availableDmaps()
 
+
+
+
+dmaps("ch_cantons")
+dmaps("ch_cantons", opts=list(projection="equirectangular"))
+
+mapName <- "mx_states"
+name = c("Coahuila","Guanajuato","México","Nuevo León", "Yucatán")
+group = c("X","X","Y","Z","Z")
+value = c( 50, 20, 2,20,10)
+data <- data.frame(name = name, group = group)
+tpl <- "{name}<br>Group:{group}"
+data$info <- pystr::pystr_format(tpl, data)
+dmaps(mapName,data)
+
+
+
+
+
+## Colombia
+
 dmaps("co_municipalities")
 
 mapName <- "co_municipalities"
@@ -31,20 +52,6 @@ dmaps(mapName, data = data,
       opts = list(styles = css, legend = list(top = 10,left=80)))
 
 
-
-
-
-dmaps("ch_cantons")
-dmaps("ch_cantons", opts=list(projection="equirectangular"))
-
-mapName <- "mx_states"
-name = c("Coahuila","Guanajuato","México","Nuevo León", "Yucatán")
-group = c("X","X","Y","Z","Z")
-value = c( 50, 20, 2,20,10)
-data <- data.frame(name = name, group = group)
-tpl <- "{name}<br>Group:{group}"
-data$info <- pystr::pystr_format(tpl, data)
-dmaps(mapName,data)
 
 
 
