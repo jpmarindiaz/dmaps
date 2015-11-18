@@ -75,6 +75,7 @@ opts$styles <- paste(defaultStyles, opts$styles,sep="\n")
   defaultOpts <- list(
     projection = projectionName,
     projectionOpts = projectionOpts,
+    zoomable = FALSE,
     defaultFill = "#DCE5E0",
     borderColor = "#ffffff",
     borderWidth = 1,

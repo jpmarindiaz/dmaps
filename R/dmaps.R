@@ -14,10 +14,16 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL,
   if(!mapName %in% availableDmaps())
     stop("No map with that name, check available maps with availableDmaps()")
 
+  if(!is.null(data)){
+    regionCols <- regionCols %||% "name"
+  }
+
   dmap <- dmapMeta(mapName)
 
-  infoTpl <- infoTpl %||% defaultTpl(data)
-  data$info <- pystr_format(infoTpl,data)
+  if(is.null(data$info)){
+    infoTpl <- infoTpl %||% defaultTpl(data)
+    data$info <- pystr_format(infoTpl,data)
+  }
 
   if(!is.null(groupCol)){
     if(!groupCol%in% names(data)){

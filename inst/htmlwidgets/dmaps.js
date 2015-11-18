@@ -28,6 +28,7 @@ HTMLWidgets.widget({
         var opts = {
             scope: dmap.scope,
             dataUrl: dmap.path,
+            zoomable: usrOpts.zoomable || false,
             geographyName: dmap.geographyName,
             projectionName: usrOpts.projection,
             projectionOpts: usrOpts.projectionOpts,
@@ -100,9 +101,7 @@ HTMLWidgets.widget({
 
         var data = x.data;
 
-        console.log("Opts: ", opts.projectionName, opts.projectionOpts)
-            //basic map config with custom fills, mercator projection
-        console.log(document.getElementById(vizId).offsetWidth)
+        console.log("Opts: ", opts)
 
         var map = new Datamap({
             element: document.getElementById(vizId),
@@ -158,6 +157,11 @@ HTMLWidgets.widget({
                 animationSpeed: 600
             },
             done: function(datamap) {
+                console.log("datamap",datamap)
+                console.log("zoomable",datamap.options.zoomable)
+                if(!datamap.options.zoomable){
+                    return null
+                }
                 // https://github.com/markmarkoh/datamaps/pull/122
                 datamap.svg.call(d3.behavior.zoom().on("zoom", redraw));
                 function redraw() {
@@ -171,7 +175,8 @@ HTMLWidgets.widget({
                         .style(prefix + 'transform',
                             'translate(' + x + 'px, ' + y + 'px) scale(' + (d3.event.scale) + ')');
                 }
-            }
+            },
+            zoomable: opts.zoomable
 
         });
 

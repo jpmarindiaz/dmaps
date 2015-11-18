@@ -10,28 +10,58 @@ library(dmaps)
 availableDmaps()
 
 
+# World
 
+dmapMeta("world_countries")
+mapName <- "world_countries"
+dmaps("world_countries")
+dmaps("world_countries", opts=list(zoomable=TRUE))
+dmaps("world_countries", opts=list(projection="satellite"))
+
+dmapProjections("world_countries")
+dmapProjectionOptions("world_countries","equirectangular")
+dmaps("world_countries", opts=list(projection="equirectangular"))
+dmaps("world_countries", opts=list(projection="mercator"))
+
+dmaps("world_countries", opts=list(projection="equirectangular"))
+dmaps("world_countries", opts=list(projection="mercator"))
+opts = list(projction="orthographic",projectionOpts=list(clipAngle=120))
+dmaps("world_countries", opts = opts)
+
+
+
+# Switzerland
 
 dmaps("ch_cantons")
 dmaps("ch_cantons", opts=list(projection="equirectangular"))
+dmaps("ch_cantons", opts=list(projection="mercator"))
+dmaps("ch_cantons", opts=list(projection="albers"))
+data <- data.frame(name = c("Zurich","Geneve"), group = c("Yes","No"))
+data <- data.frame(name = c("Zurigo","Genf"), group = c("Yes","No"))
+dmaps("ch_cantons",data, opts=list(projection="albers"))
+
+
+
+# Mexico
+
+dmaps("mx_states")
+dmaps("mx_states", opts=list(projection="equirectangular"))
+dmaps("mx_states", opts=list(projection="mercator"))
 
 mapName <- "mx_states"
 name = c("Coahuila","Guanajuato","México","Nuevo León", "Yucatán")
 group = c("X","X","Y","Z","Z")
 value = c( 50, 20, 2,20,10)
 data <- data.frame(name = name, group = group)
+dmaps(mapName,data, infoTpl = "<strong>We are bold {name}</name>",opts = list(legend=list(left=80)))
 tpl <- "{name}<br>Group:{group}"
 data$info <- pystr::pystr_format(tpl, data)
-dmaps(mapName,data)
-
-
-
+dmaps(mapName,data, opts = list(legend=list(left=80)))
 
 
 ## Colombia
 
 dmaps("co_municipalities")
-
 mapName <- "co_municipalities"
 data <- read.csv("inst/data/co_municipalities/iniciativas.csv", stringsAsFactors = FALSE)
 dmaps(mapName, data = data,
@@ -55,29 +85,6 @@ dmaps(mapName, data = data,
 
 
 
-dmaps("mx_states")
-
-
-dmaps("mx_states")
-dmaps("mx_states", opts=list(projection="equirectangular"))
-dmaps("mx_states", opts=list(projection="mercator"))
-
-
-dmapMeta("world_countries")
-mapName <- "world_countries"
-dmaps("world_countries", opts=list(projection="satellite"))
-
-dmaps("world_countries")
-dmapProjections("world_countries")
-dmapProjectionOptions("world_countries","equirectangular")
-dmaps("world_countries", opts=list(projection="equirectangular"))
-dmaps("world_countries", opts=list(projection="mercator"))
-
-
-dmaps("world_countries", opts=list(projection="equirectangular"))
-dmaps("world_countries", opts=list(projection="mercator"))
-opts = list(projction="orthographic",projectionOpts=list(clipAngle=120))
-dmaps("world_countries", opts = opts)
 
 
 
