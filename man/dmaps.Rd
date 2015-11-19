@@ -5,7 +5,7 @@
 \title{<Add Title>}
 \usage{
 dmaps(mapName, data = NULL, groupCol = NULL, regionCols = NULL,
-  infoTpl = NULL, opts = NULL, width = "100\%", height = "100\%", ...)
+  bubbles = NULL, opts = NULL, width = "100\%", height = "100\%", ...)
 }
 \description{
 <Add Description>

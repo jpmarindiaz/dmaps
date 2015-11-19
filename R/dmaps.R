@@ -6,7 +6,7 @@
 #'
 #' @export
 dmaps <- function(mapName, data = NULL, groupCol = NULL,
-                  regionCols = NULL,  infoTpl = NULL, opts = NULL,
+                  regionCols = NULL, bubbles = NULL, opts = NULL,
                   width = '100%', height = '100%',...) {
   message(mapName)
   # mapName <- "co_departamentos"
@@ -21,8 +21,12 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL,
   dmap <- dmapMeta(mapName)
 
   if(is.null(data$info)){
-    infoTpl <- infoTpl %||% defaultTpl(data)
+    infoTpl <- opts$infoTpl %||% defaultTpl(data)
     data$info <- pystr_format(infoTpl,data)
+  }
+  if(is.null(bubbles$info)){
+    infoTpl <- opts$bubbleInfoTpl %||% defaultTpl(bubbles)
+    bubbles$info <- pystr_format(infoTpl,bubbles)
   }
 
   if(!is.null(groupCol)){
@@ -46,7 +50,7 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL,
   defaultFill <- settings$defaultFill
   palette <- settings$palette
 
-  d <- getData(dmap,data, defaultFill = defaultFill, palette = palette)
+  d <- getData(dmap,data, bubbles, defaultFill = defaultFill, palette = palette)
 
 
   # pass the data and settings using 'x'
@@ -56,6 +60,7 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL,
     settings = settings
   )
 
+  str(x)
   htmlwidgets::createWidget(
     name = "dmaps",
     x,

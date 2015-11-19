@@ -10,13 +10,26 @@ library(dmaps)
 availableDmaps()
 
 # World
-
 mapName <- "world_countries"
-dmapMeta(mapName)
 dmaps("world_countries")
+
+bubbles <- data.frame(
+  latitude=c(50,4),
+  longitude=c(4,-70),
+  radius=c(10,15)
+)
+dmaps("world_countries",bubbles = bubbles)
+bubbles <- data.frame(
+  latitude=c(50,4),
+  longitude=c(4,-70),
+  radius=c(10,15),
+  group=c("A","B"),
+  info = c("AA","BB")
+  )
+dmaps("world_countries",bubbles = bubbles)
+dmaps(mapName,data=data.frame(name="Brazil",group="Big"))
 dmaps("world_countries", opts=list(defaultFill="#FF6c34"))
 dmaps("world_countries", opts=list(projection="mercator"))
-dmaps(mapName,data=data.frame(name="Brazil",group="Big"))
 dmaps("world_countries", opts=list(zoomable=TRUE))
 dmaps("world_countries", opts=list(projection="satellite",zoomable=FALSE))
 
@@ -34,7 +47,22 @@ dmaps("world_countries", opts = opts)
 
 dmaps("latam_countries")
 mapName <- "latam_countries"
-dmaps(mapName,data=data.frame(name="Brazil",group="fd100"))
+dmaps(mapName,data=data.frame(name="Brazil",group="World Cup"))
+bubbles <- data.frame(
+  latitude=c(-5,4,-10),
+  longitude=c(-74,-70,-55),
+  radius=c(5,8,10),
+  group=c("Español","Español","Portugués")
+)
+dmaps("latam_countries", bubbles = bubbles,
+      opts=list(
+        projection="orthographic",
+        zoomable=FALSE,
+        graticule = TRUE,
+        bubbleInfoTpl="{group}: {radius}",
+        projectionOpts = list(scale = 0.25,translateY=15)
+        )
+      )
 dmaps("latam_countries", opts=list(projection="equirectangular"))
 dmaps("latam_countries", opts=list(projection="mercator",zoomable=TRUE))
 dmaps("latam_countries", opts=list(projection="orthographic",zoomable=FALSE,graticule = TRUE))

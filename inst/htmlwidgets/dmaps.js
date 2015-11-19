@@ -43,6 +43,14 @@ HTMLWidgets.widget({
             highlightFillColor: usrOpts.highlightFillColor || '#516a52',
             highlightBorderColor: usrOpts.highlightBorderColor || '#279945',
             highlightBorderWidth: usrOpts.highlightBorderWidth || 0,
+            bubbleBorderWidth: usrOpts.bubbleBorderWidth || 2,
+            bubbleBorderColor: usrOpts.bubbleBorderColor || '#889C95',
+            bubbleFillOpacity: usrOpts.bubbleFillOpacity || 0.5,
+            bubbleHighlightOnHover: usrOpts.bubbleHighlightOnHover || true,
+            bubbleHighlightFillColor: usrOpts.bubbleHighlightFillColor || '#ADC7BE',
+            bubbleHighlightBorderColor: usrOpts.bubbleHighlightBorderColor || '#C3E2D9',
+            bubbleHighlightBorderWidth: usrOpts.bubbleHighlightBorderWidth || 5,
+            bubbleHighlightFillOpacity: usrOpts.bubbleHighlightFillOpacity || 0.85,
         };
 
         var getProjection = function(projectionName, projectionOpts, element) {
@@ -103,9 +111,11 @@ HTMLWidgets.widget({
 
         var data = x.data;
 
-        var getFills = function(data,opts){
-            if(data.fillKeys.length ==0) return({defaultFill: opts.defaultFill})
-            return(data.fillKeys)
+        var getFills = function(data, opts) {
+            if (data.fillKeys.length == 0) return ({
+                defaultFill: opts.defaultFill
+            })
+            return (data.fillKeys)
         }
 
         console.log("Opts: ", opts)
@@ -141,21 +151,21 @@ HTMLWidgets.widget({
                     projection: projection
                 };
             },
-            fills: getFills(data,opts),
+            fills: getFills(data, opts),
             data: data.fills,
             bubblesConfig: {
-                borderWidth: 2,
-                borderColor: '#FFFFFF',
-                popupOnHover: true,
-                popupTemplate: function(geography, data) {
-                    return '<div class="hoverinfo"><strong>' + data.name + '</strong></div>';
-                },
-                fillOpacity: 0.75,
-                highlightOnHover: true,
-                highlightFillColor: '#FC8D59',
-                highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
-                highlightBorderWidth: 2,
-                highlightFillOpacity: 0.85
+                // borderWidth: 2,
+                // borderColor: '#FFFFFF',
+                // popupOnHover: true,
+                // popupTemplate: function(geography, data) {
+                //     return '<div class="hoverinfo"><strong>' + data.name + '</strong></div>';
+                // },
+                // fillOpacity: 0.75,
+                // highlightOnHover: true,
+                // highlightFillColor: '#FC8D59',
+                // highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
+                // highlightBorderWidth: 2,
+                // highlightFillOpacity: 0.85
             },
             arcConfig: {
                 strokeColor: '#B8CDB9',
@@ -164,13 +174,14 @@ HTMLWidgets.widget({
                 animationSpeed: 600
             },
             done: function(datamap) {
-                console.log("datamap",datamap)
-                console.log("zoomable",datamap.options.zoomable)
-                if(!datamap.options.zoomable){
+                console.log("datamap", datamap)
+                console.log("zoomable", datamap.options.zoomable)
+                if (!datamap.options.zoomable) {
                     return null
                 }
                 // https://github.com/markmarkoh/datamaps/pull/122
                 datamap.svg.call(d3.behavior.zoom().on("zoom", redraw));
+
                 function redraw() {
                     var prefix = '-webkit-transform' in document.body.style ?
                         '-webkit-' : '-moz-transform' in document.body.style ?
@@ -184,7 +195,6 @@ HTMLWidgets.widget({
                 }
             },
             zoomable: opts.zoomable
-
         });
 
         if (usrOpts.graticule) {
@@ -198,20 +208,30 @@ HTMLWidgets.widget({
             })
         }
 
+        data.bubblesData = HTMLWidgets.dataframeToD3(data.bubblesData);
+        console.log("bubbles: ", data.bubblesData)
+
         if (data.bubblesData.length) {
             map.bubbles(
-                data.bubblesdata, {
-                    borderWidth: 2,
-                    // borderColor: '#ff6a37',
+                data.bubblesData, {
+                    borderWidth: opts.bubbleBorderWidth,
+                    borderColor: opts.bubbleBorderColor,
+                    fillOpacity: opts.bubbleFillOpacity,
+                    highlightOnHover: opts.bubbleHighlightOnHover,
+                    highlightFillColor: opts.bubbleHighlightFillColor,
+                    highlightBorderColor: opts.bubbleHighlightBorderColor,
+                    highlightBorderWidth: opts.bubbleHighlightBorderWidth,
+                    highlightFillOpacity: opts.bubbleHighlightFillOpacity,
                     popupOnHover: true,
-                    fillOpacity: 0.5,
-                    highlightOnHover: true,
-                    highlightFillColor: '#38fc65',
-                    // highlightBorderColor: '#760143',
-                    highlightBorderWidth: 5,
-                    highlightFillOpacity: 0.85,
                     popupTemplate: function(geo, data) {
-                        return "<div class='hoverinfo'>" + data.name + "";
+                        // return "<div class='hoverinfo'>" + data.name + "";
+                        // console.log(data)
+                        var info = null;
+                        if (data) {
+                            info = data.info || ""
+                        }
+                        var htmlInfo = info || ""
+                        return '<div class="hoverinfo">' + htmlInfo
                     }
                 });
         }

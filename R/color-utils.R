@@ -1,5 +1,6 @@
 
-catColor <- function(v,palette = "RdYlBu"){
+catColor <- function(v,palette = NULL){
+  palette <- palette %||% "RdYlBu"
   pal <- colorFactor(palette, levels = unique(v))
   pal(v)
 }

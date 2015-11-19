@@ -1,10 +1,9 @@
 
-getData <- function(dmap,data,bubbles, ...){
-  if(is.null(data))
+getData <- function(dmap,data,bubbles = NULL, ...){
+  if(is.null(data) && is.null(bubbles))
     return(list(fills = list(), fillKeys = list(), bubblesData = list()))
   args <- list(...)
   codePath <- "inst/dmaps/"
-  palette <- args$palette
   codes <- read.csv(dmap$codesPath, colClasses = "character")
 
   #if(is.null(data$name))
@@ -22,6 +21,47 @@ getData <- function(dmap,data,bubbles, ...){
   if(is.null(data$info))
     data$info <-""
 
+  dataFills <- getDataFills(data,defaultFill = args$defaultFill,
+                            palette = args$palette)
+  bubbleFills <- getBubbleFills(bubbles,defaultFill = args$defaultFill,
+                            palette = args$palette)
+  # message("dataFills")
+  # str(dataFills)
+  # message("bubbleFills")
+  # str(bubbleFills)
+  if(!is.null(bubbles)){
+    bubbles$fillKey <- bubbles$group
+  }
+
+  list(fills = c(dataFills$fills,bubbleFills$fills),
+       fillKeys = c(dataFills$fillKeys,bubbleFills$fillKeys),
+       bubblesData = bubbles)
+}
+
+getBubbleFills <- function(bubbles,...){
+  if(is.null(bubbles))
+    return(list(fills=list(),fillKeys=list()))
+  args <- list(...)
+  palette <- args$palette
+  if(!is.null(bubbles$group)){
+    key <- unique(bubbles$group)
+    keyColor <- catColor(key, palette)
+  }else{
+    return(list(fills=list(),fillKeys=list()))
+  }
+  fillKeys <- as.list(keyColor)
+  names(fillKeys) <- key
+  fillKeys$defaultFill <- args$defaultFill
+  fills <- Map(function(i){
+    list(fillKey=bubbles$group[i], info = bubbles$info[i])
+  },1:nrow(bubbles))
+  names(fills) <- paste0("bubble",1:nrow(bubbles))
+  list(fills=fills,fillKeys=fillKeys)
+}
+
+getDataFills <- function(data,...){
+  args <- list(...)
+  palette <- args$palette
   if(!is.null(data$group)){
     key <- unique(data$group)
     keyColor <- catColor(key, palette)
@@ -33,7 +73,7 @@ getData <- function(dmap,data,bubbles, ...){
     ## use library(Hmisc), cut2 function to generate numeric intervals
   }
   if(is.null(data$group) && is.null(data$value)){
-    return(list(fills = list(), fillKeys = list(), bubblesData = list()))
+    return(list(fills = list(), fillKeys = list()))
   }
 
   fillKeys <- as.list(keyColor)
@@ -44,11 +84,10 @@ getData <- function(dmap,data,bubbles, ...){
     list(fillKey=data$group[i], info = data$info[i])
   },1:nrow(data))
   names(fills) <- as.character(data$code)
-
-
-
-  list(fills = fills, fillKeys = fillKeys, bubblesData = list())
+  list(fills=fills,fillKeys=fillKeys)
 }
+
+
 
 
 getSettings <- function(dmap, opts = NULL,...){
@@ -75,6 +114,8 @@ opts$styles <- paste(defaultStyles, opts$styles,sep="\n")
   projectionOpts <- dmap$projections[[projectionName]]
 
   defaultOpts <- list(
+    infoTpl = NULL,
+    bubblesInfoTpl = NULL,
     projection = projectionName,
     projectionOpts = projectionOpts,
     zoomable = TRUE,
@@ -89,7 +130,15 @@ opts$styles <- paste(defaultStyles, opts$styles,sep="\n")
     legendTitle = "",
     legendDefaultFillTitle = NULL,
     palette = "RdYlBu",
-    styles = ""
+    styles = "",
+    bubbleBorderWidth = 1,
+    bubbleBorderColor = '#FF6A37',
+    bubbleFillOpacity = 0.5,
+    bubbleHighlightOnHover = TRUE,
+    bubbleHighlightFillColor = 'rgba(255, 106, 55, 0.3)',
+    bubbleHighlightBorderColor = '#FB4B3A',
+    bubbleHighlightBorderWidth = 1,
+    bubbleHighlightFillOpacity = 0.7
   )
 
 
