@@ -5,10 +5,17 @@ catColor <- function(v,palette = NULL){
   pal(v)
 }
 
-numColor <- function(v,palette = "RdYlBu"){
+numColor <- function(v,palette = "RdYlBu", domain = NULL){
   pal <- colorNumeric(palette, domain = NULL)
   pal(v)
 }
+
+quanColor <- function(v,palette = "RdYlBu", domain = NULL, n = NULL){
+  n <- n %||% length(unique(v))/5
+  pal <- colorQuantile(palette, domain = NULL, n = n)
+  pal(v)
+}
+
 
 # Seq palette
 # Blues BuGn BuPu GnBu Greens Greys Oranges OrRd PuBu PuBuGn PuRd Purples RdPu Reds YlGn YlGnBu YlOrBr YlOrRd

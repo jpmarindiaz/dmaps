@@ -1,5 +1,5 @@
 
-getData <- function(dmap,data,bubbles = NULL, ...){
+getData <- function(dmap,data = NULL,bubbles = NULL, ...){
   if(is.null(data) && is.null(bubbles))
     return(list(fills = list(), fillKeys = list(), bubblesData = list()))
   args <- list(...)
@@ -22,7 +22,7 @@ getData <- function(dmap,data,bubbles = NULL, ...){
     data$info <-""
 
   dataFills <- getDataFills(data,defaultFill = args$defaultFill,
-                            palette = args$palette)
+                            palette = args$palette, nLevels = args$nLevels)
   bubbleFills <- getBubbleFills(bubbles,defaultFill = args$defaultFill,
                             palette = args$palette)
   # message("dataFills")
@@ -45,6 +45,7 @@ getBubbleFills <- function(bubbles,...){
   palette <- args$palette
   if(!is.null(bubbles$group)){
     key <- unique(bubbles$group)
+    key <- key[!key=="" | is.null(key) | is.na(key)]
     keyColor <- catColor(key, palette)
   }else{
     return(list(fills=list(),fillKeys=list()))
@@ -64,26 +65,39 @@ getDataFills <- function(data,...){
   palette <- args$palette
   if(!is.null(data$group)){
     key <- unique(data$group)
+    key <- key[!key=="" | is.null(key) | is.na(key)]
     keyColor <- catColor(key, palette)
+    fills <- Map(function(i){
+      list(fillKey=data$group[i], info = data$info[i])
+    },1:nrow(data))
+    names(fills) <- as.character(data$code)
+    fillKeys <- as.list(keyColor)
+    names(fillKeys) <- key
+    fillKeys$defaultFill <- args$defaultFill
   }
   if(is.null(data$group) && !is.null(data$value)){
-    key <- unique(data$value)
-    keyColor <- numColor(key, palette)
-    data$group <- as.character(data$value)
+    #data$group <- cut2(data$value,g=5,levels.mean=TRUE)
+    ncuts <- args$nLevels
+    data$group <- cut2(data$value,g=ncuts)
+    key <- levels(data$group)
+    key <- key[!key=="" | is.null(key) | is.na(key)]
+    cuts <- cut2(data$value,g=ncuts,onlycuts = TRUE)
+    keyColor <- quanColor(cuts[-1], palette, domain = cuts, n = ncuts)
+    #data$color <- numColor(data$value, palette, domain = data$value)
+    data$color <- quanColor(data$value, palette, domain = data$value, n = 20)
     ## use library(Hmisc), cut2 function to generate numeric intervals
+    fills <- Map(function(i){
+      list(fillColor=data$color[i], info = data$info[i],fillKey=data$group[i])
+    },1:nrow(data))
+    names(fills) <- as.character(data$code)
+    fillKeys <- as.list(keyColor)
+    names(fillKeys) <- key
+    #fillKeys <- list()
+    #fillKeys$defaultFill <- args$defaultFill
   }
   if(is.null(data$group) && is.null(data$value)){
     return(list(fills = list(), fillKeys = list()))
   }
-
-  fillKeys <- as.list(keyColor)
-  names(fillKeys) <- key
-  fillKeys$defaultFill <- args$defaultFill
-
-  fills <- Map(function(i){
-    list(fillKey=data$group[i], info = data$info[i])
-  },1:nrow(data))
-  names(fills) <- as.character(data$code)
   list(fills=fills,fillKeys=fillKeys)
 }
 
@@ -114,6 +128,7 @@ opts$styles <- paste(defaultStyles, opts$styles,sep="\n")
   projectionOpts <- dmap$projections[[projectionName]]
 
   defaultOpts <- list(
+    nLevels = 5,
     infoTpl = NULL,
     bubblesInfoTpl = NULL,
     projection = projectionName,

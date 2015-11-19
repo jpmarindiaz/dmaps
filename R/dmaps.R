@@ -5,10 +5,10 @@
 #' @import htmlwidgets
 #'
 #' @export
-dmaps <- function(mapName, data = NULL, groupCol = NULL,
+dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
                   regionCols = NULL, bubbles = NULL, opts = NULL,
                   width = '100%', height = '100%',...) {
-  message(mapName)
+  # message(mapName)
   # mapName <- "co_departamentos"
   # mapName <- "world_countries"
   if(!mapName %in% availableDmaps())
@@ -24,7 +24,7 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL,
     infoTpl <- opts$infoTpl %||% defaultTpl(data)
     data$info <- pystr_format(infoTpl,data)
   }
-  if(is.null(bubbles$info)){
+  if(!is.null(bubbles) && is.null(bubbles$info)){
     infoTpl <- opts$bubbleInfoTpl %||% defaultTpl(bubbles)
     bubbles$info <- pystr_format(infoTpl,bubbles)
   }
@@ -34,6 +34,14 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL,
       stop("groupCol not in data")
     }else{
       data$group <- data[[groupCol]]
+    }
+  }
+
+  if(!is.null(valueCol)){
+    if(!valueCol%in% names(data)){
+      stop("valueCol not in data")
+    }else{
+      data$value <- data[[valueCol]]
     }
   }
 
@@ -47,10 +55,11 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL,
   }
 
   settings <- getSettings(dmap,opts)
-  defaultFill <- settings$defaultFill
-  palette <- settings$palette
 
-  d <- getData(dmap,data, bubbles, defaultFill = defaultFill, palette = palette)
+  d <- getData(dmap,data, bubbles,
+               defaultFill = settings$defaultFill,
+               palette = settings$palette,
+               nLevels = settings$nLevels)
 
 
   # pass the data and settings using 'x'

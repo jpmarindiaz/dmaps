@@ -10,8 +10,26 @@ library(dmaps)
 availableDmaps()
 
 # World
+d <- read.csv("inst/data/world_countries/world-countries-military-per-1000.csv")
+data <- d
+names(data) <- c("name","value")
+dmaps("world_countries",data = data)
+
+
+
+dmaps("world_countries",data = data, regionCols = "country",valueCol="military", opts=list(legendTitle = "Hola"))
+
+
 mapName <- "world_countries"
 dmaps("world_countries")
+
+d <- read.csv("inst/data/world_countries/world-countries-popular-sport.csv")
+data <- d
+dmaps("world_countries",data = data, regionCols = "country",groupCol="sport")
+
+
+
+
 
 bubbles <- data.frame(
   latitude=c(50,4),
@@ -213,9 +231,9 @@ dmaps("depto",data)
 
 
 # Saving widgets
-s <- dmaps("depto", data)
-htmlwidgets::saveWidget(s,"index.html", selfcontained = FALSE)
-htmlwidgets::saveWidget(s,"index.html")
+s <- dmaps("co_departments")
+htmlwidgets::saveWidget(s,"~/Desktop/index.html", selfcontained = FALSE)
+htmlwidgets::saveWidget(s,"~/Desktop/index.html")
 
 
 
@@ -230,9 +248,11 @@ app <- shinyApp(
     dmapsOutput("viz")
   ),
   server = function(input, output) {
-    data <- read.csv(system.file("data/deptoCO1.csv", package = "dmaps"))
+    data <- read.csv(system.file("data/co_municipalities/iniciativas.csv", package = "dmaps"))
     output$viz <- renderDmaps({
-      dmaps("depto",data)
+      dmaps("co_municipalities",data = data,
+            groupCol = "Organización",
+            regionCols = c("Municipio","Departamento"))
     })
   }
 )
