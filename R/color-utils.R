@@ -11,7 +11,7 @@ numColor <- function(v,palette = "RdYlBu", domain = NULL){
 }
 
 quanColor <- function(v,palette = "RdYlBu", domain = NULL, n = NULL){
-  n <- n %||% length(unique(v))/5
+  #n <- n %||% length(unique(v))/5
   pal <- colorQuantile(palette, domain = NULL, n = n)
   pal(v)
 }

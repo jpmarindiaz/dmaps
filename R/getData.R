@@ -38,28 +38,6 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
        bubblesData = bubbles)
 }
 
-getBubbleFills <- function(bubbles,...){
-  if(is.null(bubbles))
-    return(list(fills=list(),fillKeys=list()))
-  args <- list(...)
-  palette <- args$palette
-  if(!is.null(bubbles$group)){
-    key <- unique(bubbles$group)
-    key <- key[!key=="" | is.null(key) | is.na(key)]
-    keyColor <- catColor(key, palette)
-  }else{
-    return(list(fills=list(),fillKeys=list()))
-  }
-  fillKeys <- as.list(keyColor)
-  names(fillKeys) <- key
-  fillKeys$defaultFill <- args$defaultFill
-  fills <- Map(function(i){
-    list(fillKey=bubbles$group[i], info = bubbles$info[i])
-  },1:nrow(bubbles))
-  names(fills) <- paste0("bubble",1:nrow(bubbles))
-  list(fills=fills,fillKeys=fillKeys)
-}
-
 getDataFills <- function(data,...){
   args <- list(...)
   palette <- args$palette
@@ -82,9 +60,9 @@ getDataFills <- function(data,...){
     key <- levels(data$group)
     key <- key[!key=="" | is.null(key) | is.na(key)]
     cuts <- cut2(data$value,g=ncuts,onlycuts = TRUE)
-    keyColor <- quanColor(cuts[-1], palette, domain = cuts, n = ncuts)
+    keyColor <- quanColor(cuts[-1], palette, domain = cuts[-1], n = ncuts)
     #data$color <- numColor(data$value, palette, domain = data$value)
-    data$color <- quanColor(data$value, palette, domain = data$value, n = 20)
+    data$color <- quanColor(data$value, palette, domain = data$value, n = ncuts)
     ## use library(Hmisc), cut2 function to generate numeric intervals
     fills <- Map(function(i){
       list(fillColor=data$color[i], info = data$info[i],fillKey=data$group[i])
@@ -100,6 +78,32 @@ getDataFills <- function(data,...){
   }
   list(fills=fills,fillKeys=fillKeys)
 }
+
+
+
+getBubbleFills <- function(bubbles,...){
+  if(is.null(bubbles))
+    return(list(fills=list(),fillKeys=list()))
+  args <- list(...)
+  palette <- args$palette
+  if(!is.null(bubbles$group)){
+    key <- unique(bubbles$group)
+    key <- key[!key=="" | is.null(key) | is.na(key)]
+    keyColor <- catColor(key, palette)
+  }else{
+    return(list(fills=list(),fillKeys=list()))
+  }
+  fillKeys <- as.list(keyColor)
+  names(fillKeys) <- key
+  fillKeys$defaultFill <- args$defaultFill
+  fills <- Map(function(i){
+    list(fillKey=bubbles$group[i], info = bubbles$info[i])
+  },1:nrow(bubbles))
+  names(fills) <- paste0("bubble",1:nrow(bubbles))
+  list(fills=fills,fillKeys=fillKeys)
+}
+
+
 
 
 
