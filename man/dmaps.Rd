@@ -6,7 +6,7 @@
 \usage{
 dmaps(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
   regionCols = NULL, bubbles = NULL, opts = NULL, width = "100\%",
-  height = "100\%", ...)
+  height = "80\%", ...)
 }
 \description{
 <Add Description>

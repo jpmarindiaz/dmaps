@@ -10,15 +10,29 @@ library(dmaps)
 availableDmaps()
 
 # World
+
+dmaps("world_countries",
+  opts=
+    list(title = list(text="Hello World"),
+notes= list(text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+conaborum."),
+zoomable=TRUE))
+
 d <- read.csv("inst/data/world_countries/world-countries-military-per-1000.csv")
 data <- d
 names(data) <- c("name","value")
 dmaps("world_countries",data = data)
 dmaps("world_countries",data = data, opts = list(nLevels = 3))
 
+dmaps("world_countries",data = data,
+      opts=list(legend = list(title="Hola",left=90)))
 
 
-dmaps("world_countries",data = data, regionCols = "country",valueCol="military", opts=list(legendTitle = "Hola"))
+data <- read.csv("inst/data/world_countries/world-countries-military-per-1000.csv")
+dmaps("world_countries",data = data, regionCols = "country",valueCol="military", opts=list(legend = list(left=20)))
+
 
 
 mapName <- "world_countries"
@@ -97,6 +111,10 @@ dmaps(mapName, data = data.frame(name="Rio de Janeiro",group="Samba"))
 # Ecuador
 mapName <- "ec_provinces"
 dmaps(mapName)
+dmaps(mapName, opts=list(title = "Hello World",notes="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                   quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                   conaborum."))
 d <- data.frame("regiones"=c("MANABI"))
 d$group <- sample(LETTERS[1:3],1)
 dmaps(mapName,d, regionCols = "regiones")

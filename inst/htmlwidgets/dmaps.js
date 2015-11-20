@@ -13,10 +13,12 @@ HTMLWidgets.widget({
         var css = document.createElement("style");
         css.type = "text/css";
         css.innerHTML = x.settings.styles;
-        // css.innerHTML = "body {background-color:black; color: red}"
         document.body.appendChild(css);
 
-
+        var title = document.createElement("h2");
+        title.setAttribute("id", "title");
+        title.innerHTML = x.settings.title.text;
+        document.getElementById(el.id).insertBefore(title, el.childNodes[0]);
 
         vizId = el.id;
 
@@ -201,10 +203,10 @@ HTMLWidgets.widget({
             map.graticule();
         }
 
-        if (usrOpts.legend) {
+        if (usrOpts.showLegend) {
             map.legend({
-                legendTitle: usrOpts.legendTitle || "",
-                defaultFillName: usrOpts.legendDefaultFillTitle,
+                legendTitle: usrOpts.legend.title || "",
+                defaultFillName: usrOpts.legend.defaultFillTitle,
             })
         }
 
@@ -251,6 +253,10 @@ HTMLWidgets.widget({
         });
 
 
+        var notes = document.createElement("p");
+        notes.setAttribute("id", "notes");
+        notes.innerHTML = x.settings.notes.text;
+        document.getElementById(el.id).appendChild(notes);
 
     }
 });

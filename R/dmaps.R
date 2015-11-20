@@ -7,7 +7,7 @@
 #' @export
 dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
                   regionCols = NULL, bubbles = NULL, opts = NULL,
-                  width = '100%', height = '100%',...) {
+                  width = '100%', height = '80%',...) {
   # message(mapName)
   # mapName <- "co_departamentos"
   # mapName <- "world_countries"

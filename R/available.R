@@ -1,3 +1,72 @@
+getDefaultOpts <- function(projectionName = NULL,projectionOpts = NULL){
+  defaultStyles <- "
+#notes{
+  position: absolute;
+  top: 80%;
+  left: 0%;
+  text-align:center;
+  font-size: smaller;
+  margin: 0 10%;
+}
+
+#title{
+  position: absolute;
+  top: 80%;
+  left: 0%;
+  margin:0;
+  text-align:center;
+}
+
+.datamaps-legend dt, .datamaps-legend dd {
+  float: none;
+}
+.datamaps-legend {
+left: 1%;
+top: 0%;
+max-width: 30%;
+}
+.datamaps-hoverover {
+color: #444;
+max-width:35%
+}
+"
+
+  list(
+    title = list(text="",top=0,left=0),
+    notes = list(text="",top=80,left=0),
+    nLevels = 5,
+    infoTpl = NULL,
+    bubblesInfoTpl = NULL,
+    projection = projectionName,
+    projectionOpts = projectionOpts,
+    zoomable = TRUE,
+    defaultFill = "#DCE5E0",
+    borderColor = "#ffffff",
+    borderWidth = 1,
+    highlightFillColor = "#999999",
+    highlightBorderColor = "#444444",
+    highlightBorderWidth = 0,
+    showLegend = TRUE,
+    legend = list(
+      title = "",
+      defaultFillTitle = NULL,
+      top = 0,
+      left = 1
+      ),
+    graticule = FALSE,
+    palette = "RdYlBu",
+    styles = defaultStyles,
+    bubbleBorderWidth = 1,
+    bubbleBorderColor = '#FF6A37',
+    bubbleFillOpacity = 0.5,
+    bubbleHighlightOnHover = TRUE,
+    bubbleHighlightFillColor = 'rgba(255, 106, 55, 0.3)',
+    bubbleHighlightBorderColor = '#FB4B3A',
+    bubbleHighlightBorderWidth = 1,
+    bubbleHighlightFillOpacity = 0.7
+  )
+}
+
 #' @export
 availableDmaps <- function(){
   names(dmapMeta())

@@ -70,8 +70,8 @@ getDataFills <- function(data,...){
     names(fills) <- as.character(data$code)
     fillKeys <- as.list(keyColor)
     names(fillKeys) <- key
+    fillKeys$defaultFill <- args$defaultFill
     #fillKeys <- list()
-    #fillKeys$defaultFill <- args$defaultFill
   }
   if(is.null(data$group) && is.null(data$value)){
     return(list(fills = list(), fillKeys = list()))
@@ -111,54 +111,52 @@ getBubbleFills <- function(bubbles,...){
 getSettings <- function(dmap, opts = NULL,...){
   args <- list(...)
 
-  defaultStyles <- "
-.datamaps-legend dt, .datamaps-legend dd {
-    float: none;
-}
-.datamaps-legend {
-    left: {left}%;
-    top: {top}%;
-    max-width: 30%;
-}
-.datamaps-hoverover {
-  color: #444;
-  max-width:35%
-}
-"
-defaultStyles <- pystr_format(defaultStyles,list(top=opts$legend$top %||% 0,left=opts$legend$left %||% 1))
-opts$styles <- paste(defaultStyles, opts$styles,sep="\n")
+
 
   projectionName <- opts[["projection"]] %||% names(dmap$projections)[1]
   projectionOpts <- dmap$projections[[projectionName]]
 
-  defaultOpts <- list(
-    nLevels = 5,
-    infoTpl = NULL,
-    bubblesInfoTpl = NULL,
-    projection = projectionName,
-    projectionOpts = projectionOpts,
-    zoomable = TRUE,
-    defaultFill = "#DCE5E0",
-    borderColor = "#ffffff",
-    borderWidth = 1,
-    highlightFillColor = "#999999",
-    highlightBorderColor = "#444444",
-    highlightBorderWidth = 0,
-    legend = TRUE,
-    graticule = FALSE,
-    legendTitle = "",
-    legendDefaultFillTitle = NULL,
-    palette = "RdYlBu",
-    styles = "",
-    bubbleBorderWidth = 1,
-    bubbleBorderColor = '#FF6A37',
-    bubbleFillOpacity = 0.5,
-    bubbleHighlightOnHover = TRUE,
-    bubbleHighlightFillColor = 'rgba(255, 106, 55, 0.3)',
-    bubbleHighlightBorderColor = '#FB4B3A',
-    bubbleHighlightBorderWidth = 1,
-    bubbleHighlightFillOpacity = 0.7
-  )
+  defaultOpts <- getDefaultOpts(projectionName,projectionOpts) # defined in available
+
+
+  legendStyleTpl <- "
+#notes{
+  position: absolute;
+  top: {notesTop}%;
+  left: {notesLeft}%;
+  text-align:center;
+  font-size: smaller;
+  margin: 0 10%;
+}
+
+#title{
+top: {titleTop}%;
+left: {titleLeft}%;
+margin:0;
+text-align:center;
+}
+.datamaps-legend dt, .datamaps-legend dd {
+  float: none;
+}
+.datamaps-legend {
+left: {left}%;
+top: {top}%;
+max-width: 30%;
+}
+.datamaps-hoverover {
+color: #444;
+max-width:35%
+}
+"
+  styles <- pystr_format(legendStyleTpl,
+                                list(top=opts$legend$top %||% 0,
+                                     left=opts$legend$left %||% 1,
+                                     notesTop=opts$notes$top %||% defaultOpts$notes$top,
+                                     notesLeft=opts$notes$left %||% defaultOpts$notes$left,
+                                     titleTop=opts$title$top %||% defaultOpts$title$top,
+                                     titleLeft=opts$title$top %||% defaultOpts$title$left))
+
+  defaultOpts$styles <- paste(defaultOpts$styles,styles,opts$styles,sep="\n")
 
 
 
