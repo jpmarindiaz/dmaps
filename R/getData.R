@@ -155,7 +155,7 @@ max-width:35%
                                      notesTop=opts$notes$top %||% defaultOpts$notes$top,
                                      notesLeft=opts$notes$left %||% defaultOpts$notes$left,
                                      titleTop=opts$title$top %||% defaultOpts$title$top,
-                                     titleLeft=opts$title$top %||% defaultOpts$title$left))
+                                     titleLeft=opts$title$left %||% defaultOpts$title$left))
 
   defaultOpts$styles <- paste(defaultOpts$styles,styles,opts$styles,sep="\n")
 
