@@ -21,6 +21,7 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
   if(is.null(data$info))
     data$info <-""
 
+  #args <- list(palette = "Set1", nLevels = 5)
   dataFills <- getDataFills(data,defaultFill = args$defaultFill,
                             palette = args$palette, nLevels = args$nLevels)
   bubbleFills <- getBubbleFills(bubbles,defaultFill = args$defaultFill,
@@ -60,7 +61,7 @@ getDataFills <- function(data,...){
     key <- levels(data$group)
     key <- key[!key=="" | is.null(key) | is.na(key)]
     cuts <- cut2(data$value,g=ncuts,onlycuts = TRUE)
-    if(length(cuts)>nrow(data)) cuts <- cuts[-1]
+    if(length(cuts)<nrow(data)) cuts <- cuts[-1]
     keyColor <- quanColor(cuts, palette, domain = cuts, n = ncuts)
     #data$color <- numColor(data$value, palette, domain = data$value)
     data$color <- quanColor(data$value, palette, domain = data$value, n = ncuts)
@@ -120,44 +121,18 @@ getSettings <- function(dmap, opts = NULL,...){
   defaultOpts <- getDefaultOpts(projectionName,projectionOpts) # defined in available
 
 
-  legendStyleTpl <- "
-#notes{
-  position: absolute;
-  top: {notesTop}%;
-  left: {notesLeft}%;
-  text-align:center;
-  font-size: smaller;
-  margin: 0 10%;
-}
+  textStyles <- textStyles(opts$title$top, opts$title$left,
+                           opts$notes$top, opts$notes$left)
+  legendStyles <- legendStyles(opts$legend$orientation,
+                                            opts$legend$top,
+                                            opts$legend$left)
 
-#title{
-top: {titleTop}%;
-left: {titleLeft}%;
-margin:0;
-text-align:center;
-}
-.datamaps-legend dt, .datamaps-legend dd {
-  float: none;
-}
-.datamaps-legend {
-left: {left}%;
-top: {top}%;
-max-width: 30%;
-}
-.datamaps-hoverover {
-color: #444;
-max-width:35%
-}
-"
-  styles <- pystr_format(legendStyleTpl,
-                                list(top=opts$legend$top %||% 0,
-                                     left=opts$legend$left %||% 1,
-                                     notesTop=opts$notes$top %||% defaultOpts$notes$top,
-                                     notesLeft=opts$notes$left %||% defaultOpts$notes$left,
-                                     titleTop=opts$title$top %||% defaultOpts$title$top,
-                                     titleLeft=opts$title$left %||% defaultOpts$title$left))
 
-  defaultOpts$styles <- paste(defaultOpts$styles,styles,opts$styles,sep="\n")
+
+  defaultOpts$styles <- paste(defaultOpts$styles,
+                              textStyles,
+                              legendStyles,
+                              opts$styles,sep="\n")
 
 
 

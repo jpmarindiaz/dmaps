@@ -16,6 +16,7 @@ d <- read.csv("inst/data/world_countries/world-countries-military-per-1000.csv")
 data <- d
 names(data) <- c("name","value")
 dmaps("world_countries",data = data[1:3,])
+dmaps("world_countries",data = data)
 
 dmaps("world_countries",data = data, opts = list(nLevels = 3))
 
