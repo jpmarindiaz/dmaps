@@ -117,21 +117,14 @@ getSettings <- function(dmap, opts = NULL,...){
 
   projectionName <- opts[["projection"]] %||% names(dmap$projections)[1]
   projectionOpts <- dmap$projections[[projectionName]]
+  titleOpts <- opts$title
+  notesOpts <- opts$notes
+  legendOpts <- opts$legend
 
-  defaultOpts <- getDefaultOpts(projectionName,projectionOpts) # defined in available
-
-
-  textStyles <- textStyles(opts$title$top, opts$title$left,
-                           opts$notes$top, opts$notes$left)
-  legendStyles <- legendStyles(opts$legend$orientation,
-                                            opts$legend$top,
-                                            opts$legend$left)
-
-
+  defaultOpts <- getDefaultOpts(projectionName, projectionOpts,
+                                titleOpts, notesOpts, legendOpts)
 
   defaultOpts$styles <- paste(defaultOpts$styles,
-                              textStyles,
-                              legendStyles,
                               opts$styles,sep="\n")
 
 

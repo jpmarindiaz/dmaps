@@ -1,6 +1,12 @@
-getDefaultOpts <- function(projectionName = NULL,projectionOpts = NULL){
+getDefaultOpts <- function(projectionName = NULL,projectionOpts = NULL,
+                           titleOpts = NULL, notesOpts = NULL, legendOpts = NULL){
 
-  defaultStyles <- paste0(textStyles(),legendStyles())
+  textStyles <- textStyles(titleOpts$top, titleOpts$left,
+                           notesOpts$top, notesOpts$left)
+  legendStyles <- legendStyles(legendOpts$orientation,
+                               legendOpts$top,
+                               legendOpts$left)
+  defaultStyles <- paste0(textStyles,legendStyles)
 
 list(
   title = list(text="",top=0,left=0),
@@ -47,18 +53,21 @@ textStyles <- function(titleTop = NULL, titleLeft = NULL,
   top: {notesTop}%;
   left: {notesLeft}%;
   text-align:center;
+  margin: 0;
   font-size: smaller;
-  margin: 0 10%;
+z-index: 1002;
 }
 
 #title{
-top: {titleTop}%;
-left: {titleLeft}%;
-margin:0;
-text-align:center;
+  position: absolute;
+  top: {titleTop}%;
+  left: {titleLeft}%;
+  text-align:center;
+  margin:0;
+  z-index: 1002;
 }
 "
-pystr_format(textStyleTpl,
+pystr_format(textStylesTpl,
              list(
                titleTop=titleTop %||% 0,
                titleLeft=titleLeft %||% 0,
@@ -73,10 +82,10 @@ legendStyles <- function(orientation = NULL, top = NULL,left = NULL){
   orientation <- orientation %||% "vertical"
   legendHorizontalStyleTpl <- "
 .datamaps-legend {
-  position: static;
+  position: absolute;
   top: {top}%;
   left: {left}%;
-z-index: 1001;
+  z-index: 1001;
 }
 .datamaps-legend dl {
 text-align: center;
