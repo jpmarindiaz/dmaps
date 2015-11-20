@@ -60,7 +60,8 @@ getDataFills <- function(data,...){
     key <- levels(data$group)
     key <- key[!key=="" | is.null(key) | is.na(key)]
     cuts <- cut2(data$value,g=ncuts,onlycuts = TRUE)
-    keyColor <- quanColor(cuts[-1], palette, domain = cuts[-1], n = ncuts)
+    if(length(cuts)>nrow(data)) cuts <- cuts[-1]
+    keyColor <- quanColor(cuts, palette, domain = cuts, n = ncuts)
     #data$color <- numColor(data$value, palette, domain = data$value)
     data$color <- quanColor(data$value, palette, domain = data$value, n = ncuts)
     ## use library(Hmisc), cut2 function to generate numeric intervals
