@@ -13,7 +13,7 @@ HTMLWidgets.widget({
         var css = document.createElement("style");
         css.type = "text/css";
         css.innerHTML = x.settings.styles;
-        document.body.appendChild(css);
+        document.getElementById(el.id).appendChild(css);
 
         var title = document.createElement("h2");
         title.setAttribute("id", "title");

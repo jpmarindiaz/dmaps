@@ -11,17 +11,19 @@ availableDmaps()
 
 # World
 mapName <- "world_countries"
-dmaps("world_countries")
+#dmaps("world_countries")
 
 d <- read.csv("inst/data/world_countries/world-countries-military-per-1000.csv")
 data <- d
 names(data) <- c("name","value")
 dmaps("world_countries",data = data,
       opts=list(
-        legend = list(left=0,top=60,orientation="horizontal"),
+        legend = list(left=0,top=60,orientation="vertical"),
         title = list(text="Hello world"),
         notes = list(text="Lorem sdfa;lfk fd[osfdsa f alkre re e re re er r a sfdfaa",
-                     top = 70)
+                     top = 70),
+        infoTpl = "NAMEEE: {name}"
+        ,styles = "svg{background-color:#eee}"
         )
       )
 

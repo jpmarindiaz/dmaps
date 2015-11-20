@@ -20,9 +20,14 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
 
   dmap <- dmapMeta(mapName)
 
+  str(data)
+  message(is.null(data$info))
   if(is.null(data$info)){
+    message(opts$infoTpl)
     infoTpl <- opts$infoTpl %||% defaultTpl(data)
+    message(infoTpl)
     data$info <- pystr_format(infoTpl,data)
+    str(data)
   }
   if(!is.null(bubbles) && is.null(bubbles$info)){
     infoTpl <- opts$bubbleInfoTpl %||% defaultTpl(bubbles)

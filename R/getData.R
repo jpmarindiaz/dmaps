@@ -124,7 +124,7 @@ getSettings <- function(dmap, opts = NULL,...){
   defaultOpts <- getDefaultOpts(projectionName, projectionOpts,
                                 titleOpts, notesOpts, legendOpts)
 
-  defaultOpts$styles <- paste(defaultOpts$styles,
+  opts$styles <- paste(defaultOpts$styles,
                               opts$styles,sep="\n")
 
 
