@@ -62,7 +62,7 @@ HTMLWidgets.widget({
                     .center(projectionOpts.center)
                     .rotate(projectionOpts.rotate)
                     .scale(projectionOpts.scale * element.offsetWidth)
-                    .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
+                    .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]]);
                 return (projection)
             }
             if (projectionName == "mercator") {
@@ -70,7 +70,7 @@ HTMLWidgets.widget({
                     .center(projectionOpts.center)
                     .rotate(projectionOpts.rotate)
                     .scale(projectionOpts.scale * element.offsetWidth)
-                    .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
+                    .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]]);
                 return (projection)
             }
             if (projectionName == "albers") {
@@ -81,7 +81,7 @@ HTMLWidgets.widget({
                     .center(projectionOpts.center)
                     .parallels(projectionOpts.parallels)
                     // .translate(projectionOpts.translate);
-                    .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
+                    .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]]);
                 return (projection)
             }
             if (projectionName == "orthographic") {
@@ -90,7 +90,7 @@ HTMLWidgets.widget({
                     .clipAngle(projectionOpts.clipAngle)
                     .rotate(projectionOpts.rotate)
                     .center(projectionOpts.center)
-                    .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
+                    .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]]);
 
                 return (projection)
             }
@@ -104,7 +104,7 @@ HTMLWidgets.widget({
                     .clipAngle(projectionOpts.clipAngle)
                     .precision(projectionOpts.precision);
                 // .scale(projectionOpts.scale * element.offsetWidth)
-                // .translate([element.offsetWidth / 2 + projectionOpts.translateX, element.offsetHeight / 2 + projectionOpts.translateY]);
+                // .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]]);
 
                 return (projection)
             }

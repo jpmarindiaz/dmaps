@@ -10,21 +10,18 @@ world_countries:
       center: [0, -20]
       rotate: [-11, 0]
       scale: 0.15
-      translateX: 0
-      translateY: 0
+      translate: [0,0]
     mercator:
       center: [0, 45]
       rotate: [-11, 0]
       scale: 0.15
-      translateX: 0
-      translateY: 0
+      translate: [0,0]
     orthographic:
       clipAngle: 90
       scale: 0.33
       center: [0, 0]
       rotate: [-11,0]
-      translateX: 0
-      translateY: 30
+      translate: [0,0]
     satellite:
       scale: 4500
       distance: 1.1
@@ -45,21 +42,18 @@ latam_countries:
       center: [-70, -10]
       rotate: [0, 0]
       scale: 0.38
-      translateX: 0
-      translateY: 0
+      translate: [0,0]
     mercator:
       center: [-70, -16]
       rotate: [0, 0]
       scale: 0.33
-      translateX: 0
-      translateY: 0
+      translate: [0,0]
     orthographic:
       clipAngle: 90
       scale: 0.38
       center: [0, 0]
       rotate: [70, 10]
-      translateX: 0
-      translateY: 0
+      translate: [0,0]
     satellite:
       scale: 4500
       distance: 1.1

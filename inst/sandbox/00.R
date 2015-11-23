@@ -24,8 +24,8 @@ dmaps("world_countries",data = data,
                      top = 70),
         infoTpl = "NAMEEE: {name}"
         ,styles = "svg{background-color:#eee}"
-        )
       )
+)
 
 
 
@@ -37,6 +37,7 @@ dmaps("world_countries",data = data,
 
 
 dmaps("world_countries",data = data[1:3,])
+
 dmaps("world_countries",data = data)
 
 dmaps("world_countries",data = data, opts = list(nLevels = 3))
@@ -46,7 +47,10 @@ dmaps("world_countries",
       opts=
         list(title = list(text="Hello World"),
              notes= list(text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo conaborum."),
-             zoomable=TRUE))
+             zoomable=TRUE,
+             projectionOpts=list(translate=c(50,0))
+        )
+)
 
 
 
@@ -79,7 +83,7 @@ bubbles <- data.frame(
   radius=c(10,15),
   group=c("A","B"),
   info = c("AA","BB")
-  )
+)
 dmaps("world_countries",bubbles = bubbles)
 dmaps(mapName,data=data.frame(name="Brazil",group="Big"))
 dmaps("world_countries", opts=list(defaultFill="#FF6c34"))
@@ -115,8 +119,8 @@ dmaps("latam_countries", bubbles = bubbles,
         graticule = TRUE,
         bubbleInfoTpl="{group}: {radius}",
         projectionOpts = list(scale = 0.25,translateY=15)
-        )
       )
+)
 dmaps("latam_countries", opts=list(projection="equirectangular"))
 dmaps("latam_countries", opts=list(projection="mercator",zoomable=TRUE))
 dmaps("latam_countries", opts=list(projection="orthographic",zoomable=FALSE,graticule = TRUE))
