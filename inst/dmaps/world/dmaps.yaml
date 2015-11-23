@@ -23,10 +23,11 @@ world_countries:
       rotate: [-11,0]
       translate: [0,0]
     satellite:
-      scale: 4500
-      distance: 1.1
+      scale: 0.5
+      distance: 1.5
       rotate: [76.00, -34.50, 32.12]
-      center: [-2, 5]
+      center: [0, 0]
+      translate: [0,0]
       tilt: 25
       clipAngle: 60
       precision: .1
@@ -56,9 +57,9 @@ latam_countries:
       translate: [0,0]
     satellite:
       scale: 4500
-      distance: 1.1
       rotate: [76.00, -34.50, 32.12]
       center: [-2, 5]
+      distance: 1.1
       tilt: 25
       clipAngle: 60
       precision: .1

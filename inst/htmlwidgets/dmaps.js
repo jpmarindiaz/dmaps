@@ -102,10 +102,10 @@ HTMLWidgets.widget({
                     .center(projectionOpts.center)
                     .tilt(projectionOpts.tilt)
                     .clipAngle(projectionOpts.clipAngle)
-                    .precision(projectionOpts.precision);
-                // .scale(projectionOpts.scale * element.offsetWidth)
-                // .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]]);
-
+                    .precision(projectionOpts.precision)
+                    .scale(projectionOpts.scale * element.offsetWidth)
+                    .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]])
+                    ;
                 return (projection)
             }
             null
