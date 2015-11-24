@@ -22,6 +22,7 @@ HTMLWidgets.widget({
 
         vizId = el.id;
 
+
         console.log("SETTINGS:\n", x.settings);
         console.log("DATA:\n", x.data);
         var usrOpts = x.settings;
@@ -55,8 +56,9 @@ HTMLWidgets.widget({
             bubbleHighlightFillOpacity: usrOpts.bubbleHighlightFillOpacity || 0.85,
         };
 
+
         var getProjection = function(projectionName, projectionOpts, element) {
-            // console.log("projection: ", projectionName, projectionOpts)
+            console.log("projection: ", projectionName, projectionOpts)
             if (projectionName == "equirectangular") {
                 var projection = d3.geo.equirectangular()
                     .center(projectionOpts.center)
@@ -144,6 +146,9 @@ HTMLWidgets.widget({
             scope: opts.scope,
             responsive: true,
             setProjection: function(element) {
+                
+
+                console.log("PROJ",opts.projectionName, opts.projectionOpts)
                 var projection = getProjection(opts.projectionName, opts.projectionOpts, element);
                 var path = d3.geo.path()
                     .projection(projection);

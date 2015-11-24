@@ -10,6 +10,30 @@ library(dmaps)
 availableDmaps()
 
 # World
+
+d <- read.csv("inst/data/world_countries/latam-pib.csv")
+mapName <- "world_countries"
+data <- d
+s <- dmaps("world_countries", data = data,
+      regionCols = "País", valueCol = "PIB",
+      opts = list(
+        projectionOpts = list(
+          scale = 0.15,
+          center = c(0,0),
+          translate = c(0,0),
+          rotate = c(0,0),
+          distance = 1.5,
+          clipAngle = 60,
+          tilt = 25
+        )
+      )
+      )
+s
+str(s)
+library(htmlwidgets)
+htmlwidgets::saveWidget(s,"~/Desktop/index2.html")
+
+
 mapName <- "world_countries"
 dmaps("world_countries", opts = list(projection="satellite"))
 
@@ -294,9 +318,11 @@ app <- shinyApp(
   server = function(input, output) {
     data <- read.csv(system.file("data/co_municipalities/iniciativas.csv", package = "dmaps"))
     output$viz <- renderDmaps({
-      dmaps("co_municipalities",data = data,
+      e <- dmaps("co_municipalities",data = data,
             groupCol = "Organización",
             regionCols = c("Municipio","Departamento"))
+      htmlwidgets::saveWidget(e,"~/Desktop/index.html")
+      e
     })
   }
 )

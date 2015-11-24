@@ -21,7 +21,6 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
   dmap <- dmapMeta(mapName)
 
   str(data)
-  message(is.null(data$info))
   if(is.null(data$info)){
     message(opts$infoTpl)
     infoTpl <- opts$infoTpl %||% defaultTpl(data)
