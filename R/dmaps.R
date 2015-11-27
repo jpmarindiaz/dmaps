@@ -9,7 +9,7 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
                   regionCols = NULL, bubbles = NULL, opts = NULL,
                   width = '100%', height = '80%',...) {
   # message(mapName)
-  # mapName <- "co_departamentos"
+  # mapName <- "co_departments"
   # mapName <- "world_countries"
   if(!mapName %in% availableDmaps())
     stop("No map with that name, check available maps with availableDmaps()")
