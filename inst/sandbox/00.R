@@ -11,6 +11,38 @@ availableDmaps()
 
 
 
+
+d <- read.csv("inst/data/co/bubbles-poblacion ciudades-colombia.csv")
+names(d) <- c("latitude","longitude","radius","group")
+infoTpl <- "<strong>{group}</strong><br><strong>Población:</strong> {radius}<br>"
+d$info <- pystr_format(infoTpl,d)
+opts <- list(
+  bubbleBorderWidth = 0.001,
+  bubbleBorderColor= "rgba(0,0,0,1)"
+)
+dmaps("co_departments",bubbles = d, opts = opts)
+
+
+
+d <- read.csv("inst/data/co/iniciativas.csv")
+
+bubbles <- data.frame(
+  latitude=d$latitud,
+  longitude=d$longitud,
+  radius=5,
+  group=d$Organización
+)
+infoTpl <- "<strong>{Municipio}</strong><br><strong>Año:</strong> {Año}<br><strong>Iniciativa:</strong> {Iniciativa}<br><strong>Objetivo: </strong>{Objetivo} "
+bubbles$info <- pystr_format(infoTpl,d)
+opts <- list(
+  bubbleBorderWidth = 0.001,
+  bubbleBorderColor= "rgba(0,0,0,1)"
+)
+d <- dmaps("co_departments",bubbles = bubbles, opts = opts)
+saveWidget(d,"~/Desktop/tmp.html")
+
+
+
 ## Colombia
 
 mapName <- "co_departments"
@@ -18,6 +50,7 @@ dmaps("co_departments")
 
 data <- read.csv("inst/data/co/ncolegios-departamento.csv")
 dmaps("co_departments",data, regionCols = "departamento", valueCol = "count")
+dmaps("co_departments",data[1:4,], regionCols = "departamento", valueCol = "count")
 
 
 
