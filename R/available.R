@@ -34,14 +34,16 @@ list(
   graticule = FALSE,
   palette = "RdYlBu",
   styles = defaultStyles,
-  bubbleBorderWidth = 1,
+  bubbleBorderWidth = 0.001,
   bubbleBorderColor = '#FF6A37',
   bubbleFillOpacity = 0.5,
   bubbleHighlightOnHover = TRUE,
   bubbleHighlightFillColor = 'rgba(255, 106, 55, 0.3)',
   bubbleHighlightBorderColor = '#FB4B3A',
   bubbleHighlightBorderWidth = 1,
-  bubbleHighlightFillOpacity = 0.7
+  bubbleHighlightFillOpacity = 0.7,
+  minSizeFactor = 1,
+  maxSizeFactor = 50
 )
 }
 

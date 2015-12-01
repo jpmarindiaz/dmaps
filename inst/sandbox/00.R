@@ -18,12 +18,19 @@ infoTpl <- "<strong>{group}</strong><br><strong>Población:</strong> {radius}<br
 d$info <- pystr_format(infoTpl,d)
 opts <- list(
   bubbleBorderWidth = 2,
-  bubbleBorderColor= "rgba(0,0,0,1)"
+  bubbleBorderColor= "rgba(0,0,0,1)",
+  minSizeFactor = 5,
+  maxSizeFactor = 10
 )
 dmaps("co_departments",bubbles = d, opts = opts)
 
+
 d$radius <- 20
 dmaps("co_departments",bubbles = d, opts = opts)
+
+d$group <- NULL
+dmaps("co_departments",bubbles = d, opts = opts)
+
 
 
 d <- read.csv("inst/data/co/iniciativas.csv")

@@ -57,6 +57,8 @@ HTMLWidgets.widget({
             bubbleHighlightBorderColor: usrOpts.bubbleHighlightBorderColor || '#C3E2D9',
             bubbleHighlightBorderWidth: usrOpts.bubbleHighlightBorderWidth || 5,
             bubbleHighlightFillOpacity: usrOpts.bubbleHighlightFillOpacity || 0.85,
+            minSizeFactor: usrOpts.minSizeFactor || 5,
+            maxSizeFactor: usrOpts.maxSizeFactor || 50
         };
 
 
@@ -120,9 +122,11 @@ HTMLWidgets.widget({
 
 console.log("SCALING")
 console.log(data.bubblesData)
+console.log(opts)
         if(data.bubblesData.radius){
-            var minSize = opts.minSizeFactor*height/100 | 1;
-            var maxSize = opts.maxSizeFactor*height/100 | 50;
+            console.log("height",width)
+            var minSize = opts.minSizeFactor*width/100 | 1;
+            var maxSize = opts.maxSizeFactor*width/100 | 50;
             var originalRadius = data.bubblesData.radius;
             console.log(minSize,maxSize)
                 console.log("SCALING")
@@ -139,7 +143,7 @@ console.log(data.bubblesData)
                     }
                     data.bubblesData.radius = rs;
                     console.log(data.bubblesData)
-                }    
+                }   
         }
 
         var getFills = function(data, opts) {
