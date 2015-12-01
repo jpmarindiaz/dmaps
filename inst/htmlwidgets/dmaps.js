@@ -125,21 +125,21 @@ console.log(data.bubblesData)
             var maxSize = opts.maxSizeFactor*height/100 | 50;
             var originalRadius = data.bubblesData.radius;
             console.log(minSize,maxSize)
-            // if(minSize && maxSize){
                 console.log("SCALING")
                 console.log([d3.min(originalRadius), 
                         d3.max(originalRadius)])
-                var scale = d3.scale.sqrt()
-                    .domain([d3.min(originalRadius), 
-                        d3.max(originalRadius)])
-                    .range([minSize/2, maxSize/2]);
-                var rs = new Array;
-                for(i in originalRadius){
-                    rs.push(scale(originalRadius[i]));
-                }
-                data.bubblesData.radius = rs;
-                console.log(data.bubblesData)
-            // }      
+                if(d3.min(originalRadius) != d3.max(originalRadius)){
+                    var scale = d3.scale.sqrt()
+                        .domain([d3.min(originalRadius), 
+                            d3.max(originalRadius)])
+                        .range([minSize/2, maxSize/2]);
+                    var rs = new Array;
+                    for(i in originalRadius){
+                        rs.push(scale(originalRadius[i]));
+                    }
+                    data.bubblesData.radius = rs;
+                    console.log(data.bubblesData)
+                }    
         }
 
         var getFills = function(data, opts) {

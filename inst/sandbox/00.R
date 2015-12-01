@@ -12,16 +12,18 @@ availableDmaps()
 
 
 
-d <- read.csv("inst/data/co/bubbles-poblacion ciudades-colombia.csv")
+d <- read.csv("inst/data/co/bubbles-poblacion-ciudades-colombia.csv")
 names(d) <- c("latitude","longitude","radius","group")
 infoTpl <- "<strong>{group}</strong><br><strong>Población:</strong> {radius}<br>"
 d$info <- pystr_format(infoTpl,d)
 opts <- list(
-  bubbleBorderWidth = 0.001,
+  bubbleBorderWidth = 2,
   bubbleBorderColor= "rgba(0,0,0,1)"
 )
 dmaps("co_departments",bubbles = d, opts = opts)
 
+d$radius <- 20
+dmaps("co_departments",bubbles = d, opts = opts)
 
 
 d <- read.csv("inst/data/co/iniciativas.csv")
