@@ -95,7 +95,7 @@ display: inline-block;
 }
 .datamaps-hoverover {
 color: #444;
-max-width:35%
+max-width:50%
 }
 "
 legendVerticalStyleTpl <- "
@@ -105,12 +105,12 @@ float: none;
 .datamaps-legend {
 top: {top}%;
 left: {left}%;
-max-width: 30%;
+max-width: 50%;
 z-index: 1001;
 }
 .datamaps-hoverover {
 color: #444;
-max-width:35%
+max-width:50%
 }
 "
 if(orientation == 'horizontal'){
