@@ -105,7 +105,7 @@ float: none;
 .datamaps-legend {
 top: {top}%;
 left: {left}%;
-max-width: 50%;
+max-width: 30%;
 z-index: 1001;
 }
 .datamaps-hoverover {
