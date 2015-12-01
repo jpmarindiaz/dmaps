@@ -31,7 +31,7 @@ dmaps("co_departments",bubbles = d, opts = opts)
 d$group <- NULL
 dmaps("co_departments",bubbles = d, opts = opts)
 
-
+dmapMeta("co_departments")
 
 d <- read.csv("inst/data/co/iniciativas.csv")
 
