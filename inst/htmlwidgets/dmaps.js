@@ -26,8 +26,8 @@ HTMLWidgets.widget({
         vizId = el.id;
 
 
-        console.log("SETTINGS:\n", x.settings);
-        console.log("DATA:\n", x.data);
+        // console.log("SETTINGS:\n", x.settings);
+        // console.log("DATA:\n", x.data);
         var usrOpts = x.settings;
         var dmap = x.dmap;
 
@@ -63,7 +63,7 @@ HTMLWidgets.widget({
 
 
         var getProjection = function(projectionName, projectionOpts, element) {
-            console.log("projection: ", projectionName, projectionOpts)
+            // console.log("projection: ", projectionName, projectionOpts)
             if (projectionName == "equirectangular") {
                 var projection = d3.geo.equirectangular()
                     .center(projectionOpts.center)
@@ -120,18 +120,18 @@ HTMLWidgets.widget({
 
         var data = x.data;
 
-console.log("SCALING")
-console.log(data.bubblesData)
-console.log(opts)
+        // console.log("SCALING")
+        // console.log(data.bubblesData)
+        // console.log(opts)
         if(data.bubblesData.radius){
-            console.log("height",width)
+            // console.log("height",width)
             var minSize = opts.minSizeFactor*width/100 | 1;
             var maxSize = opts.maxSizeFactor*width/100 | 50;
             var originalRadius = data.bubblesData.radius;
-            console.log(minSize,maxSize)
-                console.log("SCALING")
-                console.log([d3.min(originalRadius), 
-                        d3.max(originalRadius)])
+                // console.log(minSize,maxSize)
+                // console.log("SCALING")
+                // console.log([d3.min(originalRadius), 
+                //         d3.max(originalRadius)])
                 if(d3.min(originalRadius) != d3.max(originalRadius)){
                     var scale = d3.scale.sqrt()
                         .domain([d3.min(originalRadius), 
@@ -142,7 +142,7 @@ console.log(opts)
                         rs.push(scale(originalRadius[i]));
                     }
                     data.bubblesData.radius = rs;
-                    console.log(data.bubblesData)
+                    // console.log(data.bubblesData)
                 }   
         }
 
@@ -153,7 +153,7 @@ console.log(opts)
             return (data.fillKeys)
         }
 
-        console.log("Opts: ", opts)
+        // console.log("Opts: ", opts)
 
         var map = new Datamap({
             element: document.getElementById(vizId),
@@ -179,7 +179,7 @@ console.log(opts)
             setProjection: function(element) {
                 
 
-                console.log("PROJ",opts.projectionName, opts.projectionOpts)
+                // console.log("PROJ",opts.projectionName, opts.projectionOpts)
                 var projection = getProjection(opts.projectionName, opts.projectionOpts, element);
                 var path = d3.geo.path()
                     .projection(projection);
@@ -212,8 +212,8 @@ console.log(opts)
                 animationSpeed: 600
             },
             done: function(datamap) {
-                console.log("datamap", datamap)
-                console.log("zoomable", datamap.options.zoomable)
+                // console.log("datamap", datamap)
+                // console.log("zoomable", datamap.options.zoomable)
                 if (!datamap.options.zoomable) {
                     return null
                 }
@@ -247,7 +247,7 @@ console.log(opts)
         }
 
         data.bubblesData = HTMLWidgets.dataframeToD3(data.bubblesData);
-        console.log("bubbles: ", data.bubblesData)
+        // console.log("bubbles: ", data.bubblesData)
 
         if (data.bubblesData.length) {
 
