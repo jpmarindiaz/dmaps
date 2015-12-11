@@ -107,7 +107,7 @@ id,name,alternativeNames,municipio,departamentoId,departamento,latitud,longitud
 25095,Bituima - Cundinamarca,,Bituima,25,Cundinamarca,4.9166667,-74.55
 15097,Boavita - Boyacá,,Boavita,15,Boyacá,6.4166667,-72.5833333
 54099,Bochalema - Norte de Santander,,Bochalema,54,Norte de Santander,7.6666667,-72.5833333
-11001,Bogotá D.C. - Bogotá,Bogotá – Cundinamarca|Santa fé de Bogotá – Cundinamarca|Santa fe de bogotá - Bogotá,Bogotá D.C.,11,Bogotá,4.6,-74.0833333
+11001,Bogotá - Bogotá D.C.,Bogotá – Cundinamarca|Santa fé de Bogotá – Cundinamarca|Santa fe de bogotá - Bogotá,Bogotá,11,Bogotá D.C.,4.6,-74.0833333
 25099,Bojacá - Cundinamarca,,Bojacá,25,Cundinamarca,4.75,-74.3333333
 27099,Bojayá (Bellavista) - Chocó,,Bojayá (Bellavista),27,Chocó,6.5236111,-76.9744444
 5101,Bolívar - Antioquia,,Bolívar,5,Antioquia,5.8333333,-76
@@ -355,7 +355,7 @@ id,name,alternativeNames,municipio,departamentoId,departamento,latitud,longitud
 47288,Fundación - Magdalena,,Fundación,47,Magdalena,10.4166667,-73.9166667
 52287,Funes - Nariño,,Funes,52,Nariño,0.95,-77.3333333
 25286,Funza - Cundinamarca,,Funza,25,Cundinamarca,4.7833333,-74.2
-25290,Fusagasugá - Cundinamarca,,Fusagasugá,25,Cundinamarca,4.4166667,-74.4
+25290,Fusagasugá - Cundinamarca,Fusa - Cundinamarca,Fusagasugá,25,Cundinamarca,4.4166667,-74.4
 25279,Fómeque - Cundinamarca,,Fómeque,25,Cundinamarca,4.5833333,-73.8333333
 25288,Fúquene - Cundinamarca,,Fúquene,25,Cundinamarca,5.4166667,-73.8
 25293,Gachalá - Cundinamarca,,Gachalá,25,Cundinamarca,4.6666667,-73.5
