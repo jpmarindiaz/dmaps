@@ -111,8 +111,7 @@ HTMLWidgets.widget({
                     .clipAngle(projectionOpts.clipAngle)
                     .precision(projectionOpts.precision)
                     .scale(projectionOpts.scale * element.offsetWidth)
-                    .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]])
-                    ;
+                    .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]]);
                 return (projection)
             }
             null
@@ -123,27 +122,30 @@ HTMLWidgets.widget({
         // console.log("SCALING")
         // console.log(data.bubblesData)
         // console.log(opts)
-        if(data.bubblesData.radius){
-            // console.log("height",width)
-            var minSize = opts.minSizeFactor*width/100 | 1;
-            var maxSize = opts.maxSizeFactor*width/100 | 50;
-            var originalRadius = data.bubblesData.radius;
+        if (data.bubblesData) {
+            if (data.bubblesData.radius) {
+                // console.log("height",width)
+                var minSize = opts.minSizeFactor * width / 100 | 1;
+                var maxSize = opts.maxSizeFactor * width / 100 | 50;
+                var originalRadius = data.bubblesData.radius;
                 // console.log(minSize,maxSize)
                 // console.log("SCALING")
                 // console.log([d3.min(originalRadius), 
                 //         d3.max(originalRadius)])
-                if(d3.min(originalRadius) != d3.max(originalRadius)){
+                if (d3.min(originalRadius) != d3.max(originalRadius)) {
                     var scale = d3.scale.sqrt()
-                        .domain([d3.min(originalRadius), 
-                            d3.max(originalRadius)])
-                        .range([minSize/2, maxSize/2]);
+                        .domain([d3.min(originalRadius),
+                            d3.max(originalRadius)
+                        ])
+                        .range([minSize / 2, maxSize / 2]);
                     var rs = new Array;
-                    for(i in originalRadius){
+                    for (i in originalRadius) {
                         rs.push(scale(originalRadius[i]));
                     }
                     data.bubblesData.radius = rs;
                     // console.log(data.bubblesData)
-                }   
+                }
+            }
         }
 
         var getFills = function(data, opts) {
@@ -177,7 +179,7 @@ HTMLWidgets.widget({
             scope: opts.scope,
             responsive: true,
             setProjection: function(element) {
-                
+
 
                 // console.log("PROJ",opts.projectionName, opts.projectionOpts)
                 var projection = getProjection(opts.projectionName, opts.projectionOpts, element);
