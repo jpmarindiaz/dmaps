@@ -20,13 +20,13 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
 
   dmap <- dmapMeta(mapName)
 
-  str(data)
+  #str(data)
   if(is.null(data$info)){
-    message(opts$infoTpl)
+    #message(opts$infoTpl)
     infoTpl <- opts$infoTpl %||% defaultTpl(data)
-    message(infoTpl)
+    #message(infoTpl)
     data$info <- pystr_format(infoTpl,data)
-    str(data)
+    #str(data)
   }
   if(!is.null(bubbles) && is.null(bubbles$info)){
     infoTpl <- opts$bubbleInfoTpl %||% defaultTpl(bubbles)
@@ -73,7 +73,7 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
     settings = settings
   )
 
-  str(x)
+  #str(x)
   htmlwidgets::createWidget(
     name = "dmaps",
     x,

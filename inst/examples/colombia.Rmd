@@ -1,0 +1,20 @@
+---
+title: "Maps Colombia"
+author: "jpmarindiaz"
+date: "Diciembre 11, 2015"
+output:
+  html_document
+---
+
+```{r, include=FALSE, cache=FALSE}
+library(dmaps)
+```
+
+
+```{r, echo=FALSE, warning=FALSE}
+data <- read.csv(system.file("data/co/ncolegios-departamento.csv",package="dmaps"))
+dmaps("co_departments",data, regionCols = "departamento", valueCol = "count")
+```
+
+
+
