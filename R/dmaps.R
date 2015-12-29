@@ -63,8 +63,8 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
   d <- getData(dmap,data, bubbles,
                defaultFill = settings$defaultFill,
                palette = settings$palette,
-               nLevels = settings$nLevels)
-
+               nLevels = settings$nLevels,
+               customPalette = settings$customPalette)
 
   # pass the data and settings using 'x'
   x <- list(

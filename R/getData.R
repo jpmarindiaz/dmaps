@@ -23,7 +23,8 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
 
   #args <- list(palette = "Set1", nLevels = 5)
   dataFills <- getDataFills(data,defaultFill = args$defaultFill,
-                            palette = args$palette, nLevels = args$nLevels)
+                            palette = args$palette, nLevels = args$nLevels,
+                            customPalette = args$customPalette)
   bubbleFills <- getBubbleFills(bubbles,defaultFill = args$defaultFill,
                             palette = args$palette)
   # message("dataFills")
@@ -42,10 +43,20 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
 getDataFills <- function(data,...){
   args <- list(...)
   palette <- args$palette
+
   if(!is.null(data$group)){
-    key <- unique(data$group)
+    if(!is.na(args$customPalette)){
+      key <- args$customPalette$group
+    }else{
+      key <- unique(data$group)
+    }
     key <- key[!key=="" | is.null(key) | is.na(key)]
-    keyColor <- catColor(key, palette)
+    if(!is.na(args$customPalette)){
+      keyColor <- args$customPalette$color
+    }else{
+      keyColor <- catColor(key, palette)
+    }
+
     fills <- Map(function(i){
       list(fillKey=data$group[i], info = data$info[i])
     },1:nrow(data))

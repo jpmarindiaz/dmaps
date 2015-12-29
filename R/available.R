@@ -43,7 +43,8 @@ list(
   bubbleHighlightBorderWidth = 1,
   bubbleHighlightFillOpacity = 0.7,
   minSizeFactor = 1,
-  maxSizeFactor = 50
+  maxSizeFactor = 50,
+  customPalette = NA
 )
 }
 

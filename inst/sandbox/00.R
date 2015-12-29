@@ -16,6 +16,10 @@ mapName <- "co_departments"
 dmaps("co_departments")
 
 data <- read.csv("inst/data/co/ncolegios-departamento.csv")
+
+
+
+
 #data <- read.csv("~/Desktop/reclut.csv")
 
 dmaps("co_departments",data, regionCols = "departamento", valueCol = "count")
