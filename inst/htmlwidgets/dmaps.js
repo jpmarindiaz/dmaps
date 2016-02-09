@@ -245,6 +245,7 @@ HTMLWidgets.widget({
             map.legend({
                 legendTitle: usrOpts.legend.title || "",
                 defaultFillName: usrOpts.legend.defaultFillTitle,
+                labels: data.fillKeyLabels
             })
         }
 

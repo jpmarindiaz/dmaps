@@ -35,8 +35,18 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
     bubbles$fillKey <- bubbles$group
   }
 
+  fillKeyLabelIds <- c(dataFills$fillKeys,bubbleFills$fillKeys)
+  if(!is.null(args$fillKeyLabels)){
+    optsFillKeyLabs <- args$fillKeyLabels
+  }else{
+    optsFillKeyLabs <- names(fillKeyLabelIds)
+  }
+  fkl <- lapply(seq_along(fillKeyLabelIds),function(i) fillKeyLabelIds[[i]] <- optsFillKeyLabs[i])
+  names(fkl) <- names(fillKeyLabelIds)
+
   list(fills = c(dataFills$fills,bubbleFills$fills),
        fillKeys = c(dataFills$fillKeys,bubbleFills$fillKeys),
+       fillKeyLabels = fkl,
        bubblesData = bubbles)
 }
 

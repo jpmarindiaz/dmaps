@@ -29,7 +29,8 @@ list(
     defaultFillTitle = NULL,
     top = 0,
     left = 1,
-    orientation = "horizontal"
+    orientation = "horizontal",
+    labels = NULL
   ),
   graticule = FALSE,
   palette = "RdYlBu",

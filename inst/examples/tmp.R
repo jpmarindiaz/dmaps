@@ -4,15 +4,65 @@ install()
 
 library(dmaps)
 
+## Bivariate coropleth
+
+d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
+codes <- read.csv("inst/dmaps/co/dane-codes-municipio.csv")
+selvar <- "accionesMilitares"
+dd <- d[c("mupio","depto",selvar)]
+mapName <- "co_municipalities"
+dmaps(mapName, data = dd,
+      valueCol = selvar,
+      regionCols = c("mupio","depto"),
+      opts = opts)
+
+
+
+
+
+
+## Legend Labels
+
+d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
+codes <- read.csv("inst/dmaps/co/dane-codes-municipio.csv")
+selvar <- "accionesMilitares"
+dd <- d[c("mupio","depto",selvar)]
+
+mapName <- "co_municipalities"
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  nLevels = 3,
+  legend = list(
+    title = names(selvar),
+    labels = letters[1:3]
+  )
+)
+dd$info <- paste(dd$mupio,", ",names(selvar),": <strong>",dd[,selvar],"</strong>")
+
+dmaps(mapName, data = dd,
+      valueCol = selvar,
+      regionCols = c("mupio","depto"),
+      opts = opts)
+
+
+
+## Custom Palette
+
 customPalette <- read.csv("inst/data/co/customPalette-partidos.csv")
 customPalette$partido <- NULL
 names(customPalette) <- c("group","color")
 
-d <- read.csv("inst/data/co/alcaldias-partido-2011.csv")
+d <- read.csv("inst/data/co/alcaldias-partido.csv")
 names(d) <- gsub("."," ",names(d),fixed = TRUE)
 names(d)
+
 mapName <- "co_municipalities"
-d$info <- d$`Aval Partidos 2011`
+d$info <- d$`Primer aval 2011`
 opts <- list(
   #defaultFill = "#FFFFFF",
   #borderColor = "#00FF00",
@@ -27,10 +77,17 @@ opts <- list(
   customPalette =customPalette
 )
 
+dmaps(mapName, data = d,
+      groupCol = "Primer aval 2011",
+      regionCols = c("Municipio","Departamento"),
+      opts = opts)
 
+
+
+d$info <- d$`Primer aval 2015`
 
 dmaps(mapName, data = d,
-      groupCol = "Aval Partidos 2011",
+      groupCol = "Primer aval 2015",
       regionCols = c("Municipio","Departamento"),
       opts = opts)
 
