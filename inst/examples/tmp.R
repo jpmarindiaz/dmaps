@@ -7,12 +7,27 @@ library(dmaps)
 ## Bivariate coropleth
 
 d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
-codes <- read.csv("inst/dmaps/co/dane-codes-municipio.csv")
-selvar <- "accionesMilitares"
-dd <- d[c("mupio","depto",selvar)]
 mapName <- "co_municipalities"
+d$cruce <- paste(
+  paste(names(d)[3],cut2(d[,3],g=2)),
+  "; ",
+  paste(names(d)[4],cut2(d[,4],g=2)))
+unique(d$cruce)
+dd <- d[c(1,2,5)]
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  nLevels = 3,
+  legend = list(
+    title = "Cruce"
+  )
+)
 dmaps(mapName, data = dd,
-      valueCol = selvar,
+      groupCol = "cruce",
       regionCols = c("mupio","depto"),
       opts = opts)
 
