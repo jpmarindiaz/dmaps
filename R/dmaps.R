@@ -67,7 +67,6 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
                nLevels = settings$nLevels,
                customPalette = settings$customPalette,
                fillKeyLabels = settings$legend$labels)
-str(d)
   # pass the data and settings using 'x'
   x <- list(
     data = d,
