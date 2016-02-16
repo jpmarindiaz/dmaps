@@ -1,8 +1,63 @@
 library(devtools)
 load_all()
+document()
 install()
 
 library(dmaps)
+
+
+## Dmaps Choro + Bubbles
+## Added bubble palette option
+
+codes <- read.csv("inst/dmaps/co/dane-codes-municipio.csv", colClasses = "character")
+d <- data.frame(
+  code = sample(codes$id,5),
+  group = sample(letters[1:2],5,replace = TRUE)
+)
+d$nombre <- codes$name[match(d$code,codes$id)]
+
+
+d2 <- data.frame(
+  code = sample(codes$id,5),
+  group = sample(letters[3:4],5,replace = TRUE)
+)
+d$municipio <- codes$municipio[match(d$code,codes$id)]
+d$departamento <- codes$departamento[match(d$code,codes$id)]
+d2$latitude <- codes$latitud[match(d2$code,codes$id)]
+d2$longitude <- codes$longitud[match(d2$code,codes$id)]
+d2$radius <- 5
+
+mapName <- "co_municipalities"
+d
+dmaps(mapName,
+      data = d,
+      groupCol = "group",
+      #regionCols = c("municipio","departamento"),
+      codeCol = "code",
+      bubbles = d2)
+
+
+
+## Dmaps directly from geo code
+## Todo add validation or warning when not all codes are in map
+
+codes <- read.csv("inst/dmaps/co/dane-codes-municipio.csv", colClasses = "character")
+d <- data.frame(
+  code = sample(codes$id,5),
+  group = sample(letters[1:2],5,replace = TRUE)
+  )
+d$nombre <- codes$name[match(d$code,codes$id)]
+
+mapName <- "co_municipalities"
+d
+dmaps(mapName, data = d,
+      groupCol = "group",
+      codeCol = "code")
+
+
+
+
+
 
 ## Bivariate coropleth
 
@@ -109,7 +164,7 @@ dmaps(mapName, data = d,
 
 
 
-## CARLA NARIÑO
+## NARIÑO
 
 d <-  read.csv("inst/data/co/nariño-indigenas-afro.csv")
 d <-  read.csv("inst/data/co/nariño-indigenas-afro-2.csv")

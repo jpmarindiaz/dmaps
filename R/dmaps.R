@@ -6,7 +6,8 @@
 #'
 #' @export
 dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
-                  regionCols = NULL, bubbles = NULL, opts = NULL,
+                  regionCols = NULL, codeCol = NULL,
+                  bubbles = NULL, opts = NULL,
                   width = '100%', height = '80%',...) {
   # message(mapName)
   # mapName <- "co_departments"
@@ -15,9 +16,9 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
   if(!mapName %in% availableDmaps())
     stop("No map with that name, check available maps with availableDmaps()")
 
-  if(!is.null(data)){
-    regionCols <- regionCols %||% "name"
-  }
+  #if(!is.null(data)){
+  #  regionCols <- regionCols %||% "name"
+  #}
 
   dmap <- dmapMeta(mapName)
 
@@ -51,12 +52,22 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
   }
 
   if(!is.null(regionCols)){
-  if(!all(regionCols %in% names(data))){
-    stop("regionCols not in data")
-  }
-  else{
-    data$name <- apply(data[regionCols],1,paste, collapse = " - ")
-  }
+    if(!all(regionCols %in% names(data))){
+      stop("regionCols not in data")
+    }
+    else{
+      data$name <- apply(data[regionCols],1,paste, collapse = " - ")
+    }
+  }else{
+    if(is.null(codeCol)){
+      warning('No codeCol provided')
+    }}
+
+  if(!is.null(codeCol)){
+      data$name <- NULL
+      if(!codeCol %in% names(data))
+        stop("codeCols needs to be in names(data)")
+      data$code <- data[[codeCol]]
   }
 
   settings <- getSettings(dmap,opts)
@@ -64,6 +75,7 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
   d <- getData(dmap,data, bubbles,
                defaultFill = settings$defaultFill,
                palette = settings$palette,
+               bubblePalette = settings$bubblePalette,
                nLevels = settings$nLevels,
                customPalette = settings$customPalette,
                fillKeyLabels = settings$legend$labels)

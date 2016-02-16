@@ -18,6 +18,7 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
   if(!is.null(data$name))
     data$code <- matchCode(codes,data)
 
+
   if(is.null(data$info))
     data$info <-""
 
@@ -26,7 +27,7 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
                             palette = args$palette, nLevels = args$nLevels,
                             customPalette = args$customPalette)
   bubbleFills <- getBubbleFills(bubbles,defaultFill = args$defaultFill,
-                            palette = args$palette)
+                            palette = args$bubblePalette)
   # message("dataFills")
   # str(dataFills)
   # message("bubbleFills")
@@ -105,6 +106,8 @@ getDataFills <- function(data,...){
 
 
 getBubbleFills <- function(bubbles,...){
+  args <- list(...)
+  palette <- args$bubblePalette
   if(is.null(bubbles))
     return(list(fills=list(),fillKeys=list()))
   args <- list(...)
@@ -117,8 +120,9 @@ getBubbleFills <- function(bubbles,...){
     return(list(fills=list(),fillKeys=list()))
   }
   fillKeys <- as.list(keyColor)
+  #str(fillKeys)
   names(fillKeys) <- key
-  fillKeys$defaultFill <- args$defaultFill
+  #fillKeys$defaultFill <- args$defaultFill
   fills <- Map(function(i){
     list(fillKey=bubbles$group[i], info = bubbles$info[i])
   },1:nrow(bubbles))

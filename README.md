@@ -13,8 +13,7 @@
 
 # Todo
 
-Create maps with ID data
-Add custom color to data and bubbles
+Add custom color to ~~data and~~ bubbles
 scale bubble radius
 add legend for numeric vals
 Add departamentos to municipios

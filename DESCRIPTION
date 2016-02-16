@@ -6,7 +6,12 @@ Author: Juan Pablo Marin Diaz
 Maintainer: Juan Pablo Marín Díaz <jpmarindiaz@gmail.com>
 Description: R Htmlwidget for datamaps with latam maps
 Depends:
-  R (>= 3.1.2),
-  htmlwidgets, leaflet, yaml, pystr, reshape2,Hmisc
+    R (>= 3.1.2),
+    htmlwidgets,
+    leaflet,
+    yaml,
+    pystr,
+    reshape2,Hmisc
 License: MIT + file LICENSE
 LazyData: true
+RoxygenNote: 5.0.1

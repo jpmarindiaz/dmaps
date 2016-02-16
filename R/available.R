@@ -43,6 +43,7 @@ list(
   bubbleHighlightBorderColor = '#FB4B3A',
   bubbleHighlightBorderWidth = 1,
   bubbleHighlightFillOpacity = 0.7,
+  bubblePalette = "Set3",
   minSizeFactor = 1,
   maxSizeFactor = 50,
   customPalette = NA
