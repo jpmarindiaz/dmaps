@@ -6,6 +6,22 @@ install()
 library(dmaps)
 
 
+
+### World AIIB
+
+## OJO Escala numérica
+d <- read.csv("inst/data/world_countries/Asian_Infrastructure_Investment_Bank.csv")
+names(d)
+opts <- list(
+  nLevels = 10
+)
+
+dmaps("world_countries",data = d, regionCol = "Country", valueCol = "Votes", opts = opts)
+
+
+
+
+
 ## Dmaps Choro + Bubbles
 ## Added bubble palette option
 

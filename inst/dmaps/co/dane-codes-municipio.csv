@@ -156,7 +156,7 @@
 "08770",Suan - Atlántico,,Suan,8,Atlántico,10.3333333,-74.9166667
 "08832",Tubará - Atlántico,,Tubará,8,Atlántico,10.9166667,-74.95
 "08849",Usiacuri - Atlántico,,Usiacuri,8,Atlántico,10.75,-74.9666667
-"11001",Bogotá - Bogotá D.C.,Bogotá – Cundinamarca|Santa fé de Bogotá – Cundinamarca|Santa fe de bogotá – Bogotá|Santafe de bogota D.C.|Santa fe de bogota D.C.,Bogotá,11,Bogotá D.C.,4.6,-74.0833333
+"11001",Bogotá - Bogotá D.C.,Bogotá – Cundinamarca|Bogotá D.C.|Santa fé de Bogotá – Cundinamarca|Santa fe de bogotá – Bogotá|Santafe de bogota D.C.|Santa fe de bogota D.C.,Bogotá,11,Bogotá D.C.,4.6,-74.0833333
 "13006",Achí - Bolívar,,Achí,13,Bolívar,8.25,-74.5
 "13030",Altos del Rosario - Bolívar,,Altos del Rosario,13,Bolívar,8.7944444,-74.1658333
 "13042",Arenal - Bolívar,,Arenal,13,Bolívar,8.4666667,-73.95
@@ -499,7 +499,7 @@
 "23419",Los Córdobas - Córdoba,,Los Córdobas,23,Córdoba,8.9,-76.3597222
 "23464",Momil - Córdoba,,Momil,23,Córdoba,9.2372222,-75.6780556
 "23466",Montelíbano - Córdoba,,Montelíbano,23,Córdoba,7.75,-75.6666667
-"23001",Monteria - Córdoba,,Monteria,23,Córdoba,8.7575,-75.89
+"23001",Monteria - Córdoba,,Montería,23,Córdoba,8.7575,-75.89
 "23500",Moñitos - Córdoba,,Moñitos,23,Córdoba,8.25,-76.05
 "23555",Planeta Rica - Córdoba,,Planeta Rica,23,Córdoba,8.3333333,-75.5833333
 "23570",Pueblo Nuevo - Córdoba,,Pueblo Nuevo,23,Córdoba,8.2333333,-74.9666667
@@ -799,7 +799,7 @@
 "52621",Roberto Payán (San José) - Nariño,,Roberto Payán (San José),52,Nariño,1.9166667,-78.3333333
 "52678",Samaniego - Nariño,,Samaniego,52,Nariño,1.4166667,-77.6666667
 "52685",San Bernardo - Nariño,,San Bernardo,52,Nariño,1.5163889,-77.0466667
-"52001",San Juan de Pasto - Nariño,,San Juan de Pasto,52,Nariño,1.2146707368,-77.2786474228
+"52001",Pasto - Nariño,San Juan de Pasto - Nariño|Pasto|Pasto Nariño,Pasto,52,Nariño,1.2146707368,-77.2786474228
 "52687",San Lorenzo - Nariño,,San Lorenzo,52,Nariño,1.5,-77.1666667
 "52693",San Pablo - Nariño,,San Pablo,52,Nariño,1.6666667,-76.9166667
 "52694",San Pedro de Cartago - Nariño,,San Pedro de Cartago,52,Nariño,1.5613889,-77.1180556
@@ -961,7 +961,7 @@
 "68655",Sabana de Torres - Santander,,Sabana de Torres,68,Santander,7.3980556,-73.4969444
 "68669",San Andrés - Santander,,San Andrés,68,Santander,6.8333333,-72.75
 "68673",San Benito - Santander,,San Benito,68,Santander,6.1666667,-73.4666667
-"68679",San Gíl - Santander,,San Gíl,68,Santander,6.5833333,-73.0833333
+"68679",San Gil - Santander,,San Gil,68,Santander,6.5833333,-73.0833333
 "68682",San Joaquín - Santander,,San Joaquín,68,Santander,6.4333333,-72.8666667
 "68686",San José de Miranda - Santander,,San José de Miranda,68,Santander,6.7,-72.6666667
 "68684",San Miguel - Santander,,San Miguel,68,Santander,6.6666667,-72.55
@@ -1062,7 +1062,7 @@
 "76113",Bugalagrande - Valle del Cauca,,Bugalagrande,76,Valle del Cauca,4.2094444,-76.1602778
 "76122",Caicedonia - Valle del Cauca,,Caicedonia,76,Valle del Cauca,4.3336591746,-75.8342456818
 "76126",Calima (Darién) - Valle del Cauca,,Calima (Darién),76,Valle del Cauca,3.9166667,-76.6666667
-"76001",Calí - Valle del Cauca,,Calí,76,Valle del Cauca,3.4372222,-76.5225
+"76001",Cali - Valle del Cauca,Santiago de Cali|Cali Valle,Cali,76,Valle del Cauca,3.4372222,-76.5225
 "76130",Candelaria - Valle del Cauca,,Candelaria,76,Valle del Cauca,3.4130556,-76.3511111
 "76147",Cartago - Valle del Cauca,,Cartago,76,Valle del Cauca,4.7463889,-75.9116667
 "76233",Dagua - Valle del Cauca,,Dagua,76,Valle del Cauca,3.6602778,-76.6927778
@@ -1087,7 +1087,7 @@
 "76736",Sevilla - Valle del Cauca,,Sevilla,76,Valle del Cauca,4.2688889,-75.9361111
 "76823",Toro - Valle del Cauca,,Toro,76,Valle del Cauca,4.6116667,-76.0813889
 "76828",Trujillo - Valle del Cauca,,Trujillo,76,Valle del Cauca,4.25,-76.3333333
-"76834",Tulúa - Valle del Cauca,,Tulúa,76,Valle del Cauca,4.0866667,-76.2
+"76834",Tuluá - Valle del Cauca,,Tuluá,76,Valle del Cauca,4.0866667,-76.2
 "76845",Ulloa - Valle del Cauca,,Ulloa,76,Valle del Cauca,4.7166667,-75.75
 "76863",Versalles - Valle del Cauca,,Versalles,76,Valle del Cauca,4.6666667,-76.25
 "76869",Vijes - Valle del Cauca,,Vijes,76,Valle del Cauca,3.6986111,-76.4491667
