@@ -48,6 +48,7 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
   list(fills = c(dataFills$fills,bubbleFills$fills),
        fillKeys = c(dataFills$fillKeys,bubbleFills$fillKeys),
        fillKeyLabels = fkl,
+       legendData = dataFills$legendData,
        bubblesData = bubbles)
 }
 
@@ -75,8 +76,23 @@ getDataFills <- function(data,...){
     fillKeys <- as.list(keyColor)
     names(fillKeys) <- key
     fillKeys$defaultFill <- args$defaultFill
+    legendData <- data.frame(keyColor = keyColor, key = key)
   }
   if(is.null(data$group) && !is.null(data$value)){
+    key <- unique(sort(data$value))
+    key <- key[!key=="" | is.null(key) | is.na(key)]
+    keyColor <- numColor(key, palette, domain = key)
+    fills <- Map(function(i){
+      list(fillKey=as.character(data$value[i]), info = data$info[i])
+    },1:nrow(data))
+    names(fills) <- as.character(data$code)
+    fillKeys <- as.list(keyColor)
+    names(fillKeys) <- key
+    fillKeys$defaultFill <- args$defaultFill
+    legendData <- data.frame(keyColor = keyColor, key = key)
+    #fillKeys <- list()
+  }
+  if(!is.null(data$quantValue)){
     #data$group <- cut2(data$value,g=5,levels.mean=TRUE)
     ncuts <- args$nLevels
     data$group <- cut2(data$value,g=ncuts)
@@ -96,11 +112,13 @@ getDataFills <- function(data,...){
     names(fillKeys) <- key
     fillKeys$defaultFill <- args$defaultFill
     #fillKeys <- list()
+    legendData <- data.frame(keyColor = keyColor, key = key)
+
   }
   if(is.null(data$group) && is.null(data$value)){
     return(list(fills = list(), fillKeys = list()))
   }
-  list(fills=fills,fillKeys=fillKeys)
+  list(fills=fills,fillKeys=fillKeys, legendData = legendData)
 }
 
 

@@ -241,6 +241,103 @@ HTMLWidgets.widget({
             map.graticule();
         }
 
+        // http://jsbin.com/abeXErat/21/edit?html,output
+        // https://github.com/markmarkoh/datamaps/issues/45
+
+        // function addLegend2(layer, data, options) {
+        //     data = data || {};
+        //     if (!this.options.fills) {
+        //         return;
+        //     }
+
+        //     var html = '<ul class="list-inline">';
+        //     var label = '';
+        //     if (data.legendTitle) {
+        //         html = '<h3>' + data.legendTitle + '</h3>' + html;
+        //     }
+        //     for (var fillKey in this.options.fills) {
+
+        //         if (fillKey === 'defaultFill') {
+        //             if (!data.defaultFillName) {
+        //                 continue;
+        //             }
+        //             label = data.defaultFillName;
+        //         } else {
+        //             if (data.labels && data.labels[fillKey]) {
+        //                 label = data.labels[fillKey];
+        //             } else {
+        //                 label = fillKey;
+        //             }
+        //         }
+        //         html += '<li class="key" style="border-top-color:' + this.options.fills[fillKey] + '">' + label + '</li>'
+        //     }
+        //     html += '</ul>';
+
+        //     var hoverover = d3.select(this.options.element).append('div')
+        //         .attr('class', 'datamaps-legend')
+        //         .html(html);
+        // }
+
+        // map.addPlugin("mylegend", addLegend2);
+        // map.mylegend({ legendTitle: "My Legend" })
+
+
+        function addLegend3(layer, data, options) {
+            data = data || {};
+            var fillData = this.options.fills;
+
+            console.log(data)
+            console.log(fillData)
+            var self = this;
+            console.log("THIS:\n",self)
+                    console.log("SETTINGS:\n", x.settings);
+        console.log("DATA:\n", x.data);
+            // if (!this.options.fills) {
+            //     return;
+            // }
+
+var obj = x.data.legendData;
+// var minDomain = Object.keys(obj)[0];
+// var maxDomain = Object.keys(obj)[Object.keys(obj).length-2];
+// console.log("Obj",obj,"\nDomain",[minDomain,maxDomain])
+// var minRange = obj[minDomain];
+// var maxRange = obj[maxDomain];
+
+var legendDomain = obj.key;
+var legendRange = obj.keyColor;
+console.log("DOMAIN",legendDomain,"\nRange",legendRange)
+
+
+            var linear = d3.scale.linear()
+              // .domain([0,10])
+              .domain(legendDomain)
+              .range(legendRange);
+              // .range(["rgb(46, 73, 123)", "rgb(71, 187, 94)"]);
+
+            var svg = d3.select("svg");
+
+            svg.append("g")
+              .attr("class", "legendLinear")
+              .attr("transform", "translate(20,20)");
+
+            var legendLinear = d3.legend.color()
+              .shapeWidth(30)
+              .cells(10)
+              // .cells([1,2,4,8,30])
+              .orient('horizontal')
+              .scale(linear);
+
+            svg.select(".legendLinear")
+              .call(legendLinear);
+
+        }
+
+        map.addPlugin("mylegend", addLegend3);
+        map.mylegend({ legendTitle: "My Legend" })
+
+
+
+
         if (usrOpts.showLegend) {
             map.legend({
                 legendTitle: usrOpts.legend.title || "",
@@ -290,6 +387,8 @@ HTMLWidgets.widget({
         //alternatively with d3
         d3.select(window).on('resize', function() {
             map.resize();
+            map.mylegend({ legendTitle: "My Legend" })
+
         });
 
 

@@ -19,6 +19,9 @@ add legend for numeric vals
 Add departamentos to municipios
 Add 2 dim choropleth
 
+Custom Markers plugin
+http://jsbin.com/pamigahifi/1/edit?html,css,output
+
 # Other maps to add
 
 AFG

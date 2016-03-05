@@ -13,6 +13,23 @@ library(dmaps)
 d <- read.csv("inst/data/world_countries/Asian_Infrastructure_Investment_Bank.csv")
 names(d)
 opts <- list(
+  #legend = list()
+  showLegend = TRUE
+)
+
+dmaps("world_countries",data = d, regionCols = "Country", valueCol = "Shares")
+
+dmaps("world_countries",data = d, regionCol = "Country", groupCol = "Votes", opts = opts)
+
+
+
+
+### World AIIB
+
+## OJO Escala numérica
+d <- read.csv("inst/data/world_countries/Asian_Infrastructure_Investment_Bank.csv")
+names(d)
+opts <- list(
   nLevels = 10
 )
 

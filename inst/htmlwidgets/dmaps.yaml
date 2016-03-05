@@ -11,6 +11,10 @@ dependencies:
     version: 0.0.0
     src: "htmlwidgets/lib/d3-geo-projection"
     script: d3.geo.projection.v0.min.js
+  - name: d3-legend
+    version: 0.0.0
+    src: "htmlwidgets/lib/d3-legend"
+    script: d3-legend.min.js
   - name: datamaps
     version: 0.4.0
     src: "htmlwidgets/lib/datamaps"
