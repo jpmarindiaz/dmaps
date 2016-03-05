@@ -278,68 +278,61 @@ HTMLWidgets.widget({
         //         .html(html);
         // }
 
-        // map.addPlugin("mylegend", addLegend2);
-        // map.mylegend({ legendTitle: "My Legend" })
 
 
-        function addLegend3(layer, data, options) {
+        function addColorLegend(layer, data, options) {
             data = data || {};
-            var fillData = this.options.fills;
 
-            console.log(data)
-            console.log(fillData)
-            var self = this;
-            console.log("THIS:\n",self)
-                    console.log("SETTINGS:\n", x.settings);
-        console.log("DATA:\n", x.data);
-            // if (!this.options.fills) {
-            //     return;
-            // }
+            var cells = data.cells || 6;
+            var orient = data.orient || "vertical";
+            var title = data.legendTitle;
 
-var obj = x.data.legendData;
-// var minDomain = Object.keys(obj)[0];
-// var maxDomain = Object.keys(obj)[Object.keys(obj).length-2];
-// console.log("Obj",obj,"\nDomain",[minDomain,maxDomain])
-// var minRange = obj[minDomain];
-// var maxRange = obj[maxDomain];
-
-var legendDomain = obj.key;
-var legendRange = obj.keyColor;
-console.log("DOMAIN",legendDomain,"\nRange",legendRange)
+            var legendDomain = x.data.legendData.key;
+            var legendRange = x.data.legendData.keyColor;
+            // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
 
 
             var linear = d3.scale.linear()
-              // .domain([0,10])
-              .domain(legendDomain)
-              .range(legendRange);
-              // .range(["rgb(46, 73, 123)", "rgb(71, 187, 94)"]);
+                .domain(legendDomain)
+                .range(legendRange);
 
-            var svg = d3.select("svg");
+            d3.select(this.options.element)
+                .append('div')
+                .style("z-index",1002)
+                .style("position","absolute")
+                .attr("id","dmapLegend")
+                .append("svg");
 
-            svg.append("g")
-              .attr("class", "legendLinear")
-              .attr("transform", "translate(20,20)");
+            var legend = d3.select("#dmapLegend svg");
+
+            legend.append("g")
+                .attr("class", "legendLinear")
+                .attr("transform", "translate(0,20)");
 
             var legendLinear = d3.legend.color()
-              .shapeWidth(30)
-              .cells(10)
-              // .cells([1,2,4,8,30])
-              .orient('horizontal')
-              .scale(linear);
+                .shapeWidth(30)
+                .cells(cells)
+                // .cells([1,2,4,8,30])
+                .title(title)
+                .orient(orient)
+                .scale(linear);
 
-            svg.select(".legendLinear")
-              .call(legendLinear);
+            legend.select(".legendLinear")
+                .call(legendLinear);
 
+            d3.select(".legendCells").attr("transform", "translate(0,5)");
+
+            var svgSize = d3.select("#dmapLegend svg g").node().getBoundingClientRect();
+            d3.select("#dmapLegend svg").attr("width",svgSize.width+10)
+            d3.select("#dmapLegend svg").attr("height",svgSize.height+10)
         }
 
         map.addPlugin("mylegend", addLegend3);
-        map.mylegend({ legendTitle: "My Legend" })
 
-
-
+        console.log(usrOpts.legend.title)
 
         if (usrOpts.showLegend) {
-            map.legend({
+            map.mylegend({
                 legendTitle: usrOpts.legend.title || "",
                 defaultFillName: usrOpts.legend.defaultFillTitle,
                 labels: data.fillKeyLabels
@@ -387,7 +380,6 @@ console.log("DOMAIN",legendDomain,"\nRange",legendRange)
         //alternatively with d3
         d3.select(window).on('resize', function() {
             map.resize();
-            map.mylegend({ legendTitle: "My Legend" })
 
         });
 

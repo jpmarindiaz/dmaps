@@ -21,6 +21,8 @@ Add 2 dim choropleth
 
 Custom Markers plugin
 http://jsbin.com/pamigahifi/1/edit?html,css,output
+Pluin
+http://jsbin.com/abeXErat/21/edit?html,output
 
 # Other maps to add
 

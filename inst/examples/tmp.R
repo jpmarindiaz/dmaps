@@ -13,13 +13,11 @@ library(dmaps)
 d <- read.csv("inst/data/world_countries/Asian_Infrastructure_Investment_Bank.csv")
 names(d)
 opts <- list(
-  #legend = list()
-  showLegend = TRUE
+  legend = list(title = "hola fdsa fda df sfas afsd fadds f ")
+  #showLegend = TRUE
 )
-
-dmaps("world_countries",data = d, regionCols = "Country", valueCol = "Shares")
-
-dmaps("world_countries",data = d, regionCol = "Country", groupCol = "Votes", opts = opts)
+mapName <- "world_countries"
+dmaps("world_countries",data = d, regionCol = "Country", valueCol = "Votes", opts = opts)
 
 
 

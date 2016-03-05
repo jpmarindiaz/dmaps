@@ -24,6 +24,36 @@ list(
   highlightBorderColor = "#444444",
   highlightBorderWidth = 0,
   showLegend = TRUE,
+  choroLegend = list(
+    type = "categorical",
+    title = "",
+    defaultFillTitle = NULL,
+    top = 0,
+    left = 1,
+    orientation = "horizontal",
+    labels = NULL,
+    show = TRUE
+  ),
+  bubbleColorLegend = list(
+    type = "categorical",
+    title = "",
+    defaultFillTitle = NULL,
+    top = 0,
+    left = 1,
+    orientation = "horizontal",
+    labels = NULL,
+    show = TRUE
+  ),
+  bubbleSizeLegend = list(
+    type = "numeric",
+    title = "",
+    defaultFillTitle = NULL,
+    top = 0,
+    left = 1,
+    orientation = "horizontal",
+    labels = NULL,
+    show = TRUE
+  ),
   legend = list(
     title = "",
     defaultFillTitle = NULL,
