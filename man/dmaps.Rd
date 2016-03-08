@@ -4,8 +4,8 @@
 \alias{dmaps}
 \title{<Add Title>}
 \usage{
-dmaps(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
-  regionCols = NULL, codeCol = NULL, bubbles = NULL, opts = NULL,
+dmaps(mapName, data = NULL, regionCols = NULL, codeCol = NULL,
+  groupCol = NULL, valueCol = NULL, bubbles = NULL, opts = NULL,
   width = "100\%", height = "80\%", ...)
 }
 \description{

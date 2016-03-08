@@ -15,9 +15,16 @@
 
 Add custom color to ~~data and~~ bubbles
 scale bubble radius
-add legend for numeric vals
 Add departamentos to municipios
-Add 2 dim choropleth
+Add reverse palette
+Add reverse legend
+Better handle default opts
+
+Bivariate choropleth
+http://www.joshuastevens.net/cartography/make-a-bivariate-choropleth-map/
+http://indiemapper.com/app/learnmore.php?l=bivariate_choropleth
+http://tolomaps.tumblr.com/post/131671267233/creating-a-bivariate-choropleth-color-scheme
+
 
 Custom Markers plugin
 http://jsbin.com/pamigahifi/1/edit?html,css,output

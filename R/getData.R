@@ -1,5 +1,6 @@
 
 getData <- function(dmap,data = NULL,bubbles = NULL, ...){
+  message("GET DATA INIT")
   if(is.null(data) && is.null(bubbles))
     return(list(fills = list(), fillKeys = list(), bubblesData = list()))
   args <- list(...)
@@ -32,9 +33,6 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
   # str(dataFills)
   # message("bubbleFills")
   # str(bubbleFills)
-  if(!is.null(bubbles)){
-    bubbles$fillKey <- bubbles$group
-  }
 
   fillKeyLabelIds <- c(dataFills$fillKeys,bubbleFills$fillKeys)
   if(!is.null(args$fillKeyLabels)){
@@ -45,14 +43,20 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
   fkl <- lapply(seq_along(fillKeyLabelIds),function(i) fillKeyLabelIds[[i]] <- optsFillKeyLabs[i])
   names(fkl) <- names(fillKeyLabelIds)
 
+  message("GET DATA END")
   list(fills = c(dataFills$fills,bubbleFills$fills),
        fillKeys = c(dataFills$fillKeys,bubbleFills$fillKeys),
        fillKeyLabels = fkl,
        legendData = dataFills$legendData,
-       bubblesData = bubbles)
+       bubblesData = bubbleFills$bubbles,
+       legendBubbles = bubbleFills$legendBubbles,
+       legendBubblesSize = list(domain = unique(sort(bubbles$radius)))
+       )
 }
 
+
 getDataFills <- function(data,...){
+  message("GET DATA FILLS INIT")
   args <- list(...)
   palette <- args$palette
 
@@ -130,13 +134,22 @@ getBubbleFills <- function(bubbles,...){
     return(list(fills=list(),fillKeys=list()))
   args <- list(...)
   palette <- args$palette
-  if(!is.null(bubbles$group)){
-    key <- unique(bubbles$group)
-    key <- key[!key=="" | is.null(key) | is.na(key)]
-    keyColor <- catColor(key, palette)
-  }else{
-    return(list(fills=list(),fillKeys=list()))
+#   if(!is.null(bubbles$group)){
+#     key <- unique(bubbles$group)
+#     key <- key[!key=="" | is.null(key) | is.na(key)]
+#     keyColor <- catColor(key, palette)
+#   }else{
+#     return(list(fills=list(),fillKeys=list(),legendBubbles = list(keyColor="",key="")))
+#   }
+  if(is.null(bubbles$group)){
+    bubbles$group <- "___defaultFill___"
   }
+  if(!is.null(bubbles)){
+    bubbles$fillKey <- bubbles$group
+  }
+  key <- unique(bubbles$group)
+  key <- key[!key=="" | is.null(key) | is.na(key)]
+  keyColor <- catColor(key, palette)
   fillKeys <- as.list(keyColor)
   #str(fillKeys)
   names(fillKeys) <- key
@@ -145,7 +158,8 @@ getBubbleFills <- function(bubbles,...){
     list(fillKey=bubbles$group[i], info = bubbles$info[i])
   },1:nrow(bubbles))
   names(fills) <- paste0("bubble",1:nrow(bubbles))
-  list(fills=fills,fillKeys=fillKeys)
+  legendBubbles <- data.frame(keyColor = keyColor, key = key)
+  list(fills=fills,fillKeys=fillKeys,legendBubbles = legendBubbles, bubbles = bubbles)
 }
 
 
@@ -153,9 +167,8 @@ getBubbleFills <- function(bubbles,...){
 
 
 
-getSettings <- function(dmap, opts = NULL,...){
+getSettings <- function(dmap, opts = NULL,data,bubbles,...){
   args <- list(...)
-
 
 
   projectionName <- opts[["projection"]] %||% names(dmap$projections)[1]
@@ -165,7 +178,7 @@ getSettings <- function(dmap, opts = NULL,...){
   legendOpts <- opts$legend
 
   defaultOpts <- getDefaultOpts(projectionName, projectionOpts,
-                                titleOpts, notesOpts, legendOpts)
+                                titleOpts, notesOpts, legendOpts, data)
 
   opts$styles <- paste(defaultOpts$styles,
                               opts$styles,sep="\n")
@@ -180,7 +193,7 @@ getSettings <- function(dmap, opts = NULL,...){
   o <- list()
   for(i in optNames){
     o[[i]] <- opts[[i]] %||% defaultOpts[[i]]
-    if(i=="projectionOpts"){
+    if(i %in%  names(Filter(function(j)length(j)>1,defaultOpts))){
       for(j in names(defaultOpts[[i]]))
         o[[i]][[j]] <- opts[[i]][[j]] %||% defaultOpts[[i]][[j]]
     }

@@ -7,65 +7,81 @@ library(dmaps)
 
 
 
-### World AIIB
-
-## OJO Escala numérica
-d <- read.csv("inst/data/world_countries/Asian_Infrastructure_Investment_Bank.csv")
-names(d)
-opts <- list(
-  legend = list(title = "hola fdsa fda df sfas afsd fadds f ")
-  #showLegend = TRUE
-)
-mapName <- "world_countries"
-dmaps("world_countries",data = d, regionCol = "Country", valueCol = "Votes", opts = opts)
 
 
 
 
-### World AIIB
+## Group choropleth
 
-## OJO Escala numérica
-d <- read.csv("inst/data/world_countries/Asian_Infrastructure_Investment_Bank.csv")
-names(d)
-opts <- list(
-  nLevels = 10
-)
-
-dmaps("world_countries",data = d, regionCol = "Country", valueCol = "Votes", opts = opts)
-
-
-
-
-
-## Dmaps Choro + Bubbles
-## Added bubble palette option
-
-codes <- read.csv("inst/dmaps/co/dane-codes-municipio.csv", colClasses = "character")
-d <- data.frame(
-  code = sample(codes$id,5),
-  group = sample(letters[1:2],5,replace = TRUE)
-)
-d$nombre <- codes$name[match(d$code,codes$id)]
-
-
-d2 <- data.frame(
-  code = sample(codes$id,5),
-  group = sample(letters[3:4],5,replace = TRUE)
-)
-d$municipio <- codes$municipio[match(d$code,codes$id)]
-d$departamento <- codes$departamento[match(d$code,codes$id)]
-d2$latitude <- codes$latitud[match(d2$code,codes$id)]
-d2$longitude <- codes$longitud[match(d2$code,codes$id)]
-d2$radius <- 5
-
+d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")[250:300,]
 mapName <- "co_municipalities"
-d
-dmaps(mapName,
-      data = d,
-      groupCol = "group",
-      #regionCols = c("municipio","departamento"),
-      codeCol = "code",
-      bubbles = d2)
+names(d)
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  choroLegend = list(shapeWidth = 40)
+)
+dmaps(mapName, data = d,
+      groupCol = "accionesMilitares",
+      regionCols = c("mupio","depto"),
+      opts = opts
+)
+
+
+
+
+d <- read.csv("inst/data/co_municipalities/alcaldias-partido.csv")
+mapName <- "co_municipalities"
+names(d)
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "Set1",
+  nLevels = 3,
+  choroLegend = list(shapeWidth = 40, orient = "vertical")
+)
+dmaps(mapName, data = d,
+      groupCol = "Primer.aval.2011",
+      regionCols = c("Municipio","Departamento"),
+      opts = opts
+)
+
+
+
+
+# Numeric Choropleth
+
+d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
+mapName <- "co_municipalities"
+names(d)
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  nLevels = 3,
+  choroLegend = list(shapeWidth = 40)
+)
+dmaps(mapName, data = d,
+      valueCol = "accionesMilitares",
+      regionCols = c("mupio","depto"),
+      opts = opts
+      )
+
+
+
+
+
+
 
 
 

@@ -5,8 +5,9 @@
 #' @import htmlwidgets
 #'
 #' @export
-dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
+dmaps <- function(mapName, data = NULL,
                   regionCols = NULL, codeCol = NULL,
+                  groupCol = NULL, valueCol = NULL,
                   bubbles = NULL, opts = NULL,
                   width = '100%', height = '80%',...) {
   # message(mapName)
@@ -22,8 +23,18 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
 
   dmap <- dmapMeta(mapName)
 
+  if(!is.null(data) && is.null(regionCols)){
+    stop("need to provide a regionCols")
+  }
+
+  if(!is.null(data) && (is.null(groupCol) && is.null(valueCol))){
+    stop("Need to povide a groupCol or a valueCol")
+  }
+
+
+
   #str(data)
-  if(is.null(data$info)){
+  if(is.null(data$info) && !is.null(data)){
     #message(opts$infoTpl)
     infoTpl <- opts$infoTpl %||% defaultTpl(data)
     #message(infoTpl)
@@ -34,12 +45,23 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
     infoTpl <- opts$bubbleInfoTpl %||% defaultTpl(bubbles)
     bubbles$info <- pystr_format(infoTpl,bubbles)
   }
+  bubbleSizeLegendShow <- TRUE
+  if(!is.null(bubbles) && is.null(bubbles$radius)){
+    bubbles$radius <- 5
+    bubbleSizeLegendShow <- FALSE
+  }
+  bubbleColorLegendShow <- TRUE
+  if(!is.null(bubbles) && is.null(bubbles$group)){
+    bubbleColorLegendShow <- FALSE
+  }
 
   if(!is.null(groupCol)){
     if(!groupCol%in% names(data)){
       stop("groupCol not in data")
     }else{
-      data$group <- data[[groupCol]]
+      data$group <- as.character(data[[groupCol]])
+      data$group[is.na(data$group)] <- ""
+      opts$choroLegend$type <- opts$choroLegend$type %||% "categorical"
     }
   }
 
@@ -48,8 +70,11 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
       stop("valueCol not in data")
     }else{
       data$value <- data[[valueCol]]
+      data$group <- NULL ### removes groups so legendData doesn't use groupValues
+      opts$choroLegend$type <- opts$choroLegend$type %||% "numeric"
     }
   }
+
 
   if(!is.null(regionCols)){
     if(!all(regionCols %in% names(data))){
@@ -61,7 +86,8 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
   }else{
     if(is.null(codeCol)){
       warning('No codeCol provided')
-    }}
+    }
+    }
 
   if(!is.null(codeCol)){
       data$name <- NULL
@@ -70,8 +96,13 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
       data$code <- data[[codeCol]]
   }
 
-  settings <- getSettings(dmap,opts)
+  settings <- getSettings(dmap,opts, data)
 
+  settings$bubbleColorLegend$show <- bubbleColorLegendShow
+  settings$bubbleSizeLegend$show <- bubbleSizeLegendShow
+
+
+  message("SETTINGS")
   d <- getData(dmap,data, bubbles,
                defaultFill = settings$defaultFill,
                palette = settings$palette,
@@ -79,6 +110,9 @@ dmaps <- function(mapName, data = NULL, groupCol = NULL, valueCol = NULL,
                nLevels = settings$nLevels,
                customPalette = settings$customPalette,
                fillKeyLabels = settings$legend$labels)
+
+
+
   # pass the data and settings using 'x'
   x <- list(
     data = d,

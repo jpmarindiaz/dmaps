@@ -1,5 +1,5 @@
 getDefaultOpts <- function(projectionName = NULL,projectionOpts = NULL,
-                           titleOpts = NULL, notesOpts = NULL, legendOpts = NULL){
+                           titleOpts = NULL, notesOpts = NULL, legendOpts = NULL, data = NULL){
 
   textStyles <- textStyles(titleOpts$top, titleOpts$left,
                            notesOpts$top, notesOpts$left)
@@ -8,7 +8,7 @@ getDefaultOpts <- function(projectionName = NULL,projectionOpts = NULL,
                                legendOpts$left)
   defaultStyles <- paste0(textStyles,legendStyles)
 
-list(
+dopts <- list(
   title = list(text="",top=0,left=0),
   notes = list(text="",top=80,left=0),
   nLevels = 5,
@@ -28,9 +28,10 @@ list(
     type = "categorical",
     title = "",
     defaultFillTitle = NULL,
-    top = 0,
+    top = 1,
     left = 1,
-    orientation = "horizontal",
+    orient = "vertical",
+    shapeWidth = 40,
     labels = NULL,
     show = TRUE
   ),
@@ -38,9 +39,9 @@ list(
     type = "categorical",
     title = "",
     defaultFillTitle = NULL,
-    top = 0,
+    top = 35,
     left = 1,
-    orientation = "horizontal",
+    orient = "horizontal",
     labels = NULL,
     show = TRUE
   ),
@@ -48,19 +49,11 @@ list(
     type = "numeric",
     title = "",
     defaultFillTitle = NULL,
-    top = 0,
+    top = 70,
     left = 1,
-    orientation = "horizontal",
+    orient = "horizontal",
     labels = NULL,
     show = TRUE
-  ),
-  legend = list(
-    title = "",
-    defaultFillTitle = NULL,
-    top = 0,
-    left = 1,
-    orientation = "horizontal",
-    labels = NULL
   ),
   graticule = FALSE,
   palette = "RdYlBu",
@@ -78,6 +71,11 @@ list(
   maxSizeFactor = 50,
   customPalette = NA
 )
+
+if(is.null(data)){
+  dopts$choroLegend$show <- FALSE
+}
+dopts
 }
 
 textStyles <- function(titleTop = NULL, titleLeft = NULL,

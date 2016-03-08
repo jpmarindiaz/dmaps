@@ -27,7 +27,7 @@ HTMLWidgets.widget({
 
 
         // console.log("SETTINGS:\n", x.settings);
-        // console.log("DATA:\n", x.data);
+        console.log("DATA:\n", x.data);
         var usrOpts = x.settings;
         var dmap = x.dmap;
 
@@ -122,31 +122,34 @@ HTMLWidgets.widget({
         // console.log("SCALING")
         // console.log(data.bubblesData)
         // console.log(opts)
-        if (data.bubblesData) {
-            if (data.bubblesData.radius) {
-                // console.log("height",width)
-                var minSize = opts.minSizeFactor * width / 100 | 1;
-                var maxSize = opts.maxSizeFactor * width / 100 | 50;
-                var originalRadius = data.bubblesData.radius;
-                // console.log(minSize,maxSize)
-                // console.log("SCALING")
-                // console.log([d3.min(originalRadius), 
-                //         d3.max(originalRadius)])
-                if (d3.min(originalRadius) != d3.max(originalRadius)) {
-                    var scale = d3.scale.sqrt()
-                        .domain([d3.min(originalRadius),
-                            d3.max(originalRadius)
-                        ])
-                        .range([minSize / 2, maxSize / 2]);
-                    var rs = new Array;
-                    for (i in originalRadius) {
-                        rs.push(scale(originalRadius[i]));
-                    }
-                    data.bubblesData.radius = rs;
-                    // console.log(data.bubblesData)
-                }
-            }
-        }
+
+
+        // // THIS IS FACTOR SCALING FOR BUBBLES (Bubbles as % for mobile)
+        // if (data.bubblesData) {
+        //     if (data.bubblesData.radius) {
+        //         // console.log("height",width)
+        //         var minSize = opts.minSizeFactor * width / 100 | 1;
+        //         var maxSize = opts.maxSizeFactor * width / 100 | 50;
+        //         var originalRadius = data.bubblesData.radius;
+        //         // console.log(minSize,maxSize)
+        //         // console.log("SCALING")
+        //         // console.log([d3.min(originalRadius), 
+        //         //         d3.max(originalRadius)])
+        //         if (d3.min(originalRadius) != d3.max(originalRadius)) {
+        //             var scale = d3.scale.sqrt()
+        //                 .domain([d3.min(originalRadius),
+        //                     d3.max(originalRadius)
+        //                 ])
+        //                 .range([minSize / 2, maxSize / 2]);
+        //             var rs = new Array;
+        //             for (i in originalRadius) {
+        //                 rs.push(scale(originalRadius[i]));
+        //             }
+        //             data.bubblesData.radius = rs;
+        //             // console.log(data.bubblesData)
+        //         }
+        //     }
+        // }
 
         var getFills = function(data, opts) {
             if (data.fillKeys.length == 0) return ({
@@ -280,67 +283,213 @@ HTMLWidgets.widget({
 
 
 
-        function addColorLegend(layer, data, options) {
+        function addChoroLegend(layer, data, options) {
             data = data || {};
 
-            var cells = data.cells || 6;
+;
             var orient = data.orient || "vertical";
             var title = data.legendTitle;
+            var top = data.top.toString().concat("%") || "1%";
+            var left = data.left.toString().concat("%") || "1%";
+            var shapeWidth = data.shapeWidth || 30;
+
+            var type = data.type || "categorical"
 
             var legendDomain = x.data.legendData.key;
             var legendRange = x.data.legendData.keyColor;
+            
+            var cells = data.cells || Math.min(legendDomain.length,6);
+            console.log("DOMAIN", legendDomain, "\nRange", legendRange)
             // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
 
 
-            var linear = d3.scale.linear()
-                .domain(legendDomain)
-                .range(legendRange);
+            if (type == "numeric") {
+                var scale = d3.scale.linear()
+                    .domain(legendDomain)
+                    .range(legendRange);
+            }
+
+            if (type == "categorical") {
+                var scale = d3.scale.ordinal()
+                    .domain(legendDomain)
+                    .range(legendRange);
+            }
+
 
             d3.select(this.options.element)
                 .append('div')
-                .style("z-index",1002)
-                .style("position","absolute")
-                .attr("id","dmapLegend")
+                .style("z-index", 1002)
+                .style("position", "absolute")
+                .style("top", top)
+                .style("left", left)
+                .attr("id", "dmapLegend")
                 .append("svg");
 
             var legend = d3.select("#dmapLegend svg");
 
             legend.append("g")
                 .attr("class", "legendLinear")
-                .attr("transform", "translate(0,20)");
+                .attr("transform", "translate(10,10)");
 
             var legendLinear = d3.legend.color()
-                .shapeWidth(30)
+                .shapeWidth(shapeWidth)
                 .cells(cells)
-                // .cells([1,2,4,8,30])
                 .title(title)
                 .orient(orient)
-                .scale(linear);
+                .scale(scale);
 
-            legend.select(".legendLinear")
-                .call(legendLinear);
+            legend.select(".legendLinear").call(legendLinear);
 
             d3.select(".legendCells").attr("transform", "translate(0,5)");
 
             var svgSize = d3.select("#dmapLegend svg g").node().getBoundingClientRect();
-            d3.select("#dmapLegend svg").attr("width",svgSize.width+10)
-            d3.select("#dmapLegend svg").attr("height",svgSize.height+10)
+            d3.select("#dmapLegend svg").attr("width", svgSize.width + 20)
+            d3.select("#dmapLegend svg").attr("height", svgSize.height + 10)
         }
 
-        map.addPlugin("mylegend", addLegend3);
+        map.addPlugin("mylegend", addChoroLegend);
 
-        console.log(usrOpts.legend.title)
 
-        if (usrOpts.showLegend) {
-            map.mylegend({
-                legendTitle: usrOpts.legend.title || "",
-                defaultFillName: usrOpts.legend.defaultFillTitle,
-                labels: data.fillKeyLabels
-            })
+
+
+
+
+        console.log("choroLegend\n", usrOpts.choroLegend)
+        console.log(x.data)
+        if (usrOpts.choroLegend.show) {
+            map.mylegend(usrOpts.choroLegend)
         }
 
         data.bubblesData = HTMLWidgets.dataframeToD3(data.bubblesData);
         // console.log("bubbles: ", data.bubblesData)
+
+
+        function addBubbleColorLegend(layer, data, options) {
+            data = data || {};
+
+            var cells = data.cells || 6;
+            var orient = data.orient || "vertical";
+            var title = data.legendTitle;
+            var top = data.top.toString().concat("%") || "1%";
+            var left = data.left.toString().concat("%") || "1%";
+            var shapeWidth = data.shapeWidth || 30;
+
+            var type = data.type || "categorical"
+
+            var legendDomain = x.data.legendBubbles.key;
+            var legendRange = x.data.legendBubbles.keyColor;
+            // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
+            // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
+
+
+            if (type == "numeric") {
+                var scale = d3.scale.linear()
+                    .domain(legendDomain)
+                    .range(legendRange);
+            }
+
+            if (type == "categorical") {
+                var scale = d3.scale.ordinal()
+                    .domain(legendDomain)
+                    .range(legendRange);
+            }
+
+
+            d3.select(this.options.element)
+                .append('div')
+                .style("z-index", 1002)
+                .style("position", "absolute")
+                .style("top", top)
+                .style("left", left)
+                .attr("id", "dmapLegend2")
+                .append("svg");
+
+            var legend = d3.select("#dmapLegend2 svg");
+
+            legend.append("g")
+                .attr("class", "legendLinear")
+                .attr("transform", "translate(10,10)");
+
+            var legendLinear = d3.legend.color()
+                .shapeWidth(shapeWidth)
+                .cells(cells)
+                .title(title)
+                .orient(orient)
+                .scale(scale);
+
+            legend.select(".legendLinear").call(legendLinear);
+
+            d3.select(".legendCells").attr("transform", "translate(0,5)");
+
+            var svgSize = d3.select("#dmapLegend2 svg g").node().getBoundingClientRect();
+            d3.select("#dmapLegend2 svg").attr("width", svgSize.width + 20)
+            d3.select("#dmapLegend2 svg").attr("height", svgSize.height + 10)
+        }
+
+        map.addPlugin("mylegend2", addBubbleColorLegend);
+
+
+
+
+
+        function addBubbleSizeLegend(layer, data, options) {
+            data = data || {};
+
+            var orient = data.orient || "vertical";
+            var title = data.legendTitle;
+            var top = data.top.toString().concat("%") || "1%";
+            var left = data.left.toString().concat("%") || "1%";
+            var shapeWidth = data.shapeWidth || 30;
+
+            var legendDomain = x.data.legendBubblesSize.domain;
+            var legendRange = x.data.legendBubblesSize.domain;
+
+
+            console.log(legendDomain.length)
+            var cells = data.cells || legendDomain.length;
+            console.log("SIZE:\nDOMAIN", legendDomain, "\nRange", legendRange)
+                //     // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
+
+
+            var scale = d3.scale.linear()
+                .domain(legendDomain)
+                .range(legendRange)
+
+            d3.select(this.options.element)
+                .append('div')
+                .style("z-index", 1002)
+                .style("position", "absolute")
+                .style("top", top)
+                .style("left", left)
+                .attr("id", "dmapLegend3")
+                .append("svg");
+
+            var legend = d3.select("#dmapLegend3 svg");
+
+            legend.append("g")
+                .attr("class", "legendSize")
+                .attr("transform", "translate(10,20)");
+
+            var legendSize = d3.legend.size()
+                .shape('circle')
+                .cells(cells)
+                .shapePadding(15)
+                .labelOffset(20)
+                .orient('horizontal')
+                .scale(scale);
+
+            legend.select(".legendSize").call(legendSize);
+
+            d3.select(".legendCells").attr("transform", "translate(0,10)");
+
+            var svgSize = d3.select("#dmapLegend3 svg g").node().getBoundingClientRect();
+            d3.select("#dmapLegend3 svg").attr("width", svgSize.width + 20)
+            d3.select("#dmapLegend3 svg").attr("height", svgSize.height + 10)
+        }
+
+        map.addPlugin("mylegend3", addBubbleSizeLegend);
+
+
 
         if (data.bubblesData.length) {
 
@@ -366,6 +515,15 @@ HTMLWidgets.widget({
                         return '<div class="hoverinfo">' + htmlInfo
                     }
                 });
+
+            if (usrOpts.bubbleColorLegend.show) {
+                map.mylegend2(usrOpts.bubbleColorLegend)
+            }
+            console.log("bubbleSizeLegend", usrOpts.bubbleSizeLegend)
+            if (usrOpts.bubbleSizeLegend.show) {
+                map.mylegend3(usrOpts.bubbleSizeLegend)
+            }
+
         }
 
 
