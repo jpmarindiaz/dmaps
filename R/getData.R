@@ -1,6 +1,6 @@
 
 getData <- function(dmap,data = NULL,bubbles = NULL, ...){
-  message("GET DATA INIT")
+  # message("GET DATA INIT")
   if(is.null(data) && is.null(bubbles))
     return(list(fills = list(), fillKeys = list(), bubblesData = list()))
   args <- list(...)
@@ -43,7 +43,7 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
   fkl <- lapply(seq_along(fillKeyLabelIds),function(i) fillKeyLabelIds[[i]] <- optsFillKeyLabs[i])
   names(fkl) <- names(fillKeyLabelIds)
 
-  message("GET DATA END")
+  # message("GET DATA END")
   list(fills = c(dataFills$fills,bubbleFills$fills),
        fillKeys = c(dataFills$fillKeys,bubbleFills$fillKeys),
        fillKeyLabels = fkl,
@@ -56,7 +56,7 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
 
 
 getDataFills <- function(data,...){
-  message("GET DATA FILLS INIT")
+  # message("GET DATA FILLS INIT")
   args <- list(...)
   palette <- args$palette
 

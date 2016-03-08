@@ -6,6 +6,46 @@ install()
 library(dmaps)
 
 
+## Bivariate coropleth
+
+d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
+mapName <- "co_municipalities"
+
+var1 <- cut2(d[,3],g=3)
+levels(var1) <- c("x1","x2","x3")
+
+var2 <- cut2(d[,4],g=3)
+levels(var2) <- c("y1","y2","y3")
+
+
+d$cruce <- paste(
+  paste(names(d)[3],cut2(d[,3],g=3)),
+  "; ",
+  paste(names(d)[4],cut2(d[,4],g=2)))
+unique(d$cruce)
+
+d$group <- paste(var1,var2,sep="")
+
+groups2d <- apply(expand.grid(paste0("x",1:3),paste0("y",1:3)),1,
+                  function(r)paste0(r[1],r[2]))
+colors2d <- c("#e8e8e8","#e4acac","#c85a5a","#b0d5df","#ad93a5","#985356","#64acbe","#62718c","#574249")
+customPalette <- data.frame(group = groups2d, color = colors2d)
+
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  customPalette = customPalette,
+  choroLegend = list(show = FALSE)
+)
+dmaps(mapName, data = d,
+      groupCol = "group",
+      regionCols = c("mupio","depto"),
+      opts = opts)
+
 
 
 
@@ -106,32 +146,6 @@ dmaps(mapName, data = d,
 
 
 
-## Bivariate coropleth
-
-d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
-mapName <- "co_municipalities"
-d$cruce <- paste(
-  paste(names(d)[3],cut2(d[,3],g=2)),
-  "; ",
-  paste(names(d)[4],cut2(d[,4],g=2)))
-unique(d$cruce)
-dd <- d[c(1,2,5)]
-opts <- list(
-  defaultFill = "#FFFFFF",
-  borderColor = "#CCCCCC",
-  borderWidth = 0.3,
-  highlightFillColor = "#999999",
-  highlightBorderWidth = 1,
-  palette = "PuBu",
-  nLevels = 3,
-  legend = list(
-    title = "Cruce"
-  )
-)
-dmaps(mapName, data = dd,
-      groupCol = "cruce",
-      regionCols = c("mupio","depto"),
-      opts = opts)
 
 
 
@@ -174,7 +188,7 @@ customPalette <- read.csv("inst/data/co/customPalette-partidos.csv")
 customPalette$partido <- NULL
 names(customPalette) <- c("group","color")
 
-d <- read.csv("inst/data/co/alcaldias-partido.csv")
+d <- read.csv("inst/data/co_municipalities/alcaldias-partido.csv")
 names(d) <- gsub("."," ",names(d),fixed = TRUE)
 names(d)
 

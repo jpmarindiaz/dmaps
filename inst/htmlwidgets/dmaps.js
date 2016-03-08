@@ -286,7 +286,7 @@ HTMLWidgets.widget({
         function addChoroLegend(layer, data, options) {
             data = data || {};
 
-;
+            ;
             var orient = data.orient || "vertical";
             var title = data.legendTitle;
             var top = data.top.toString().concat("%") || "1%";
@@ -297,9 +297,9 @@ HTMLWidgets.widget({
 
             var legendDomain = x.data.legendData.key;
             var legendRange = x.data.legendData.keyColor;
-            
-            var cells = data.cells || Math.min(legendDomain.length,6);
-            console.log("DOMAIN", legendDomain, "\nRange", legendRange)
+
+            var cells = data.cells || Math.min(legendDomain.length, 6);
+            // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
             // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
 
 
@@ -355,7 +355,6 @@ HTMLWidgets.widget({
 
 
         console.log("choroLegend\n", usrOpts.choroLegend)
-        console.log(x.data)
         if (usrOpts.choroLegend.show) {
             map.mylegend(usrOpts.choroLegend)
         }
@@ -445,10 +444,10 @@ HTMLWidgets.widget({
             var legendRange = x.data.legendBubblesSize.domain;
 
 
-            console.log(legendDomain.length)
-            var cells = data.cells || legendDomain.length;
-            console.log("SIZE:\nDOMAIN", legendDomain, "\nRange", legendRange)
-                //     // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
+            // console.log(legendDomain.length)
+            var cells = data.cells || Math.min(legendDomain.length, 3);
+            // console.log("SIZE:\nDOMAIN", legendDomain, "\nRange", legendRange)
+            // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
 
 
             var scale = d3.scale.linear()
@@ -516,10 +515,11 @@ HTMLWidgets.widget({
                     }
                 });
 
+            console.log("bubbleColorLegend\n", usrOpts.bubbleColorLegend)
             if (usrOpts.bubbleColorLegend.show) {
                 map.mylegend2(usrOpts.bubbleColorLegend)
             }
-            console.log("bubbleSizeLegend", usrOpts.bubbleSizeLegend)
+            console.log("bubbleSizeLegend\n", usrOpts.bubbleSizeLegend)
             if (usrOpts.bubbleSizeLegend.show) {
                 map.mylegend3(usrOpts.bubbleSizeLegend)
             }
@@ -527,6 +527,108 @@ HTMLWidgets.widget({
         }
 
 
+        function addBivariateLegend(layer, data, options) {
+
+            data = data || {};
+            var title = data.legendTitle;
+            var top = data.top.toString().concat("%") || "1%";
+            var left = data.left.toString().concat("%") || "1%";
+
+            d3.select(this.options.element)
+                .append('div')
+                .style("z-index", 1002)
+                .style("position", "absolute")
+                .style("top", top)
+                .style("left", left)
+                .attr("id", "dmapLegend4")
+                .append("svg")
+                .append("g");
+
+            var rectPalette = [
+                { "x": 0, "y": 40, "width": 20, "height": 20, "color": "#e8e8e8" },
+                { "x": 20, "y": 40, "width": 20, "height": 20, "color": "#e4acac" },
+                { "x": 40, "y": 40, "width": 20, "height": 20, "color": "#c85a5a" },
+                { "x": 0, "y": 20, "width": 20, "height": 20, "color": "#b0d5df" },
+                { "x": 20, "y": 20, "width": 20, "height": 20, "color": "#ad93a5" },
+                { "x": 40, "y": 20, "width": 20, "height": 20, "color": "#985356" },
+                { "x": 0, "y": 0, "width": 20, "height": 20, "color": "#64acbe" },
+                { "x": 20, "y": 0, "width": 20, "height": 20, "color": "#62718c" },
+                { "x": 40, "y": 0, "width": 20, "height": 20, "color": "#574249" }
+            ];
+
+            var legend = d3.select("#dmapLegend4 svg g");
+            legend.attr("transform", "translate(50,10)");
+
+            var rects = legend.selectAll("rects")
+                .data(rectPalette)
+                .enter()
+                .append("rect");
+
+            var rectAttributes = rects
+                .attr("x", function(d) {
+                    return d.x;
+                })
+                .attr("y", function(d) {
+                    return d.y;
+                })
+                .attr("width", function(d) {
+                    return d.width;
+                })
+                .attr("height", function(d) {
+                    return d.height;
+                })
+                .style("fill", function(d) {
+                    return d.color;
+                });
+
+
+            //Create the Scale we will use for the Axis
+            var axisScaleX = d3.scale.ordinal()
+                .domain(["Bajo", "Alto"])
+                .range([0, 60]);
+            var axisScaleY = d3.scale.ordinal()
+                .domain(["Alto", "Bajo"])
+                .range([0, 60]);
+
+            //Create the Axis
+            var xAxis = d3.svg.axis().scale(axisScaleX)
+            var xAxisGroup = legend.append("g")
+                .attr("class", "axis")
+                .call(xAxis)
+                .attr("transform", "translate(0,65)");
+
+
+            //Create the Axis
+            var yAxis = d3.svg.axis().scale(axisScaleY).orient("left")
+            var yAxisGroup = legend.append("g")
+                .attr("class", "axis")
+                .call(yAxis)
+                .attr("transform", "translate(-5,0)");
+
+            legend.append("text")
+                .attr("class", "x label")
+                .attr("text-anchor", "end")
+                .attr("x", 60)
+                .attr("y", 100)
+                .text("Variable 1");
+
+            legend.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "end")
+                .attr("y", -50)
+                .attr("dy", ".75em")
+                .attr("transform", "rotate(-90)")
+                .text("Variable 2");
+
+            // var svgSize = d3.select("#dmapLegend4 svg g").node().getBoundingClientRect();
+            // d3.select("#dmapLegend3 svg").attr("width", svgSize.width + 20)
+            // d3.select("#dmapLegend3 svg").attr("height", svgSize.height + 10)
+        }
+
+        map.addPlugin("mylegend4", addBivariateLegend);
+
+        console.log("bivariateLegend\n", usrOpts.bivariateLegend)
+        map.mylegend4(usrOpts.bivariateLegend)
 
 
 

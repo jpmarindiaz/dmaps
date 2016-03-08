@@ -46,11 +46,16 @@ dmaps <- function(mapName, data = NULL,
     bubbles$info <- pystr_format(infoTpl,bubbles)
   }
   bubbleSizeLegendShow <- TRUE
+  bubbleColorLegendShow <- TRUE
+
+  if(is.null(bubbles)){
+    bubbleSizeLegendShow <- FALSE
+    bubbleColorLegendShow <- FALSE
+  }
   if(!is.null(bubbles) && is.null(bubbles$radius)){
     bubbles$radius <- 5
     bubbleSizeLegendShow <- FALSE
   }
-  bubbleColorLegendShow <- TRUE
   if(!is.null(bubbles) && is.null(bubbles$group)){
     bubbleColorLegendShow <- FALSE
   }
@@ -102,7 +107,7 @@ dmaps <- function(mapName, data = NULL,
   settings$bubbleSizeLegend$show <- bubbleSizeLegendShow
 
 
-  message("SETTINGS")
+  # message("SETTINGS")
   d <- getData(dmap,data, bubbles,
                defaultFill = settings$defaultFill,
                palette = settings$palette,

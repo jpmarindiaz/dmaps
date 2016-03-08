@@ -55,6 +55,15 @@ dopts <- list(
     labels = NULL,
     show = TRUE
   ),
+  bivariateLegend = list(
+    type = "numeric",
+    title = "",
+    defaultFillTitle = NULL,
+    top = 70,
+    left = 5,
+    labels = NULL,
+    show = TRUE
+  ),
   graticule = FALSE,
   palette = "RdYlBu",
   styles = defaultStyles,
@@ -81,7 +90,21 @@ dopts
 textStyles <- function(titleTop = NULL, titleLeft = NULL,
                        notesTop = NULL, notesLeft = NULL){
   textStylesTpl <-
-"#notes{
+"
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+    stroke-width:1;
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+#notes{
   position: absolute;
   top: {notesTop}%;
   left: {notesLeft}%;
