@@ -36,12 +36,12 @@ dopts <- list(
     show = TRUE
   ),
   bubbleColorLegend = list(
-    type = "categorical",
+    type = "numeric",
     title = "",
     defaultFillTitle = NULL,
     top = 35,
     left = 1,
-    orient = "horizontal",
+    orient = "vertical",
     labels = NULL,
     show = TRUE
   ),
@@ -62,10 +62,12 @@ dopts <- list(
     top = 70,
     left = 5,
     labels = NULL,
-    show = TRUE
+    show = FALSE,
+    var1Label = "Variable 1",
+    var2Label = "Variable 2"
   ),
   graticule = FALSE,
-  palette = "RdYlBu",
+  palette = "PuBu",
   styles = defaultStyles,
   bubbleBorderWidth = 0.001,
   bubbleBorderColor = '#FF6A37',

@@ -6,6 +6,9 @@ install()
 library(dmaps)
 
 
+
+
+
 ## Bivariate coropleth
 
 d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
@@ -39,7 +42,8 @@ opts <- list(
   highlightBorderWidth = 1,
   palette = "PuBu",
   customPalette = customPalette,
-  choroLegend = list(show = FALSE)
+  choroLegend = list(show = FALSE),
+  bivariateLegend = list(show = TRUE, var1Label = "V1", var2Label = "V2")
 )
 dmaps(mapName, data = d,
       groupCol = "group",
@@ -124,22 +128,6 @@ dmaps(mapName, data = d,
 
 
 
-
-## Dmaps directly from geo code
-## Todo add validation or warning when not all codes are in map
-
-codes <- read.csv("inst/dmaps/co/dane-codes-municipio.csv", colClasses = "character")
-d <- data.frame(
-  code = sample(codes$id,5),
-  group = sample(letters[1:2],5,replace = TRUE)
-  )
-d$nombre <- codes$name[match(d$code,codes$id)]
-
-mapName <- "co_municipalities"
-d
-dmaps(mapName, data = d,
-      groupCol = "group",
-      codeCol = "code")
 
 
 
@@ -264,6 +252,24 @@ dmaps(mapName, data = d,
       opts = opts)
 
 
+
+
+
+## Dmaps directly from geo code
+## Todo add validation or warning when not all codes are in map
+
+codes <- read.csv("inst/dmaps/co/dane-codes-municipio.csv", colClasses = "character")
+d <- data.frame(
+  code = sample(codes$id,5),
+  group = sample(letters[1:2],5,replace = TRUE)
+)
+d$nombre <- codes$name[match(d$code,codes$id)]
+
+mapName <- "co_municipalities"
+d
+dmaps(mapName, data = d,
+      groupCol = "group",
+      codeCol = "code")
 
 
 

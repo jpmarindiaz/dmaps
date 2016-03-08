@@ -23,7 +23,7 @@ dmaps <- function(mapName, data = NULL,
 
   dmap <- dmapMeta(mapName)
 
-  if(!is.null(data) && is.null(regionCols)){
+  if(!is.null(data) && is.null(regionCols) && is.null(codeCol)){
     stop("need to provide a regionCols")
   }
 

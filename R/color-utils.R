@@ -5,7 +5,7 @@ catColor <- function(v,palette = NULL){
   pal(v)
 }
 
-numColor <- function(v,palette = "RdYlBu", domain = NULL){
+numColor <- function(v,palette = "PuBu", domain = NULL){
   pal <- colorNumeric(palette, domain = NULL)
   pal(v)
 }

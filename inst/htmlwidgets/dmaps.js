@@ -531,6 +531,8 @@ HTMLWidgets.widget({
 
             data = data || {};
             var title = data.legendTitle;
+            var var1Label = data.var1Label;
+            var var2Label = data.var2Label;
             var top = data.top.toString().concat("%") || "1%";
             var left = data.left.toString().concat("%") || "1%";
 
@@ -610,7 +612,7 @@ HTMLWidgets.widget({
                 .attr("text-anchor", "end")
                 .attr("x", 60)
                 .attr("y", 100)
-                .text("Variable 1");
+                .text(var1Label);
 
             legend.append("text")
                 .attr("class", "y label")
@@ -618,7 +620,7 @@ HTMLWidgets.widget({
                 .attr("y", -50)
                 .attr("dy", ".75em")
                 .attr("transform", "rotate(-90)")
-                .text("Variable 2");
+                .text(var2Label);
 
             // var svgSize = d3.select("#dmapLegend4 svg g").node().getBoundingClientRect();
             // d3.select("#dmapLegend3 svg").attr("width", svgSize.width + 20)
@@ -628,8 +630,9 @@ HTMLWidgets.widget({
         map.addPlugin("mylegend4", addBivariateLegend);
 
         console.log("bivariateLegend\n", usrOpts.bivariateLegend)
-        map.mylegend4(usrOpts.bivariateLegend)
-
+        if (usrOpts.bivariateLegend.show) {
+            map.mylegend4(usrOpts.bivariateLegend)
+        }
 
 
         //sample of the arc plugin
