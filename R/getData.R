@@ -6,6 +6,10 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
   args <- list(...)
   codePath <- "inst/dmaps/"
   codes <- read.csv(dmap$codesPath, colClasses = "character")
+  if(!is.null(args$codeIds)){
+    str(args)
+    codes <- codes[codes$id %in% args$codeIds,]
+  }
 
   #if(is.null(data$name))
   #  stop("Need a region name")

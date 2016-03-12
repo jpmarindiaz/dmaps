@@ -1,4 +1,13 @@
 
+
+#' @export
+getCodesData <- function(mapName){
+  dmap <- dmapMeta(mapName)
+  path <- file.path("dmaps",basename(dirname(dmap$codesPath)),basename(dmap$codesPath))
+  read.csv(system.file(path,package = "dmaps"),colClasses = "character")
+}
+
+
 defaultTpl <- function(data, nms = NULL){
   nms <- nms %||% names(data)
   title <- paste0("<strong>",nms,"</strong>")

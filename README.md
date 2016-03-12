@@ -20,6 +20,8 @@ Add reverse palette
 Add reverse legend
 Better handle default opts
 
+Fix scale... filter input data for regions
+
 Bivariate choropleth
 http://www.joshuastevens.net/cartography/make-a-bivariate-choropleth-map/
 http://indiemapper.com/app/learnmore.php?l=bivariate_choropleth

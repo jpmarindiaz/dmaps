@@ -5,7 +5,7 @@
 #' @import htmlwidgets
 #'
 #' @export
-dmaps <- function(mapName, data = NULL,
+dmaps <- function(mapName, data = NULL, regions = NULL,
                   regionCols = NULL, codeCol = NULL,
                   groupCol = NULL, valueCol = NULL,
                   bubbles = NULL, opts = NULL,
@@ -30,8 +30,6 @@ dmaps <- function(mapName, data = NULL,
   if(!is.null(data) && (is.null(groupCol) && is.null(valueCol))){
     stop("Need to povide a groupCol or a valueCol")
   }
-
-
 
   #str(data)
   if(is.null(data$info) && !is.null(data)){
@@ -59,7 +57,6 @@ dmaps <- function(mapName, data = NULL,
   if(!is.null(bubbles) && is.null(bubbles$group)){
     bubbleColorLegendShow <- FALSE
   }
-
   if(!is.null(groupCol)){
     if(!groupCol%in% names(data)){
       stop("groupCol not in data")
@@ -101,11 +98,25 @@ dmaps <- function(mapName, data = NULL,
       data$code <- data[[codeCol]]
   }
 
+  # Add region projection options
+  codeIds <- NULL
+  if(!is.null(regions)){
+    regionMeta <- dmap$regions[[regions]]
+    projectOptsRegions <- regionMeta[c("center","scale")]
+    o <- list()
+    for(i in c("center","rotate","scale","translate")){
+      o[[i]] <- opts$projectioOpts[[i]] %||% projectOptsRegions[[i]]
+    }
+    opts$projectionOpts <- o
+    codeIds <- regionMeta$ids
+  }
+
   settings <- getSettings(dmap,opts, data)
 
   settings$bubbleColorLegend$show <- bubbleColorLegendShow
   settings$bubbleSizeLegend$show <- bubbleSizeLegendShow
 
+  #filter data to show only data in selected region
 
   # message("SETTINGS")
   d <- getData(dmap,data, bubbles,
@@ -114,8 +125,7 @@ dmaps <- function(mapName, data = NULL,
                bubblePalette = settings$bubblePalette,
                nLevels = settings$nLevels,
                customPalette = settings$customPalette,
-               fillKeyLabels = settings$legend$labels)
-
+               fillKeyLabels = settings$legend$labels, codeIds = codeIds)
 
 
   # pass the data and settings using 'x'

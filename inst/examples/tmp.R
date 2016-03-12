@@ -6,6 +6,35 @@ install()
 library(dmaps)
 
 
+##
+codes <- getCodesData("co_municipalities")
+
+
+## Test Regions
+
+d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
+mapName <- "co_municipalities"
+names(d)
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  nLevels = 3,
+  choroLegend = list(shapeWidth = 40)
+)
+dmaps(mapName, data = d,
+      valueCol = "accionesMilitares",
+      regionCols = c("mupio","depto"),
+      regions = "Tolima",
+      opts = opts
+)
+
+
+
+
 
 
 
