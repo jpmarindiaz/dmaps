@@ -7,6 +7,7 @@ library(dmaps)
 
 
 ##
+getAvailableRegions("co_municipalities")
 codes <- getCodesData("co_municipalities")
 
 

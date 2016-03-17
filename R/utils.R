@@ -1,4 +1,8 @@
-
+#' @export
+getAvailableRegions <- function(mapName){
+  dmap <- dmapMeta(mapName)
+  names(dmap$regions)
+}
 
 #' @export
 getCodesData <- function(mapName){
