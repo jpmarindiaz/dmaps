@@ -6,6 +6,34 @@ install()
 library(dmaps)
 
 
+d <- read.csv("~/Desktop/BASE_COMPLETA_elegida_all.csv", stringsAsFactors = FALSE)
+d[d == "#NULL!"] <- NA
+mapName <- "co_municipalities"
+selvars <- sample(names(d),1)
+selvars <- "municipios_1_1"
+d[[selvars]] <- as.numeric(d[[selvars]])
+
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  nLevels = 3,
+  choroLegend = list(shapeWidth = 40)
+)
+dmaps(mapName, data = d,
+      valueCol = selvars,
+      regionCols = c("mupio","depto"),
+      opts = opts
+)
+selvars
+d[[selvars]]
+unique(d[[selvars]])
+
+
+
 ##
 getAvailableRegions("co_municipalities")
 codes <- getCodesData("co_municipalities")
@@ -33,6 +61,12 @@ dmaps(mapName, data = d,
       opts = opts
 )
 
+dmaps(mapName, data = d,
+      valueCol = "accionesMilitares",
+      regionCols = c("mupio","depto"),
+      regions = "Frontera venezolana",
+      opts = opts
+)
 
 
 
@@ -300,6 +334,19 @@ d
 dmaps(mapName, data = d,
       groupCol = "group",
       codeCol = "code")
+
+## Test export widget
+
+dm <- dmaps("world_countries")
+
+library(htmltools)
+library(exportwidget)
+html <- tagList(
+  dm,
+  export_widget( )
+)
+html_print(html,viewer = utils::browseURL )
+
 
 
 

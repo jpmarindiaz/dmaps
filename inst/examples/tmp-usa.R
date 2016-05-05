@@ -5,23 +5,53 @@ install()
 
 library(dmaps)
 
-mapName <- "world_countries"
-dmaps(mapName)
-#
 mapName <- "us_states"
 dmaps(mapName)
 
 
-
 ## Categorical Legend
-d <- read.csv("inst/data/world_countries/world-countries-popular-sport.csv")
+d <- read.csv("inst/data/us/us_states/treeforbnb-states.csv")
 names(d)
 opts <- list(
   choroLegend = list(title = "", top = 1, orient="vertical"),
   showLegend = TRUE
 )
-mapName <- "world_countries"
-dmaps("world_countries",data = d, regionCol = "country", groupCol = "sport", opts = opts)
+dmaps("us_states",data = d, regionCol = "state", valueCol = "units", opts = opts)
+
+
+
+## Bivariate Choropleth
+d <- read.csv("inst/data/us/us_states/treeforbnb-states.csv")
+var1 <- cut2(d[,2],g=3)
+levels(var1) <- c("x1","x2","x3")
+var2 <- cut2(d[,3],g=3)
+levels(var2) <- c("y1","y2","y3")
+
+d$group <- paste(var1,var2,sep="")
+
+groups2d <- apply(expand.grid(paste0("x",1:3),paste0("y",1:3)),1,
+                  function(r)paste0(r[1],r[2]))
+colors2d <- c("#e8e8e8","#e4acac","#c85a5a","#b0d5df","#ad93a5","#985356","#64acbe","#62718c","#574249")
+customPalette <- data.frame(group = groups2d, color = colors2d)
+
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  customPalette = customPalette,
+  choroLegend = list(show = FALSE),
+  bivariateLegend = list(show = TRUE, var1Label = "Units", var2Label = "Median Price")
+)
+dmaps(mapName, data = d,
+      groupCol = "group",
+      regionCols = "state",
+      opts = opts)
+
+
+
 
 
 

@@ -3,12 +3,30 @@ HTMLWidgets.widget({
     name: "dmaps",
     type: "output",
 
-    initialize: function(el, width, height) {},
+    initialize: function(el, width, height) {
+        d3.select(el).selectAll("*").remove();
+    },
 
     resize: function(el, width, height, instance) {},
 
     renderValue: function(el, x, instance) {
-        d3.select(el).selectAll("*").remove()
+        // d3.select(el.id).html("");
+        // console.log(d3.select(el))
+        //var theel = document.getElementById(el.id);
+        //theel.innerHTML = '';    
+        // console.log(d3.select("#dmapLegend"))
+        // d3.select("#dmapLegend").remove();
+
+        // d3.select(el).select("#dmapLegend").selecAll("*").remove();
+
+        // document.getElementById(el.id).innerHTML="";
+        // d3.select("#dmapLegend").select("svg").selectAll("*").remove();
+        d3.select(el).selectAll("*").remove();
+
+
+        // d3.select(el).select("svg").selectAll("*").remove();
+        // console.log(d3.select(el.id).selectAll("*"))
+        // d3.select(el).selectAll("svg").remove()
 
         var css = document.createElement("style");
         css.type = "text/css";
@@ -27,7 +45,7 @@ HTMLWidgets.widget({
 
 
         // console.log("SETTINGS:\n", x.settings);
-        console.log("DATA:\n", x.data);
+        // console.log("DATA:\n", x.data);
         var usrOpts = x.settings;
         var dmap = x.dmap;
 
@@ -87,6 +105,17 @@ HTMLWidgets.widget({
                     .rotate(projectionOpts.rotate)
                     .center(projectionOpts.center)
                     .parallels(projectionOpts.parallels)
+                    // .translate(projectionOpts.translate);
+                    .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]]);
+                return (projection)
+            }
+            if (projectionName == "albersUsa") {
+                var projection = d3.geo.albersUsa()
+                    // .scale(projectionOpts.scale)
+                    .scale(projectionOpts.scale * element.offsetWidth)
+                    // .rotate(projectionOpts.rotate)
+                    // .center(projectionOpts.center)
+                    // .parallels(projectionOpts.parallels)
                     // .translate(projectionOpts.translate);
                     .translate([element.offsetWidth / 2 + projectionOpts.translate[0], element.offsetHeight / 2 + projectionOpts.translate[1]]);
                 return (projection)
@@ -281,9 +310,13 @@ HTMLWidgets.widget({
         //         .html(html);
         // }
 
-
+        console.log("x.data",x.data)
 
         function addChoroLegend(layer, data, options) {
+            // d3.select("#dmapLegend").remove();
+            // console.log(".legendLinear",d3.select(this.options.element).selectAll("legendLinear"))
+            // d3.select(this.options.element).selectAll(".legendLinear").remove();
+
             data = data || {};
 
             ;
@@ -315,10 +348,13 @@ HTMLWidgets.widget({
                     .range(legendRange);
             }
 
+            // d3.select(this.options.element).select("#dmapLegend").selecAll("*").remove();
 
-            d3.select(this.options.element)
+            var legendContainer = d3.select(this.options.element);
+            // console.log("legendContainer",legendContainer.select("#dmapLegend"));
+            legendContainer
                 .append('div')
-                .style("z-index", 1002)
+                // .style("z-index", 1002)
                 .style("position", "absolute")
                 .style("top", top)
                 .style("left", left)
@@ -326,6 +362,7 @@ HTMLWidgets.widget({
                 .append("svg");
 
             var legend = d3.select("#dmapLegend svg");
+
 
             legend.append("g")
                 .attr("class", "legendLinear")
@@ -346,18 +383,21 @@ HTMLWidgets.widget({
             d3.select("#dmapLegend svg").attr("width", svgSize.width + 20)
             d3.select("#dmapLegend svg").attr("height", svgSize.height + 10)
         }
-
+        
+        // d3.select("#dmapLegend").remove();
         map.addPlugin("mylegend", addChoroLegend);
 
 
-
-
-
-
-        console.log("choroLegend\n", usrOpts.choroLegend)
+        console.log("beforeChoroLegendShow",d3.select("#dmapLegend").selectAll("*").remove());
+        // console.log("choroLegend\n", usrOpts.choroLegend)
         if (usrOpts.choroLegend.show) {
+            // console.log(d3.select(el).select("#dmapLegend"));
+            // console.log(d3.select("#dmapLegend"));
+            // d3.select("#dmapLegend").remove();
+            // console.log(usrOpts.choroLegend)
             map.mylegend(usrOpts.choroLegend)
         }
+        // console.log("outIf",d3.select(el).select("#dmapLegend"));
 
         data.bubblesData = HTMLWidgets.dataframeToD3(data.bubblesData);
         // console.log("bubbles: ", data.bubblesData)
@@ -515,11 +555,11 @@ HTMLWidgets.widget({
                     }
                 });
 
-            console.log("bubbleColorLegend\n", usrOpts.bubbleColorLegend)
+            // console.log("bubbleColorLegend\n", usrOpts.bubbleColorLegend)
             if (usrOpts.bubbleColorLegend.show) {
                 map.mylegend2(usrOpts.bubbleColorLegend)
             }
-            console.log("bubbleSizeLegend\n", usrOpts.bubbleSizeLegend)
+            // console.log("bubbleSizeLegend\n", usrOpts.bubbleSizeLegend)
             if (usrOpts.bubbleSizeLegend.show) {
                 map.mylegend3(usrOpts.bubbleSizeLegend)
             }
@@ -586,10 +626,10 @@ HTMLWidgets.widget({
 
             //Create the Scale we will use for the Axis
             var axisScaleX = d3.scale.ordinal()
-                .domain(["Bajo", "Alto"])
+                .domain(["-", "+"])
                 .range([0, 60]);
             var axisScaleY = d3.scale.ordinal()
-                .domain(["Alto", "Bajo"])
+                .domain(["+", "-"])
                 .range([0, 60]);
 
             //Create the Axis
@@ -629,7 +669,7 @@ HTMLWidgets.widget({
 
         map.addPlugin("mylegend4", addBivariateLegend);
 
-        console.log("bivariateLegend\n", usrOpts.bivariateLegend)
+        // console.log("bivariateLegend\n", usrOpts.bivariateLegend)
         if (usrOpts.bivariateLegend.show) {
             map.mylegend4(usrOpts.bivariateLegend)
         }
@@ -651,6 +691,11 @@ HTMLWidgets.widget({
         notes.setAttribute("id", "notes");
         notes.innerHTML = x.settings.notes.text;
         document.getElementById(el.id).appendChild(notes);
+
+        console.log(d3.select("#dmapLegend"))
+        // d3.select("#dmapLegend").remove();
+
+
 
     }
 });

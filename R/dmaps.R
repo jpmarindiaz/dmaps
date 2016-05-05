@@ -135,7 +135,7 @@ dmaps <- function(mapName, data = NULL, regions = NULL,
     settings = settings
   )
 
-  str(x)
+  #str(x)
   htmlwidgets::createWidget(
     name = "dmaps",
     x,
