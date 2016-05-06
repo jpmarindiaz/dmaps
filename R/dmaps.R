@@ -101,14 +101,19 @@ dmaps <- function(mapName, data = NULL, regions = NULL,
   # Add region projection options
   codeIds <- NULL
   if(!is.null(regions)){
-    regionMeta <- dmap$regions[[regions]]
-    projectOptsRegions <- regionMeta[c("center","scale")]
-    o <- list()
-    for(i in c("center","rotate","scale","translate")){
-      o[[i]] <- opts$projectioOpts[[i]] %||% projectOptsRegions[[i]]
+    if(length(regions) > 1){
+      regionMeta <- dmap$regions[regions]
+      codeIds <- unname(unlist(lapply(regionMeta,function(i)i$ids)))
+    }else{
+      regionMeta <- dmap$regions[[regions]]
+      projectOptsRegions <- regionMeta[c("center","scale")]
+      o <- list()
+      for(i in c("center","rotate","scale","translate")){
+        o[[i]] <- opts$projectioOpts[[i]] %||% projectOptsRegions[[i]]
+      }
+      opts$projectionOpts <- o
+      codeIds <- regionMeta$ids
     }
-    opts$projectionOpts <- o
-    codeIds <- regionMeta$ids
   }
 
   settings <- getSettings(dmap,opts, data)

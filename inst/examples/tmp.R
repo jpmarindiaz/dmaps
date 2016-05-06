@@ -37,6 +37,12 @@ dmaps(mapName, data = d,
       regions = "Cesar",
       opts = opts
 )
+dmaps(mapName, data = d,
+      valueCol = "conf_uso_2",
+      codeCol = "code",
+      regions = c("Cesar","Meta","Catatumbo","La Guajira"),
+      opts = opts
+)
 
 
 
