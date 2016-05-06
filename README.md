@@ -20,9 +20,8 @@ Add reverse palette
 Add reverse legend
 Better handle default opts
 
-Fix scale... filter input data for regions
-
 Return current projectionOptions to R for use in shiny
+Add zoom buttons (with slider?)
 
 Bivariate choropleth
 http://www.joshuastevens.net/cartography/make-a-bivariate-choropleth-map/
