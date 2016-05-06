@@ -22,6 +22,8 @@ Better handle default opts
 
 Fix scale... filter input data for regions
 
+Return current projectionOptions to R for use in shiny
+
 Bivariate choropleth
 http://www.joshuastevens.net/cartography/make-a-bivariate-choropleth-map/
 http://indiemapper.com/app/learnmore.php?l=bivariate_choropleth
