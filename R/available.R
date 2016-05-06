@@ -8,91 +8,91 @@ getDefaultOpts <- function(projectionName = NULL,projectionOpts = NULL,
                                legendOpts$left)
   defaultStyles <- paste0(textStyles,legendStyles)
 
-dopts <- list(
-  title = list(text="",top=0,left=0),
-  notes = list(text="",top=80,left=0),
-  nLevels = 5,
-  infoTpl = NULL,
-  bubblesInfoTpl = NULL,
-  projection = projectionName,
-  projectionOpts = projectionOpts,
-  zoomable = TRUE,
-  defaultFill = "#DCE5E0",
-  borderColor = "#ffffff",
-  borderWidth = 1,
-  highlightFillColor = "#999999",
-  highlightBorderColor = "#444444",
-  highlightBorderWidth = 0,
-  showLegend = TRUE,
-  choroLegend = list(
-    type = "categorical",
-    title = "",
-    defaultFillTitle = NULL,
-    top = 1,
-    left = 1,
-    orient = "vertical",
-    shapeWidth = 40,
-    labels = NULL,
-    show = TRUE
-  ),
-  bubbleColorLegend = list(
-    type = "numeric",
-    title = "",
-    defaultFillTitle = NULL,
-    top = 35,
-    left = 1,
-    orient = "vertical",
-    labels = NULL,
-    show = TRUE
-  ),
-  bubbleSizeLegend = list(
-    type = "numeric",
-    title = "",
-    defaultFillTitle = NULL,
-    top = 70,
-    left = 1,
-    orient = "horizontal",
-    labels = NULL,
-    show = TRUE
-  ),
-  bivariateLegend = list(
-    type = "numeric",
-    title = "",
-    defaultFillTitle = NULL,
-    top = 70,
-    left = 5,
-    labels = NULL,
-    show = FALSE,
-    var1Label = "Variable 1",
-    var2Label = "Variable 2"
-  ),
-  graticule = FALSE,
-  palette = "PuBu",
-  styles = defaultStyles,
-  bubbleBorderWidth = 0.001,
-  bubbleBorderColor = '#FF6A37',
-  bubbleFillOpacity = 0.5,
-  bubbleHighlightOnHover = TRUE,
-  bubbleHighlightFillColor = 'rgba(255, 106, 55, 0.3)',
-  bubbleHighlightBorderColor = '#FB4B3A',
-  bubbleHighlightBorderWidth = 1,
-  bubbleHighlightFillOpacity = 0.7,
-  bubblePalette = "Set3",
-  minSizeFactor = 1,
-  maxSizeFactor = 50,
-  customPalette = NA
-)
+  dopts <- list(
+    title = list(text="",top=0,left=0),
+    notes = list(text="",top=80,left=0),
+    nLevels = 5,
+    infoTpl = NULL,
+    bubblesInfoTpl = NULL,
+    projection = projectionName,
+    projectionOpts = projectionOpts,
+    zoomable = TRUE,
+    defaultFill = "#DCE5E0",
+    borderColor = "#ffffff",
+    borderWidth = 1,
+    highlightFillColor = "#999999",
+    highlightBorderColor = "#444444",
+    highlightBorderWidth = 0,
+    showLegend = TRUE,
+    choroLegend = list(
+      type = "categorical",
+      title = "",
+      defaultFillTitle = NULL,
+      top = 1,
+      left = 1,
+      orient = "vertical",
+      shapeWidth = 40,
+      labels = NULL,
+      show = TRUE
+    ),
+    bubbleColorLegend = list(
+      type = "numeric",
+      title = "",
+      defaultFillTitle = NULL,
+      top = 35,
+      left = 1,
+      orient = "vertical",
+      labels = NULL,
+      show = TRUE
+    ),
+    bubbleSizeLegend = list(
+      type = "numeric",
+      title = "",
+      defaultFillTitle = NULL,
+      top = 70,
+      left = 1,
+      orient = "horizontal",
+      labels = NULL,
+      show = TRUE
+    ),
+    bivariateLegend = list(
+      type = "numeric",
+      title = "",
+      defaultFillTitle = NULL,
+      top = 70,
+      left = 5,
+      labels = NULL,
+      show = FALSE,
+      var1Label = "Variable 1",
+      var2Label = "Variable 2"
+    ),
+    graticule = FALSE,
+    palette = "PuBu",
+    styles = defaultStyles,
+    bubbleBorderWidth = 0.001,
+    bubbleBorderColor = '#FF6A37',
+    bubbleFillOpacity = 0.5,
+    bubbleHighlightOnHover = TRUE,
+    bubbleHighlightFillColor = 'rgba(255, 106, 55, 0.3)',
+    bubbleHighlightBorderColor = '#FB4B3A',
+    bubbleHighlightBorderWidth = 1,
+    bubbleHighlightFillOpacity = 0.7,
+    bubblePalette = "Set3",
+    minSizeFactor = 1,
+    maxSizeFactor = 50,
+    customPalette = NA
+  )
 
-if(is.null(data)){
-  dopts$choroLegend$show <- FALSE
-}
-dopts
+  if(is.null(data)){
+    dopts$choroLegend$show <- FALSE
+  }
+  dopts
 }
 
 textStyles <- function(titleTop = NULL, titleLeft = NULL,
                        notesTop = NULL, notesLeft = NULL){
   textStylesTpl <-
-"
+    "
 .axis path,
 .axis line {
     fill: none;

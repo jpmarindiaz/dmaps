@@ -6,6 +6,74 @@ install()
 library(dmaps)
 
 
+
+
+## Test Regions
+
+#d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
+d <- read.csv("inst/data/co_municipalities/co_municipalities-2-vars.csv")
+
+mapName <- "co_municipalities"
+names(d)
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  nLevels = 3,
+  choroLegend = list(shapeWidth = 40)
+)
+dmaps(mapName, data = d,
+      valueCol = "conf_uso_2",
+      regionCols = c("municipio","departamento"),
+      regions = "Cesar",
+      opts = opts
+)
+dmaps(mapName, data = d,
+      valueCol = "conf_uso_2",
+      codeCol = "code",
+      regions = "Cesar",
+      opts = opts
+)
+
+
+
+d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  nLevels = 3,
+  choroLegend = list(shapeWidth = 40)
+)
+dmaps(mapName, data = d,
+      valueCol = "accionesMilitares",
+      regionCols = c("mupio","depto"),
+      regions = "Tolima",
+      opts = opts
+)
+dmaps(mapName, data = d,
+      valueCol = "accionesMilitares",
+      regionCols = c("mupio","depto"),
+      regions = "Cesar",
+      opts = opts
+)
+
+dmaps(mapName, data = d,
+      valueCol = "accionesMilitares",
+      regionCols = c("mupio","depto"),
+      regions = "Frontera venezolana",
+      opts = opts
+)
+
+
+
+###
 d <- read.csv("~/Desktop/BASE_COMPLETA_elegida_all.csv", stringsAsFactors = FALSE)
 d[d == "#NULL!"] <- NA
 mapName <- "co_municipalities"
@@ -37,39 +105,6 @@ unique(d[[selvars]])
 ##
 getAvailableRegions("co_municipalities")
 codes <- getCodesData("co_municipalities")
-
-
-## Test Regions
-
-d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
-mapName <- "co_municipalities"
-names(d)
-opts <- list(
-  defaultFill = "#FFFFFF",
-  borderColor = "#CCCCCC",
-  borderWidth = 0.3,
-  highlightFillColor = "#999999",
-  highlightBorderWidth = 1,
-  palette = "PuBu",
-  nLevels = 3,
-  choroLegend = list(shapeWidth = 40)
-)
-dmaps(mapName, data = d,
-      valueCol = "accionesMilitares",
-      regionCols = c("mupio","depto"),
-      regions = "Tolima",
-      opts = opts
-)
-
-dmaps(mapName, data = d,
-      valueCol = "accionesMilitares",
-      regionCols = c("mupio","depto"),
-      regions = "Frontera venezolana",
-      opts = opts
-)
-
-
-
 
 
 

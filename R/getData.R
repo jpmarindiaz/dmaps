@@ -7,8 +7,9 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
   codePath <- "inst/dmaps/"
   codes <- read.csv(dmap$codesPath, colClasses = "character")
   if(!is.null(args$codeIds)){
-    str(args)
+    #str(args)
     codes <- codes[codes$id %in% args$codeIds,]
+    #str(codes)
   }
 
   #if(is.null(data$name))
@@ -20,9 +21,14 @@ getData <- function(dmap,data = NULL,bubbles = NULL, ...){
     idx <- match(x,codes$name)
     codes$id[idx]
   }
-  if(!is.null(data$name))
-    data$code <- matchCode(codes,data)
 
+  if(!is.null(data$name)){
+    data$code <- matchCode(codes,data)
+  }
+  # este es para filtrar los datos de entrada cuando hay una región definida. Se puede hacer antes(?)
+  if(!is.null(data$code) && !is.null(args$codeIds)){
+    data <- data[data$code %in% args$codeIds,]
+  }
 
   if(is.null(data$info))
     data$info <-""

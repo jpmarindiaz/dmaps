@@ -117,7 +117,7 @@ dmaps <- function(mapName, data = NULL, regions = NULL,
   settings$bubbleSizeLegend$show <- bubbleSizeLegendShow
 
   #filter data to show only data in selected region
-
+  str(data)
   # message("SETTINGS")
   d <- getData(dmap,data, bubbles,
                defaultFill = settings$defaultFill,
