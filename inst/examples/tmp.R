@@ -23,7 +23,8 @@ opts <- list(
   highlightBorderWidth = 1,
   palette = "PuBu",
   nLevels = 3,
-  choroLegend = list(shapeWidth = 40)
+  choroLegend = list(shapeWidth = 40),
+  projectionOpts = list(scale = 20)
 )
 dmaps(mapName, data = d,
       valueCol = "conf_uso_2",
@@ -31,6 +32,8 @@ dmaps(mapName, data = d,
       regions = "Cesar",
       opts = opts
 )
+
+
 dmaps(mapName, data = d,
       valueCol = "conf_uso_2",
       codeCol = "code",

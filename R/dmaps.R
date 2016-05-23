@@ -109,7 +109,7 @@ dmaps <- function(mapName, data = NULL, regions = NULL,
       projectOptsRegions <- regionMeta[c("center","scale")]
       o <- list()
       for(i in c("center","rotate","scale","translate")){
-        o[[i]] <- opts$projectioOpts[[i]] %||% projectOptsRegions[[i]]
+        o[[i]] <- opts$projectionOpts[[i]] %||% projectOptsRegions[[i]]
       }
       opts$projectionOpts <- o
       codeIds <- regionMeta$ids
