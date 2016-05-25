@@ -31,6 +31,11 @@ world_countries:
       tilt: 25
       clipAngle: 60
       precision: .1
+  regions:
+    Colombia:
+      ids: "COL"
+      center: [-85,4.5]
+      scale: 2
 latam_countries:
   label: World Countries
   file: latin-america-caribbean-countries.topo.json
