@@ -34,6 +34,14 @@ http://jsbin.com/pamigahifi/1/edit?html,css,output
 Pluin
 http://jsbin.com/abeXErat/21/edit?html,output
 
+
+# Color scales
+
+Add viridian
+https://twitter.com/noamross/status/705883445633937412?s=09
+
+
+
 # Other maps to add
 
 AFG

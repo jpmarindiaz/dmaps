@@ -158,7 +158,7 @@ dmaps <- function(mapName, data = NULL, regions = NULL,
 #' Widget output function for use in Shiny
 #'
 #' @export
-dmapsOutput <- function(outputId, width = '100%', height = '500px'){
+dmapsOutput <- function(outputId, width = '100%', height = '400px'){
   shinyWidgetOutput(outputId, 'dmaps', width, height, package = 'dmaps')
 }
 

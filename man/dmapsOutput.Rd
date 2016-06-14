@@ -4,7 +4,7 @@
 \alias{dmapsOutput}
 \title{Widget output function for use in Shiny}
 \usage{
-dmapsOutput(outputId, width = "100\%", height = "500px")
+dmapsOutput(outputId, width = "100\%", height = "400px")
 }
 \description{
 Widget output function for use in Shiny

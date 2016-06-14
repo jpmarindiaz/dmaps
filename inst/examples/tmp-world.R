@@ -18,10 +18,14 @@ mapName <- "world_countries"
 dmaps("world_countries",data = d, regionCol = "country", groupCol = "sport", opts = opts)
 
 getAvailableRegions("world_countries")
+dmaps:::dmapMeta("world_countries")
 dmaps("world_countries",data = d,
       regionCol = "country", groupCol = "sport",
       regions = "Colombia",
       opts = opts)
+
+
+
 
 
 

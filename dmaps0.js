@@ -347,12 +347,25 @@ HTMLWidgets.widget({
                     .domain(legendDomain)
                     .range(legendRange);
             }
-            var legend = d3.select("svg");
+
+            // d3.select(this.options.element).select("#dmapLegend").selecAll("*").remove();
+
+            var legendContainer = d3.select(this.options.element);
+            // console.log("legendContainer",legendContainer.select("#dmapLegend"));
+            legendContainer
+                .append('div')
+                // .style("z-index", 1002)
+                .style("position", "absolute")
+                .style("top", top)
+                .style("left", left)
+                .attr("id", "dmapLegend")
+                .append("svg");
+
+            var legend = d3.select("#dmapLegend svg");
 
 
             legend.append("g")
-                .attr("id", "dmapLegend")
-                .attr("class", "datamaps-legend")
+                .attr("class", "legendLinear")
                 .attr("transform", "translate(10,10)");
 
             var legendLinear = d3.legend.color()
@@ -362,13 +375,13 @@ HTMLWidgets.widget({
                 .orient(orient)
                 .scale(scale);
 
-            legend.select("#dmapLegend").call(legendLinear);
+            legend.select(".legendLinear").call(legendLinear);
 
             d3.select(".legendCells").attr("transform", "translate(0,5)");
 
-            var svgSize = d3.select("#dmapLegend").node().getBoundingClientRect();
-            d3.select("#dmapLegend").attr("width", svgSize.width + 20)
-            d3.select("#dmapLegend").attr("height", svgSize.height + 10)
+            var svgSize = d3.select("#dmapLegend svg g").node().getBoundingClientRect();
+            d3.select("#dmapLegend svg").attr("width", svgSize.width + 20)
+            d3.select("#dmapLegend svg").attr("height", svgSize.height + 10)
         }
         
         // d3.select("#dmapLegend").remove();
