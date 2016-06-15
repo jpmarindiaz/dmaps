@@ -18,7 +18,7 @@ opts <- list(
   highlightBorderWidth = 1,
   palette = "PuBu",
   choroLegend = list(shapeWidth = 40),
-  zoomable = FALSE
+  zoomable = TRUE
 )
 dmaps(mapName, data = d,
       groupCol = "accionesMilitares",
@@ -54,7 +54,7 @@ app <- shinyApp(
         highlightBorderWidth = 1,
         palette = "PuBu",
         choroLegend = list(shapeWidth = 40),
-        zoomable = FALSE
+        zoomable = TRUE
       )
       mapName <- "co_municipalities"
       e <- dmaps(mapName, data = d,

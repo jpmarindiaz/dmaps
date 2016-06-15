@@ -278,7 +278,7 @@ HTMLWidgets.widget({
                         '-ms-' : '';
                     var x = d3.event.translate[0];
                     var y = d3.event.translate[1];
-                    datamap.svg.selectAll("g")
+                    datamap.svg.selectAll(".datamaps-subunits")
                         .style(prefix + 'transform',
                             'translate(' + x + 'px, ' + y + 'px) scale(' + (d3.event.scale) + ')');
                 }
