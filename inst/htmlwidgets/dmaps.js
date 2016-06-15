@@ -50,6 +50,13 @@ HTMLWidgets.widget({
         css.innerHTML = x.settings.styles;
         document.getElementById(el.id).appendChild(css);
 
+        var zoomButtons = document.createElement("div");
+        zoomButtons.style["position"] = "absolute";
+        zoomButtons.style["right"] = "1%";
+        zoomButtons.style["z-index"]= 1001;
+        zoomButtons.innerHTML = '<button data-zoom="+1" id="zoom_in">+</button><button data-zoom="-1" id="zoom_out">-</button><button id="zoom_reset">&#x25A1;</button>';
+        document.getElementById(el.id).appendChild(zoomButtons);
+
         var title = document.createElement("h2");
         title.setAttribute("id", "title");
         title.innerHTML = x.settings.title.text;
@@ -204,6 +211,18 @@ HTMLWidgets.widget({
             return (data.fillKeys)
         }
 
+        // function redraw() {
+        //         var prefix = '-webkit-transform' in document.body.style ?
+        //             '-webkit-' : '-moz-transform' in document.body.style ?
+        //             '-moz-' : '-ms-transform' in document.body.style ?
+        //             '-ms-' : '';
+        //         var x = d3.event.translate[0];
+        //         var y = d3.event.translate[1];
+        //         d3.selectAll(".datamaps-subunits") // OJO puede que no funcione con bubbles!
+        //             .style(prefix + 'transform',
+        //                 'translate(' + x + 'px, ' + y + 'px) scale(' + (d3.event.scale) + ')');
+        //     }
+
         // console.log("Opts: ", opts)
 
         var map = new Datamap({
@@ -263,25 +282,93 @@ HTMLWidgets.widget({
                 animationSpeed: 600
             },
             done: function(datamap) {
-                // console.log("datamap", datamap)
-                // console.log("zoomable", datamap.options.zoomable)
-                if (!datamap.options.zoomable) {
-                    return null
-                }
-                // https://github.com/markmarkoh/datamaps/pull/122
-                datamap.svg.call(d3.behavior.zoom().on("zoom", redraw));
+                var ww = d3.select("svg").style("width").replace("px", "");
+                var hh = d3.select("svg").style("height").replace("px", "");
+                var center = [ww / 2, hh / 2];
 
-                function redraw() {
+                var zoom = d3.behavior.zoom().scaleExtent([1, 15]).on("zoom", zoomed);
+                // http://bl.ocks.org/mbostock/8fadc5ac9c2a9e7c5ba2
+                // http://bl.ocks.org/mgold/c2cc7242c8f800c736c4
+                // http://bl.ocks.org/mgold/bbc451a7b9f902954e7c
+                datamap.svg.call(zoom).call(zoom.event)
+
+
+                function zoomed() {
                     var prefix = '-webkit-transform' in document.body.style ?
                         '-webkit-' : '-moz-transform' in document.body.style ?
                         '-moz-' : '-ms-transform' in document.body.style ?
                         '-ms-' : '';
-                    var x = d3.event.translate[0];
-                    var y = d3.event.translate[1];
+                    console.log("translate", zoom.translate()[0])
+                    console.log("d3.event.translate", zoom.translate()[1])
+                    var x = zoom.translate()[0];
+                    var y = zoom.translate()[1];
                     datamap.svg.selectAll(".datamaps-subunits")
                         .style(prefix + 'transform',
-                            'translate(' + x + 'px, ' + y + 'px) scale(' + (d3.event.scale) + ')');
+                            'translate(' + x + 'px, ' + y + 'px) scale(' + (zoom.scale()) + ')');
                 }
+
+
+                d3.selectAll("button[data-zoom]").on("click", function() {
+                    d3.event.preventDefault();
+                    var scale = zoom.scale(),
+                        extent = zoom.scaleExtent(),
+                        translate = zoom.translate(),
+                        x = translate[0],
+                        y = translate[1],
+                        factor = (this.id === 'zoom_in') ? 1.2 : 1 / 1.2,
+                        target_scale = scale * factor;
+                    // If we're already at an extent, done
+                    if (target_scale === extent[0] || target_scale === extent[1]) {
+                        return false;
+                    }
+                    // If the factor is too much, scale it down to reach the extent exactly
+                    var clamped_target_scale = Math.max(extent[0], Math.min(extent[1], target_scale));
+                    if (clamped_target_scale != target_scale) {
+                        target_scale = clamped_target_scale;
+                        factor = target_scale / scale;
+                    }
+
+                    // Center each vector, stretch, then put back
+                    x = (x - center[0]) * factor + center[0];
+                    y = (y - center[1]) * factor + center[1];
+
+                    // Transition to the new view over 350ms
+                    d3.transition().duration(200).tween("zoom", function() {
+                        var interpolate_scale = d3.interpolate(scale, target_scale),
+                            interpolate_trans = d3.interpolate(translate, [x, y]);
+                        return function(t) {
+                            zoom.scale(interpolate_scale(t))
+                                .translate(interpolate_trans(t));
+                            zoomed();
+                        };
+                    });
+                });
+                d3.selectAll("#zoom_reset").on("click", function() {
+                    // console.log("zoom.translate", zoom.translate())
+                    //    console.log("center", center)
+                    //    console.log("scale",zoom.scale())
+                    // Center each vector, stretch, then put back
+                    var scale = zoom.scale(),
+                        translate = zoom.translate(),
+                        x = 0,
+                        y = 0,
+                        target_scale = 1;
+                    // console.log("x y",[x,y])
+                    // Transition to the new view over 350ms
+                    d3.transition().duration(350).tween("zoom", function() {
+                        var interpolate_scale = d3.interpolate(scale, target_scale),
+                            interpolate_trans = d3.interpolate(translate, [x, y]);
+                        return function(t) {
+                            zoom.scale(interpolate_scale(t))
+                                .translate(interpolate_trans(t));
+                            zoomed();
+                        };
+                    });
+                });
+
+
+
+
             },
             zoomable: opts.zoomable
         });
@@ -345,8 +432,10 @@ HTMLWidgets.widget({
 
             var type = data.type || "categorical"
 
-            var legendDomain = data.domain; x.data.legendData.key;
-            var legendRange = data.range; x.data.legendData.keyColor;
+            var legendDomain = data.domain;
+            x.data.legendData.key;
+            var legendRange = data.range;
+            x.data.legendData.keyColor;
 
             var cells = data.cells || Math.min(legendDomain.length, 6);
             // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
@@ -365,8 +454,8 @@ HTMLWidgets.widget({
                     .range(legendRange);
             }
 
-            
-            
+
+
             var legend = d3.select("svg");
 
             legend.append("g")
@@ -394,12 +483,12 @@ HTMLWidgets.widget({
             // console.log("d3.select(#dmapLegend).remove",d3.select("#dmapLegend"))
 
         }
-        
+
         // d3.select("#dmapLegend").remove();
         map.addPlugin("mylegend", addChoroLegend);
 
 
-        console.log("beforeChoroLegendShow",d3.select("#dmapLegend").selectAll("*").remove());
+        console.log("beforeChoroLegendShow", d3.select("#dmapLegend").selectAll("*").remove());
         // console.log("choroLegend\n", usrOpts.choroLegend)
         if (usrOpts.choroLegend.show) {
             // console.log("yes choroLegend show")
@@ -602,17 +691,61 @@ HTMLWidgets.widget({
                 .append("svg")
                 .append("g");
 
-            var rectPalette = [
-                { "x": 0, "y": 40, "width": 20, "height": 20, "color": "#e8e8e8" },
-                { "x": 20, "y": 40, "width": 20, "height": 20, "color": "#e4acac" },
-                { "x": 40, "y": 40, "width": 20, "height": 20, "color": "#c85a5a" },
-                { "x": 0, "y": 20, "width": 20, "height": 20, "color": "#b0d5df" },
-                { "x": 20, "y": 20, "width": 20, "height": 20, "color": "#ad93a5" },
-                { "x": 40, "y": 20, "width": 20, "height": 20, "color": "#985356" },
-                { "x": 0, "y": 0, "width": 20, "height": 20, "color": "#64acbe" },
-                { "x": 20, "y": 0, "width": 20, "height": 20, "color": "#62718c" },
-                { "x": 40, "y": 0, "width": 20, "height": 20, "color": "#574249" }
-            ];
+            var rectPalette = [{
+                "x": 0,
+                "y": 40,
+                "width": 20,
+                "height": 20,
+                "color": "#e8e8e8"
+            }, {
+                "x": 20,
+                "y": 40,
+                "width": 20,
+                "height": 20,
+                "color": "#e4acac"
+            }, {
+                "x": 40,
+                "y": 40,
+                "width": 20,
+                "height": 20,
+                "color": "#c85a5a"
+            }, {
+                "x": 0,
+                "y": 20,
+                "width": 20,
+                "height": 20,
+                "color": "#b0d5df"
+            }, {
+                "x": 20,
+                "y": 20,
+                "width": 20,
+                "height": 20,
+                "color": "#ad93a5"
+            }, {
+                "x": 40,
+                "y": 20,
+                "width": 20,
+                "height": 20,
+                "color": "#985356"
+            }, {
+                "x": 0,
+                "y": 0,
+                "width": 20,
+                "height": 20,
+                "color": "#64acbe"
+            }, {
+                "x": 20,
+                "y": 0,
+                "width": 20,
+                "height": 20,
+                "color": "#62718c"
+            }, {
+                "x": 40,
+                "y": 0,
+                "width": 20,
+                "height": 20,
+                "color": "#574249"
+            }];
 
             var legend = d3.select("#dmapLegend4 svg g");
             legend.attr("transform", "translate(50,10)");
@@ -690,29 +823,184 @@ HTMLWidgets.widget({
             map.mylegend4(usrOpts.bivariateLegend)
         }
 
-
-        d3.select('.datamap').select('g').selectAll('path').style('vector-effect', 'non-scaling-stroke');
-
-        // d3.select("#dmapLegend").style({'position': 'absolute', 'width': '100%', 'height': '100%'});
+        // Do not scale geoboundaries on zoom
+        d3.select('.datamap').select('g').selectAll('path.datamaps-subunit').style('vector-effect', 'non-scaling-stroke');
 
         //make responsive
-        //alternatively with d3
-
         // d3.select(window).on('resize', function() {
         //     map.resize();
 
         // });
 
-        //sample of the arc plugin
 
-        //bubbles, custom popup on hover template
+        // function redraw() {
+        //         var prefix = '-webkit-transform' in document.body.style ?
+        //             '-webkit-' : '-moz-transform' in document.body.style ?
+        //             '-moz-' : '-ms-transform' in document.body.style ?
+        //             '-ms-' : '';
+        //         var x = d3.event.translate[0];
+        //         var y = d3.event.translate[1];
+        //         d3.selectAll(".datamaps-subunits") // OJO puede que no funcione con bubbles!
+        //             .style(prefix + 'transform',
+        //                 'translate(' + x + 'px, ' + y + 'px) scale(' + (d3.event.scale) + ')');
+        //     }
+
+
+
+
+
+
+        // d3.selectAll('#states path')
+        //     .on('click', function(d) {
+        //         // getBBox() is a native SVG element method
+        //         var bbox = this.getBBox(),
+        //             centroid = [bbox.x + bbox.width/2, bbox.y + bbox.height/2],
+        //             zoomScaleFactor = baseWidth / bbox.width,
+        //             zoomX = -centroid[0],
+        //             zoomY = -centroid[1];
+
+        //         // set a transform on the parent group element
+        //         d3.select('#states')
+        //             .attr("transform", "scale(" + scaleFactor + ")" +
+        //                 "translate(" + zoomX + "," + zoomY + ")");
+        // });
+
+        //     function redraw2() {
+        //             var prefix = '-webkit-transform' in document.body.style ?
+        //                 '-webkit-' : '-moz-transform' in document.body.style ?
+        //                 '-moz-' : '-ms-transform' in document.body.style ?
+        //                 '-ms-' : '';
+        //             var bbox = d3.selectAll(".datamaps-subunits").node().getBoundingClientRect();
+        //             // var x0 = bbox.x;
+        //             // var y0 = bbox.y; 
+        //             var center = [bbox.width/2,bbox.height/2];
+
+        //             var factor = 0.9;
+        //             var scale = d3.event.scale;
+        //             // var extent = zoom.scaleExtent();
+        //             var newScale = scale * factor;
+
+        //             // var x0 = d3.event.translate[0];
+        //             // var y0 = d3.event.translate[1];
+        //             var t = d3.event.translate;
+        //             var c = center;
+
+        //             var x = c[0] + (t[0] - c[0]) / scale * newScale;
+        //             var y = c[1] + (t[1] - c[1]) / scale * newScale;
+        //             // x = (x - center[0]) * factor + center[0];
+        //             // y = (y - center[1]) * factor + center[1];
+        //             d3.selectAll(".datamaps-subunits") // OJO puede que no funcione con bubbles!
+        //                 .style(prefix + 'transform',
+        //                     'translate(' + x + 'px, ' + y + 'px) scale(' + newScale + ')');
+        //         }
+
+
+        // var zoomfactor = 1;
+
+        // var zoomlistener = d3.behavior.zoom()
+        //     .on("zoom", redraw);
+
+        // d3.select("#zoom_in").on("click", function() {
+
+        //     map.svg.call(d3.behavior.zoom().on("zoom", redraw2));
+
+        //     // zoomfactor = zoomfactor + 0.2;
+        //     // zoomlistener.scale(zoomfactor).event(d3.selectAll(".datamaps-subunits"));
+        // });
+
+        // d3.select("#zoom_out").on("click", function() {
+        //     zoomfactor = zoomfactor - 0.2;
+        //     zoomlistener.scale(zoomfactor).event(d3.selectAll(".datamaps-subunits"));
+        // });
+
+        //     function redraw2() {
+        //         var prefix = '-webkit-transform' in document.body.style ?
+        //             '-webkit-' : '-moz-transform' in document.body.style ?
+        //             '-moz-' : '-ms-transform' in document.body.style ?
+        //             '-ms-' : '';
+        //         var center = [width / 2, height / 2];
+        //         var factor = 0.2;
+        //         // var direction = (this.id === 'zoom_in') ? 1 : -1;
+
+        //         view = {x: d3.event.translate[0], y: d3.event.translate[1], k: d3.event.scale};
+        // //         view.k = d3.event.scale * (1 + factor * direction);
+
+        // //         translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+        // //         l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+        // //         view.x += center[0] - l[0];
+        // // view.y += center[1] - l[1];
+        //         // var x = d3.event.translate[0];
+        //         // var y = d3.event.translate[1];
+        //         console.log("here", d3.event.translate, d3.event.scale);
+        //         // d3.selectAll(".datamaps-subunits").attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+        //         d3.selectAll(".datamaps-subunits") // OJO puede que no funcione con bubbles!
+        //             .style(prefix + 'transform',
+        //                 'translate(' + view.x + 'px, ' + view.y + 'px) scale(' + (d3.event.scale) + ')');
+        // }
+
+
+        // http://bl.ocks.org/linssen/7352810
+        // var zoom = d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
+
+        // d3.select(".datamaps-subunit").call(zoom)
+
+        // function zoomed() {
+        //     d3.select("svg").attr("transform",
+        //         "translate(" + zoom.translate() + ")" +
+        //         "scale(" + zoom.scale() + ")"
+        //     );
+        // }
+
+        // function interpolateZoom (translate, scale) {
+        //     var self = this;
+        //     return d3.transition().duration(350).tween("zoom", function () {
+        //         var iTranslate = d3.interpolate(zoom.translate(), translate),
+        //             iScale = d3.interpolate(zoom.scale(), scale);
+        //         return function (t) {
+        //             zoom
+        //                 .scale(iScale(t))
+        //                 .translate(iTranslate(t));
+        //             zoomed();
+        //         };
+        //     });
+        // }
+
+        // function zoomClick() {
+        //     var clicked = d3.event.target,
+        //         direction = 1,
+        //         factor = 0.2,
+        //         target_zoom = 1,
+        //         center = [width / 2, height / 2],
+        //         extent = zoom.scaleExtent(),
+        //         translate = zoom.translate(),
+        //         translate0 = [],
+        //         l = [],
+        //         view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+        //     d3.event.preventDefault();
+        //     direction = (this.id === 'zoom_in') ? 1 : -1;
+        //     target_zoom = zoom.scale() * (1 + factor * direction);
+
+        //     if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+        //     translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+        //     view.k = target_zoom;
+        //     l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+        //     view.x += center[0] - l[0];
+        //     view.y += center[1] - l[1];
+
+        //     interpolateZoom([view.x, view.y], view.k);
+        // }
+
+        // d3.selectAll('button').on('click', zoomClick);
 
 
 
         instance.map = map;
         // instance.mapData = getMapData();
-        
-        console.log("instance",instance)
+
+        console.log("instance", instance)
 
         var notes = document.createElement("p");
         notes.setAttribute("id", "notes");

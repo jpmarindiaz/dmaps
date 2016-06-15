@@ -1,0 +1,163 @@
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<!-- I recommend you host this file on your own, since this will change without warning -->
+<script src="http://datamaps.github.io/scripts/datamaps.world.min.js"></script>
+<button data-zoom="+1" id="zoom_in">+</button>
+<button data-zoom="-1" id="zoom_out">-</button>
+<button id="zoom_reset">&#x25A1;</button>
+<div id="container" style="width: 70%;"></div>
+<script type="text/javascript">
+var map = new Datamap({
+    scope: 'world',
+    element: document.getElementById('container'),
+    projection: 'mercator',
+    fills: {
+        defaultFill: '#afa99a',
+        Overdue: '#990000',
+        Acknowledged: '#80298C',
+        Impending: '#FDCD08',
+        Active: '#5A9942',
+        Completed: '#4863AD',
+        UNKNOWN: 'rgb(0,0,0)'
+    },
+    geographyConfig: {
+        highlightBorderColor: '#7d7d7d',
+        highlightBorderWidth: 1,
+        popupTemplate: function(geo, data) {
+            if (!data) return;
+            return ['<div class="hoverinfo"><strong>',
+                'Milestones in ' + geo.properties.name,
+                ': ' + data.Tasks,
+                '</strong></div>'
+            ].join('');
+        }
+    },
+    responsive: true,
+    done: function(datamap) {
+        // console.log("datamap", datamap)
+        // console.log("zoomable", datamap.options.zoomable)
+
+
+        // datamap.svg.call(d3.behavior.zoom().on("zoom", redraw));
+        // function redraw() {
+        //     var prefix = '-webkit-transform' in document.body.style ?
+        //         '-webkit-' : '-moz-transform' in document.body.style ?
+        //         '-moz-' : '-ms-transform' in document.body.style ?
+        //         '-ms-' : '';
+        //     var x = d3.event.translate[0];
+        //     var y = d3.event.translate[1];
+        //     datamap.svg.selectAll(".datamaps-subunits") // OJO puede que no funcione con bubbles!
+        //         .style(prefix + 'transform',
+        //             'translate(' + x + 'px, ' + y + 'px) scale(' + (d3.event.scale) + ')');
+        // }
+        var ww = d3.select("svg").style("width").replace("px", "");
+        var hh = d3.select("svg").style("height").replace("px", "");
+        var center = [ww / 2, hh / 2];
+
+        var zoom = d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
+        // http://bl.ocks.org/mbostock/8fadc5ac9c2a9e7c5ba2
+        datamap.svg.call(zoom).call(zoom.event)
+
+
+        function zoomed() {
+            var prefix = '-webkit-transform' in document.body.style ?
+                '-webkit-' : '-moz-transform' in document.body.style ?
+                '-moz-' : '-ms-transform' in document.body.style ?
+                '-ms-' : '';
+            var x = zoom.translate()[0];
+            var y = zoom.translate()[1];
+            datamap.svg.selectAll(".datamaps-subunits")
+                .style(prefix + 'transform',
+                    'translate(' + x + 'px, ' + y + 'px) scale(' + (zoom.scale()) + ')');
+        }
+
+
+        d3.selectAll("#zoom_reset").on("click", function() {
+        	// console.log("zoom.translate", zoom.translate())
+         //    console.log("center", center)
+         //    console.log("scale",zoom.scale())
+            // Center each vector, stretch, then put back
+            var scale = zoom.scale(),
+                translate = zoom.translate(),
+                x = 0,
+                y = 0,
+                target_scale = 1;
+            // console.log("x y",[x,y])
+            // Transition to the new view over 350ms
+            d3.transition().duration(350).tween("zoom", function() {
+                var interpolate_scale = d3.interpolate(scale, target_scale),
+                    interpolate_trans = d3.interpolate(translate, [x, y]);
+                return function(t) {
+                    zoom.scale(interpolate_scale(t))
+                        .translate(interpolate_trans(t));
+                    zoomed();
+                };
+            });
+        });
+
+
+        d3.selectAll("button[data-zoom]").on("click", function() {
+            d3.event.preventDefault();
+            var scale = zoom.scale(),
+                extent = zoom.scaleExtent(),
+                translate = zoom.translate(),
+                x = translate[0],
+                y = translate[1],
+                factor = (this.id === 'zoom_in') ? 1.2 : 1 / 1.2,
+                target_scale = scale * factor;
+            // If we're already at an extent, done
+            if (target_scale === extent[0] || target_scale === extent[1]) {
+                return false;
+            }
+            // If the factor is too much, scale it down to reach the extent exactly
+            var clamped_target_scale = Math.max(extent[0], Math.min(extent[1], target_scale));
+            if (clamped_target_scale != target_scale) {
+                target_scale = clamped_target_scale;
+                factor = target_scale / scale;
+            }
+
+            // Center each vector, stretch, then put back
+            x = (x - center[0]) * factor + center[0];
+            y = (y - center[1]) * factor + center[1];
+
+            // Transition to the new view over 350ms
+            d3.transition().duration(350).tween("zoom", function() {
+                var interpolate_scale = d3.interpolate(scale, target_scale),
+                    interpolate_trans = d3.interpolate(translate, [x, y]);
+                return function(t) {
+                    zoom.scale(interpolate_scale(t))
+                        .translate(interpolate_trans(t));
+                    zoomed();
+                };
+            });
+        });
+
+    },
+    data: {
+        AUS: {
+            fillKey: 'Overdue',
+            Milestones: 100,
+            Tasks: 487
+        },
+        USA: {
+            fillKey: 'Active'
+        },
+        IND: {
+            fillKey: 'Acknowledged'
+        },
+        RUS: {
+            fillKey: 'Impending'
+        },
+        FRA: {
+            fillKey: 'Completed'
+        }
+    }
+});
+
+
+// make responsive
+d3.select(window).on('resize', function() {
+    map.resize();
+
+});
+</script>

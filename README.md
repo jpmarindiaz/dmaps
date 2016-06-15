@@ -15,12 +15,13 @@
 
 Add custom color to ~~data and~~ bubbles
 scale bubble radius
-Add departamentos to municipios
+Add departamentos to municipios (?)
 Add reverse palette
 Add reverse legend
 Better handle default opts
 
 add pins plug in http://jsfiddle.net/duck0/kbqpfL1a/2/
+
 
 Return current projectionOptions to R for use in shiny
 Add zoom buttons (with slider?)
