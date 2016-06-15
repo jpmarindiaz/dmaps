@@ -4,12 +4,28 @@ HTMLWidgets.widget({
     type: "output",
 
     initialize: function(el, width, height) {
+        console.log("initializing")
         d3.select(el).selectAll("*").remove();
+        d3.select(".datamaps-legend").remove();
+        return {}
     },
 
-    resize: function(el, width, height, instance) {},
+    resize: function(el, width, height, instance) {
+        console.log("resizing")
+        d3.select(".datamaps-legend").remove();
+
+
+        console.log(instance)
+        var map = instance.map;
+        map.resize();
+        map.mylegend(instance.legend)
+
+
+    },
 
     renderValue: function(el, x, instance) {
+
+
         // d3.select(el.id).html("");
         // console.log(d3.select(el))
         //var theel = document.getElementById(el.id);
@@ -21,8 +37,9 @@ HTMLWidgets.widget({
 
         // document.getElementById(el.id).innerHTML="";
         // d3.select("#dmapLegend").select("svg").selectAll("*").remove();
+        console.log("rendering")
         d3.select(el).selectAll("*").remove();
-
+        d3.select(".datamaps-legend").remove();
 
         // d3.select(el).select("svg").selectAll("*").remove();
         // console.log(d3.select(el.id).selectAll("*"))
@@ -310,7 +327,7 @@ HTMLWidgets.widget({
         //         .html(html);
         // }
 
-        console.log("x.data",x.data)
+        // console.log("x.data",x.data)
 
         function addChoroLegend(layer, data, options) {
             // d3.select("#dmapLegend").remove();
@@ -328,8 +345,8 @@ HTMLWidgets.widget({
 
             var type = data.type || "categorical"
 
-            var legendDomain = x.data.legendData.key;
-            var legendRange = x.data.legendData.keyColor;
+            var legendDomain = data.domain; x.data.legendData.key;
+            var legendRange = data.range; x.data.legendData.keyColor;
 
             var cells = data.cells || Math.min(legendDomain.length, 6);
             // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
@@ -347,8 +364,10 @@ HTMLWidgets.widget({
                     .domain(legendDomain)
                     .range(legendRange);
             }
-            var legend = d3.select("svg");
 
+            
+            
+            var legend = d3.select("svg");
 
             legend.append("g")
                 .attr("id", "dmapLegend")
@@ -369,6 +388,11 @@ HTMLWidgets.widget({
             var svgSize = d3.select("#dmapLegend").node().getBoundingClientRect();
             d3.select("#dmapLegend").attr("width", svgSize.width + 20)
             d3.select("#dmapLegend").attr("height", svgSize.height + 10)
+
+            // console.log("d3.select(#dmapLegend",d3.select("#dmapLegend"))
+            // d3.select("#dmapLegend").remove();
+            // console.log("d3.select(#dmapLegend).remove",d3.select("#dmapLegend"))
+
         }
         
         // d3.select("#dmapLegend").remove();
@@ -378,10 +402,15 @@ HTMLWidgets.widget({
         console.log("beforeChoroLegendShow",d3.select("#dmapLegend").selectAll("*").remove());
         // console.log("choroLegend\n", usrOpts.choroLegend)
         if (usrOpts.choroLegend.show) {
+            // console.log("yes choroLegend show")
             // console.log(d3.select(el).select("#dmapLegend"));
             // console.log(d3.select("#dmapLegend"));
             // d3.select("#dmapLegend").remove();
-            // console.log(usrOpts.choroLegend)
+            usrOpts.choroLegend.domain = x.data.legendData.key;
+            usrOpts.choroLegend.range = x.data.legendData.keyColor;
+            // console.log("usrOpts.choroLegend",usrOpts.choroLegend)
+            instance.legend = usrOpts.choroLegend;
+
             map.mylegend(usrOpts.choroLegend)
         }
         // console.log("outIf",d3.select(el).select("#dmapLegend"));
@@ -662,24 +691,34 @@ HTMLWidgets.widget({
         }
 
 
+        d3.select('.datamap').select('g').selectAll('path').style('vector-effect', 'non-scaling-stroke');
+
+        // d3.select("#dmapLegend").style({'position': 'absolute', 'width': '100%', 'height': '100%'});
+
+        //make responsive
+        //alternatively with d3
+
+        // d3.select(window).on('resize', function() {
+        //     map.resize();
+
+        // });
+
         //sample of the arc plugin
 
         //bubbles, custom popup on hover template
 
-        //make responsive
-        //alternatively with d3
-        d3.select(window).on('resize', function() {
-            map.resize();
 
-        });
 
+        instance.map = map;
+        // instance.mapData = getMapData();
+        
+        console.log("instance",instance)
 
         var notes = document.createElement("p");
         notes.setAttribute("id", "notes");
         notes.innerHTML = x.settings.notes.text;
         document.getElementById(el.id).appendChild(notes);
 
-        console.log(d3.select("#dmapLegend"))
         // d3.select("#dmapLegend").remove();
 
 

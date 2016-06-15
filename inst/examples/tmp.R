@@ -5,6 +5,28 @@ install()
 
 library(dmaps)
 
+## Group choropleth
+
+d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")[250:300,]
+mapName <- "co_municipalities"
+names(d)
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  choroLegend = list(shapeWidth = 40),
+  zoomable = FALSE
+)
+dmaps(mapName, data = d,
+      groupCol = "accionesMilitares",
+      regionCols = c("mupio","depto"),
+      opts = opts
+)
+
+
 
 
 # A nice shiny app
@@ -50,26 +72,6 @@ runApp(app)
 
 
 
-## Group choropleth
-
-d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")[250:300,]
-mapName <- "co_municipalities"
-names(d)
-opts <- list(
-  defaultFill = "#FFFFFF",
-  borderColor = "#CCCCCC",
-  borderWidth = 0.3,
-  highlightFillColor = "#999999",
-  highlightBorderWidth = 1,
-  palette = "PuBu",
-  choroLegend = list(shapeWidth = 40),
-  zoomable = FALSE
-)
-dmaps(mapName, data = d,
-      groupCol = "accionesMilitares",
-      regionCols = c("mupio","depto"),
-      opts = opts
-)
 
 
 
