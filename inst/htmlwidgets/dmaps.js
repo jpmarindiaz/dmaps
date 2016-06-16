@@ -50,12 +50,16 @@ HTMLWidgets.widget({
         css.innerHTML = x.settings.styles;
         document.getElementById(el.id).appendChild(css);
 
-        var zoomButtons = document.createElement("div");
-        zoomButtons.style["position"] = "absolute";
-        zoomButtons.style["right"] = "1%";
-        zoomButtons.style["z-index"]= 1001;
-        zoomButtons.innerHTML = '<button data-zoom="+1" id="zoom_in">+</button><button data-zoom="-1" id="zoom_out">-</button><button id="zoom_reset">&#x25A1;</button>';
-        document.getElementById(el.id).appendChild(zoomButtons);
+        if (x.settings.zoomable) {
+            var zoomButtons = document.createElement("div");
+            zoomButtons.style["position"] = "absolute";
+            zoomButtons.style["right"] = "1%";
+            zoomButtons.style["z-index"] = 1001;
+            zoomButtons.innerHTML = '<button data-zoom="+1" id="zoom_in">+</button><button data-zoom="-1" id="zoom_out">-</button><button id="zoom_reset">&#x25A1;</button>';
+            document.getElementById(el.id).appendChild(zoomButtons);
+
+        }
+
 
         var title = document.createElement("h2");
         title.setAttribute("id", "title");
@@ -282,8 +286,15 @@ HTMLWidgets.widget({
                 animationSpeed: 600
             },
             done: function(datamap) {
+
+                if (!datamap.options.zoomable) {
+                    return null
+                }
+
                 var ww = d3.select("svg").style("width").replace("px", "");
+                // var ww = el.offsetWidth;
                 var hh = d3.select("svg").style("height").replace("px", "");
+                // var ww = el.offsetWidth;
                 var center = [ww / 2, hh / 2];
 
                 var zoom = d3.behavior.zoom().scaleExtent([1, 15]).on("zoom", zoomed);
@@ -365,10 +376,6 @@ HTMLWidgets.widget({
                         };
                     });
                 });
-
-
-
-
             },
             zoomable: opts.zoomable
         });
@@ -377,87 +384,31 @@ HTMLWidgets.widget({
             map.graticule();
         }
 
-        // http://jsbin.com/abeXErat/21/edit?html,output
-        // https://github.com/markmarkoh/datamaps/issues/45
-
-        // function addLegend2(layer, data, options) {
-        //     data = data || {};
-        //     if (!this.options.fills) {
-        //         return;
-        //     }
-
-        //     var html = '<ul class="list-inline">';
-        //     var label = '';
-        //     if (data.legendTitle) {
-        //         html = '<h3>' + data.legendTitle + '</h3>' + html;
-        //     }
-        //     for (var fillKey in this.options.fills) {
-
-        //         if (fillKey === 'defaultFill') {
-        //             if (!data.defaultFillName) {
-        //                 continue;
-        //             }
-        //             label = data.defaultFillName;
-        //         } else {
-        //             if (data.labels && data.labels[fillKey]) {
-        //                 label = data.labels[fillKey];
-        //             } else {
-        //                 label = fillKey;
-        //             }
-        //         }
-        //         html += '<li class="key" style="border-top-color:' + this.options.fills[fillKey] + '">' + label + '</li>'
-        //     }
-        //     html += '</ul>';
-
-        //     var hoverover = d3.select(this.options.element).append('div')
-        //         .attr('class', 'datamaps-legend')
-        //         .html(html);
-        // }
-
-        // console.log("x.data",x.data)
 
         function addChoroLegend(layer, data, options) {
-            // d3.select("#dmapLegend").remove();
-            // console.log(".legendLinear",d3.select(this.options.element).selectAll("legendLinear"))
-            // d3.select(this.options.element).selectAll(".legendLinear").remove();
-
             data = data || {};
-
-            ;
             var orient = data.orient || "vertical";
             var title = data.legendTitle;
             var top = data.top.toString().concat("%") || "1%";
             var left = data.left.toString().concat("%") || "1%";
             var shapeWidth = data.shapeWidth || 30;
-
             var type = data.type || "categorical"
-
             var legendDomain = data.domain;
-            x.data.legendData.key;
             var legendRange = data.range;
-            x.data.legendData.keyColor;
-
             var cells = data.cells || Math.min(legendDomain.length, 6);
-            // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
-            // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
-
-
             if (type == "numeric") {
                 var scale = d3.scale.linear()
                     .domain(legendDomain)
                     .range(legendRange);
             }
-
             if (type == "categorical") {
                 var scale = d3.scale.ordinal()
                     .domain(legendDomain)
                     .range(legendRange);
             }
 
-
-
             var legend = d3.select("svg");
-
+            
             legend.append("g")
                 .attr("id", "dmapLegend")
                 .attr("class", "datamaps-legend")
@@ -471,35 +422,17 @@ HTMLWidgets.widget({
                 .scale(scale);
 
             legend.select("#dmapLegend").call(legendLinear);
-
             d3.select(".legendCells").attr("transform", "translate(0,5)");
-
             var svgSize = d3.select("#dmapLegend").node().getBoundingClientRect();
             d3.select("#dmapLegend").attr("width", svgSize.width + 20)
             d3.select("#dmapLegend").attr("height", svgSize.height + 10)
-
-            // console.log("d3.select(#dmapLegend",d3.select("#dmapLegend"))
-            // d3.select("#dmapLegend").remove();
-            // console.log("d3.select(#dmapLegend).remove",d3.select("#dmapLegend"))
-
         }
-
-        // d3.select("#dmapLegend").remove();
         map.addPlugin("mylegend", addChoroLegend);
 
-
-        console.log("beforeChoroLegendShow", d3.select("#dmapLegend").selectAll("*").remove());
-        // console.log("choroLegend\n", usrOpts.choroLegend)
         if (usrOpts.choroLegend.show) {
-            // console.log("yes choroLegend show")
-            // console.log(d3.select(el).select("#dmapLegend"));
-            // console.log(d3.select("#dmapLegend"));
-            // d3.select("#dmapLegend").remove();
             usrOpts.choroLegend.domain = x.data.legendData.key;
             usrOpts.choroLegend.range = x.data.legendData.keyColor;
-            // console.log("usrOpts.choroLegend",usrOpts.choroLegend)
             instance.legend = usrOpts.choroLegend;
-
             map.mylegend(usrOpts.choroLegend)
         }
         // console.log("outIf",d3.select(el).select("#dmapLegend"));
@@ -520,11 +453,8 @@ HTMLWidgets.widget({
 
             var type = data.type || "categorical"
 
-            var legendDomain = x.data.legendBubbles.key;
-            var legendRange = x.data.legendBubbles.keyColor;
-            // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
-            // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
-
+            var legendDomain = data.domain;
+            var legendRange = data.range;
 
             if (type == "numeric") {
                 var scale = d3.scale.linear()
@@ -538,20 +468,11 @@ HTMLWidgets.widget({
                     .range(legendRange);
             }
 
-
-            d3.select(this.options.element)
-                .append('div')
-                .style("z-index", 1002)
-                .style("position", "absolute")
-                .style("top", top)
-                .style("left", left)
-                .attr("id", "dmapLegend2")
-                .append("svg");
-
-            var legend = d3.select("#dmapLegend2 svg");
-
+            var legend = d3.select("svg");
+            
             legend.append("g")
-                .attr("class", "legendLinear")
+                .attr("id", "dmapLegend")
+                .attr("class", "datamaps-legend")
                 .attr("transform", "translate(10,10)");
 
             var legendLinear = d3.legend.color()
@@ -561,20 +482,14 @@ HTMLWidgets.widget({
                 .orient(orient)
                 .scale(scale);
 
-            legend.select(".legendLinear").call(legendLinear);
-
+            legend.select("#dmapLegend").call(legendLinear);
             d3.select(".legendCells").attr("transform", "translate(0,5)");
-
-            var svgSize = d3.select("#dmapLegend2 svg g").node().getBoundingClientRect();
-            d3.select("#dmapLegend2 svg").attr("width", svgSize.width + 20)
-            d3.select("#dmapLegend2 svg").attr("height", svgSize.height + 10)
+            var svgSize = d3.select("#dmapLegend").node().getBoundingClientRect();
+            d3.select("#dmapLegend").attr("width", svgSize.width + 20)
+            d3.select("#dmapLegend").attr("height", svgSize.height + 10)
         }
 
         map.addPlugin("mylegend2", addBubbleColorLegend);
-
-
-
-
 
         function addBubbleSizeLegend(layer, data, options) {
             data = data || {};
@@ -585,34 +500,25 @@ HTMLWidgets.widget({
             var left = data.left.toString().concat("%") || "1%";
             var shapeWidth = data.shapeWidth || 30;
 
-            var legendDomain = x.data.legendBubblesSize.domain;
-            var legendRange = x.data.legendBubblesSize.domain;
+            var legendDomain = data.domain;
+            var legendRange = data.range;
 
 
             // console.log(legendDomain.length)
             var cells = data.cells || Math.min(legendDomain.length, 3);
-            // console.log("SIZE:\nDOMAIN", legendDomain, "\nRange", legendRange)
-            // console.log("DOMAIN", legendDomain, "\nRange", legendRange)
 
 
             var scale = d3.scale.linear()
                 .domain(legendDomain)
                 .range(legendRange)
 
-            d3.select(this.options.element)
-                .append('div')
-                .style("z-index", 1002)
-                .style("position", "absolute")
-                .style("top", top)
-                .style("left", left)
-                .attr("id", "dmapLegend3")
-                .append("svg");
 
-            var legend = d3.select("#dmapLegend3 svg");
-
+            var legend = d3.select("svg");
+            
             legend.append("g")
-                .attr("class", "legendSize")
-                .attr("transform", "translate(10,20)");
+                .attr("id", "dmapLegend")
+                .attr("class", "datamaps-legend")
+                .attr("transform", "translate(10,10)");
 
             var legendSize = d3.legend.size()
                 .shape('circle')
@@ -622,9 +528,12 @@ HTMLWidgets.widget({
                 .orient('horizontal')
                 .scale(scale);
 
-            legend.select(".legendSize").call(legendSize);
 
-            d3.select(".legendCells").attr("transform", "translate(0,10)");
+            legend.select("#dmapLegend").call(legendSize);
+            d3.select(".legendCells").attr("transform", "translate(0,5)");
+            var svgSize = d3.select("#dmapLegend").node().getBoundingClientRect();
+            d3.select("#dmapLegend").attr("width", svgSize.width + 20)
+            d3.select("#dmapLegend").attr("height", svgSize.height + 10)
 
             var svgSize = d3.select("#dmapLegend3 svg g").node().getBoundingClientRect();
             d3.select("#dmapLegend3 svg").attr("width", svgSize.width + 20)
@@ -681,15 +590,11 @@ HTMLWidgets.widget({
             var top = data.top.toString().concat("%") || "1%";
             var left = data.left.toString().concat("%") || "1%";
 
-            d3.select(this.options.element)
-                .append('div')
-                .style("z-index", 1002)
-                .style("position", "absolute")
-                .style("top", top)
-                .style("left", left)
-                .attr("id", "dmapLegend4")
-                .append("svg")
-                .append("g");
+            var legend = d3.select("svg");            
+            legend.append("g")
+                .attr("id", "dmapLegend")
+                .attr("class", "datamaps-legend")
+                .attr("transform", "translate(50,10)");
 
             var rectPalette = [{
                 "x": 0,
@@ -746,9 +651,6 @@ HTMLWidgets.widget({
                 "height": 20,
                 "color": "#574249"
             }];
-
-            var legend = d3.select("#dmapLegend4 svg g");
-            legend.attr("transform", "translate(50,10)");
 
             var rects = legend.selectAll("rects")
                 .data(rectPalette)
@@ -832,171 +734,6 @@ HTMLWidgets.widget({
 
         // });
 
-
-        // function redraw() {
-        //         var prefix = '-webkit-transform' in document.body.style ?
-        //             '-webkit-' : '-moz-transform' in document.body.style ?
-        //             '-moz-' : '-ms-transform' in document.body.style ?
-        //             '-ms-' : '';
-        //         var x = d3.event.translate[0];
-        //         var y = d3.event.translate[1];
-        //         d3.selectAll(".datamaps-subunits") // OJO puede que no funcione con bubbles!
-        //             .style(prefix + 'transform',
-        //                 'translate(' + x + 'px, ' + y + 'px) scale(' + (d3.event.scale) + ')');
-        //     }
-
-
-
-
-
-
-        // d3.selectAll('#states path')
-        //     .on('click', function(d) {
-        //         // getBBox() is a native SVG element method
-        //         var bbox = this.getBBox(),
-        //             centroid = [bbox.x + bbox.width/2, bbox.y + bbox.height/2],
-        //             zoomScaleFactor = baseWidth / bbox.width,
-        //             zoomX = -centroid[0],
-        //             zoomY = -centroid[1];
-
-        //         // set a transform on the parent group element
-        //         d3.select('#states')
-        //             .attr("transform", "scale(" + scaleFactor + ")" +
-        //                 "translate(" + zoomX + "," + zoomY + ")");
-        // });
-
-        //     function redraw2() {
-        //             var prefix = '-webkit-transform' in document.body.style ?
-        //                 '-webkit-' : '-moz-transform' in document.body.style ?
-        //                 '-moz-' : '-ms-transform' in document.body.style ?
-        //                 '-ms-' : '';
-        //             var bbox = d3.selectAll(".datamaps-subunits").node().getBoundingClientRect();
-        //             // var x0 = bbox.x;
-        //             // var y0 = bbox.y; 
-        //             var center = [bbox.width/2,bbox.height/2];
-
-        //             var factor = 0.9;
-        //             var scale = d3.event.scale;
-        //             // var extent = zoom.scaleExtent();
-        //             var newScale = scale * factor;
-
-        //             // var x0 = d3.event.translate[0];
-        //             // var y0 = d3.event.translate[1];
-        //             var t = d3.event.translate;
-        //             var c = center;
-
-        //             var x = c[0] + (t[0] - c[0]) / scale * newScale;
-        //             var y = c[1] + (t[1] - c[1]) / scale * newScale;
-        //             // x = (x - center[0]) * factor + center[0];
-        //             // y = (y - center[1]) * factor + center[1];
-        //             d3.selectAll(".datamaps-subunits") // OJO puede que no funcione con bubbles!
-        //                 .style(prefix + 'transform',
-        //                     'translate(' + x + 'px, ' + y + 'px) scale(' + newScale + ')');
-        //         }
-
-
-        // var zoomfactor = 1;
-
-        // var zoomlistener = d3.behavior.zoom()
-        //     .on("zoom", redraw);
-
-        // d3.select("#zoom_in").on("click", function() {
-
-        //     map.svg.call(d3.behavior.zoom().on("zoom", redraw2));
-
-        //     // zoomfactor = zoomfactor + 0.2;
-        //     // zoomlistener.scale(zoomfactor).event(d3.selectAll(".datamaps-subunits"));
-        // });
-
-        // d3.select("#zoom_out").on("click", function() {
-        //     zoomfactor = zoomfactor - 0.2;
-        //     zoomlistener.scale(zoomfactor).event(d3.selectAll(".datamaps-subunits"));
-        // });
-
-        //     function redraw2() {
-        //         var prefix = '-webkit-transform' in document.body.style ?
-        //             '-webkit-' : '-moz-transform' in document.body.style ?
-        //             '-moz-' : '-ms-transform' in document.body.style ?
-        //             '-ms-' : '';
-        //         var center = [width / 2, height / 2];
-        //         var factor = 0.2;
-        //         // var direction = (this.id === 'zoom_in') ? 1 : -1;
-
-        //         view = {x: d3.event.translate[0], y: d3.event.translate[1], k: d3.event.scale};
-        // //         view.k = d3.event.scale * (1 + factor * direction);
-
-        // //         translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
-        // //         l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
-        // //         view.x += center[0] - l[0];
-        // // view.y += center[1] - l[1];
-        //         // var x = d3.event.translate[0];
-        //         // var y = d3.event.translate[1];
-        //         console.log("here", d3.event.translate, d3.event.scale);
-        //         // d3.selectAll(".datamaps-subunits").attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
-        //         d3.selectAll(".datamaps-subunits") // OJO puede que no funcione con bubbles!
-        //             .style(prefix + 'transform',
-        //                 'translate(' + view.x + 'px, ' + view.y + 'px) scale(' + (d3.event.scale) + ')');
-        // }
-
-
-        // http://bl.ocks.org/linssen/7352810
-        // var zoom = d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
-
-        // d3.select(".datamaps-subunit").call(zoom)
-
-        // function zoomed() {
-        //     d3.select("svg").attr("transform",
-        //         "translate(" + zoom.translate() + ")" +
-        //         "scale(" + zoom.scale() + ")"
-        //     );
-        // }
-
-        // function interpolateZoom (translate, scale) {
-        //     var self = this;
-        //     return d3.transition().duration(350).tween("zoom", function () {
-        //         var iTranslate = d3.interpolate(zoom.translate(), translate),
-        //             iScale = d3.interpolate(zoom.scale(), scale);
-        //         return function (t) {
-        //             zoom
-        //                 .scale(iScale(t))
-        //                 .translate(iTranslate(t));
-        //             zoomed();
-        //         };
-        //     });
-        // }
-
-        // function zoomClick() {
-        //     var clicked = d3.event.target,
-        //         direction = 1,
-        //         factor = 0.2,
-        //         target_zoom = 1,
-        //         center = [width / 2, height / 2],
-        //         extent = zoom.scaleExtent(),
-        //         translate = zoom.translate(),
-        //         translate0 = [],
-        //         l = [],
-        //         view = {x: translate[0], y: translate[1], k: zoom.scale()};
-
-        //     d3.event.preventDefault();
-        //     direction = (this.id === 'zoom_in') ? 1 : -1;
-        //     target_zoom = zoom.scale() * (1 + factor * direction);
-
-        //     if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
-
-        //     translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
-        //     view.k = target_zoom;
-        //     l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
-
-        //     view.x += center[0] - l[0];
-        //     view.y += center[1] - l[1];
-
-        //     interpolateZoom([view.x, view.y], view.k);
-        // }
-
-        // d3.selectAll('button').on('click', zoomClick);
-
-
-
         instance.map = map;
         // instance.mapData = getMapData();
 
@@ -1006,9 +743,6 @@ HTMLWidgets.widget({
         notes.setAttribute("id", "notes");
         notes.innerHTML = x.settings.notes.text;
         document.getElementById(el.id).appendChild(notes);
-
-        // d3.select("#dmapLegend").remove();
-
 
 
     }

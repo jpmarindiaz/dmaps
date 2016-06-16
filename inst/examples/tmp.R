@@ -21,7 +21,7 @@ opts <- list(
   zoomable = TRUE
 )
 dmaps(mapName, data = d,
-      groupCol = "accionesMilitares",
+      valueCol = "accionesMilitares",
       regionCols = c("mupio","depto"),
       opts = opts
 )
