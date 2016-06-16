@@ -13,6 +13,7 @@
 
 # Todo
 
+Add topojsons as htmlwidgets attachments
 Fix tooltip default template when varnames have underscores
 On resize calculate new center when reset button is clicked
 Add notes and title as svg elements

@@ -18,7 +18,20 @@ HTMLWidgets.widget({
         console.log(instance)
         var map = instance.map;
         map.resize();
-        map.mylegend(instance.legend)
+        
+
+        if(instance.legend.name == "choroLegend"){
+            map.choroLegend(instance.legend)
+        }
+        if(instance.legend.name == "bubbleColorLegend"){
+            map.bubbleColorLegend(instance.legend)
+        }
+        if(instance.legend.name == "bubbleSizeLegend"){
+            map.bubbleColorLegend(instance.legend)
+        }
+        if(instance.legend.name == "bivariateLegend"){
+            map.bivariateLegend(instance.legend)
+        }
 
 
     },
@@ -408,7 +421,7 @@ HTMLWidgets.widget({
             }
 
             var legend = d3.select("svg");
-            
+
             legend.append("g")
                 .attr("id", "dmapLegend")
                 .attr("class", "datamaps-legend")
@@ -427,13 +440,14 @@ HTMLWidgets.widget({
             d3.select("#dmapLegend").attr("width", svgSize.width + 20)
             d3.select("#dmapLegend").attr("height", svgSize.height + 10)
         }
-        map.addPlugin("mylegend", addChoroLegend);
+        map.addPlugin("choroLegend", addChoroLegend);
 
         if (usrOpts.choroLegend.show) {
             usrOpts.choroLegend.domain = x.data.legendData.key;
             usrOpts.choroLegend.range = x.data.legendData.keyColor;
             instance.legend = usrOpts.choroLegend;
-            map.mylegend(usrOpts.choroLegend)
+            instance.legend.name = "choroLegend";
+            map.choroLegend(usrOpts.choroLegend)
         }
         // console.log("outIf",d3.select(el).select("#dmapLegend"));
 
@@ -469,7 +483,7 @@ HTMLWidgets.widget({
             }
 
             var legend = d3.select("svg");
-            
+
             legend.append("g")
                 .attr("id", "dmapLegend")
                 .attr("class", "datamaps-legend")
@@ -489,7 +503,7 @@ HTMLWidgets.widget({
             d3.select("#dmapLegend").attr("height", svgSize.height + 10)
         }
 
-        map.addPlugin("mylegend2", addBubbleColorLegend);
+        map.addPlugin("bubbleColorLegend", addBubbleColorLegend);
 
         function addBubbleSizeLegend(layer, data, options) {
             data = data || {};
@@ -514,7 +528,7 @@ HTMLWidgets.widget({
 
 
             var legend = d3.select("svg");
-            
+
             legend.append("g")
                 .attr("id", "dmapLegend")
                 .attr("class", "datamaps-legend")
@@ -540,7 +554,7 @@ HTMLWidgets.widget({
             d3.select("#dmapLegend3 svg").attr("height", svgSize.height + 10)
         }
 
-        map.addPlugin("mylegend3", addBubbleSizeLegend);
+        map.addPlugin("bubbleSizeLegend", addBubbleSizeLegend);
 
 
 
@@ -571,11 +585,19 @@ HTMLWidgets.widget({
 
             // console.log("bubbleColorLegend\n", usrOpts.bubbleColorLegend)
             if (usrOpts.bubbleColorLegend.show) {
-                map.mylegend2(usrOpts.bubbleColorLegend)
+                usrOpts.bubbleColorLegend.domain = x.data.legendData.key;
+                usrOpts.bubbleColorLegend.range = x.data.legendData.keyColor;
+                instance.legend = usrOpts.bubbleColorLegend;
+                instance.legend.name = "bubbleColorLegend";
+                map.bubbleColorLegend(usrOpts.bubbleColorLegend)
             }
             // console.log("bubbleSizeLegend\n", usrOpts.bubbleSizeLegend)
             if (usrOpts.bubbleSizeLegend.show) {
-                map.mylegend3(usrOpts.bubbleSizeLegend)
+                usrOpts.bubbleSizeLegend.domain = x.data.legendData.key;
+                usrOpts.bubbleSizeLegend.range = x.data.legendData.keyColor;
+                instance.legend = usrOpts.bubbleSizeLegend;
+                instance.legend.name = "bubbleSizeLegend";
+                map.bubbleSizeLegend(usrOpts.bubbleSizeLegend)
             }
 
         }
@@ -590,11 +612,15 @@ HTMLWidgets.widget({
             var top = data.top.toString().concat("%") || "1%";
             var left = data.left.toString().concat("%") || "1%";
 
-            var legend = d3.select("svg");            
-            legend.append("g")
+            var legend = d3.select("svg")
+                .append("g")
                 .attr("id", "dmapLegend")
-                .attr("class", "datamaps-legend")
-                .attr("transform", "translate(50,10)");
+                // .style("z-index", 1002)
+                // .style("position", "absolute")
+                // .style("top", top)
+                // .style("left", left)
+                .attr("transform", "translate(50,10)")
+                .attr("class", "datamaps-legend");
 
             var rectPalette = [{
                 "x": 0,
@@ -698,6 +724,9 @@ HTMLWidgets.widget({
                 .call(yAxis)
                 .attr("transform", "translate(-5,0)");
 
+            d3.selectAll(".axis path")
+                .style("stroke","#000");
+
             legend.append("text")
                 .attr("class", "x label")
                 .attr("text-anchor", "end")
@@ -708,7 +737,7 @@ HTMLWidgets.widget({
             legend.append("text")
                 .attr("class", "y label")
                 .attr("text-anchor", "end")
-                .attr("y", -50)
+                .attr("y", -40)
                 .attr("dy", ".75em")
                 .attr("transform", "rotate(-90)")
                 .text(var2Label);
@@ -718,11 +747,15 @@ HTMLWidgets.widget({
             // d3.select("#dmapLegend3 svg").attr("height", svgSize.height + 10)
         }
 
-        map.addPlugin("mylegend4", addBivariateLegend);
+        map.addPlugin("bivariateLegend", addBivariateLegend);
 
         // console.log("bivariateLegend\n", usrOpts.bivariateLegend)
         if (usrOpts.bivariateLegend.show) {
-            map.mylegend4(usrOpts.bivariateLegend)
+            usrOpts.bivariateLegend.domain = x.data.legendData.key;
+            usrOpts.bivariateLegend.range = x.data.legendData.keyColor;
+            instance.legend = usrOpts.bivariateLegend;
+            instance.legend.name = "bivariateLegend";
+            map.bivariateLegend(usrOpts.bivariateLegend)
         }
 
         // Do not scale geoboundaries on zoom

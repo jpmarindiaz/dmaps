@@ -139,6 +139,11 @@ pystr_format(textStylesTpl,
 legendStyles <- function(orientation = NULL, top = NULL,left = NULL){
   orientation <- orientation %||% "vertical"
   legendHorizontalStyleTpl <- "
+
+.axis path{
+  stroke: #000000 !important;
+}
+
 .datamaps-legend {
   position: absolute;
   top: {top}%;

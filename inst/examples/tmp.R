@@ -5,6 +5,51 @@ install()
 
 library(dmaps)
 
+
+## Bivariate coropleth
+
+d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
+mapName <- "co_municipalities"
+
+var1 <- cut2(d[,3],g=3)
+levels(var1) <- c("x1","x2","x3")
+
+var2 <- cut2(d[,4],g=3)
+levels(var2) <- c("y1","y2","y3")
+
+
+d$cruce <- paste(
+  paste(names(d)[3],cut2(d[,3],g=3)),
+  "; ",
+  paste(names(d)[4],cut2(d[,4],g=2)))
+unique(d$cruce)
+
+d$group <- paste(var1,var2,sep="")
+
+groups2d <- apply(expand.grid(paste0("x",1:3),paste0("y",1:3)),1,
+                  function(r)paste0(r[1],r[2]))
+colors2d <- c("#e8e8e8","#e4acac","#c85a5a","#b0d5df","#ad93a5","#985356","#64acbe","#62718c","#574249")
+customPalette <- data.frame(group = groups2d, color = colors2d)
+
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  customPalette = customPalette,
+  choroLegend = list(show = FALSE),
+  bivariateLegend = list(show = TRUE, var1Label = "V1", var2Label = "V2")
+)
+dmaps(mapName, data = d,
+      groupCol = "group",
+      regionCols = c("mupio","depto"),
+      opts = opts)
+
+
+
+
 ## Group choropleth
 
 d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")[250:300,]
@@ -185,47 +230,6 @@ getAvailableRegions("co_municipalities")
 codes <- getCodesData("co_municipalities")
 
 
-
-## Bivariate coropleth
-
-d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
-mapName <- "co_municipalities"
-
-var1 <- cut2(d[,3],g=3)
-levels(var1) <- c("x1","x2","x3")
-
-var2 <- cut2(d[,4],g=3)
-levels(var2) <- c("y1","y2","y3")
-
-
-d$cruce <- paste(
-  paste(names(d)[3],cut2(d[,3],g=3)),
-  "; ",
-  paste(names(d)[4],cut2(d[,4],g=2)))
-unique(d$cruce)
-
-d$group <- paste(var1,var2,sep="")
-
-groups2d <- apply(expand.grid(paste0("x",1:3),paste0("y",1:3)),1,
-                  function(r)paste0(r[1],r[2]))
-colors2d <- c("#e8e8e8","#e4acac","#c85a5a","#b0d5df","#ad93a5","#985356","#64acbe","#62718c","#574249")
-customPalette <- data.frame(group = groups2d, color = colors2d)
-
-opts <- list(
-  defaultFill = "#FFFFFF",
-  borderColor = "#CCCCCC",
-  borderWidth = 0.3,
-  highlightFillColor = "#999999",
-  highlightBorderWidth = 1,
-  palette = "PuBu",
-  customPalette = customPalette,
-  choroLegend = list(show = FALSE),
-  bivariateLegend = list(show = TRUE, var1Label = "V1", var2Label = "V2")
-)
-dmaps(mapName, data = d,
-      groupCol = "group",
-      regionCols = c("mupio","depto"),
-      opts = opts)
 
 
 
