@@ -9,12 +9,12 @@ co_departments:
     mercator:
       center: [-73.5, 4.2]
       rotate: [0, 0]
-      scale: 2
+      scale: 1.8
       translate: [0,0]
     equirectangular:
       center: [-73.5, 4.2]
       rotate: [0, 0]
-      scale: 2
+      scale: 1.8
       translate: [0,0]
 co_municipalities:
   label: Colombia municipalities
@@ -28,13 +28,13 @@ co_municipalities:
       name: mercator
       center: [-73.5, 4.2]
       rotate: [0, 0]
-      scale: 2
+      scale: 1.8
       translate: [0,0]
     equirectangular:
       name: mercator
       center: [-73.5, 4.2]
       rotate: [0, 0]
-      scale: 2
+      scale: 1.8
       translate: [0,0]
   regions:
     Frontera venezolana: 

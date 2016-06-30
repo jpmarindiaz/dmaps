@@ -6,6 +6,12 @@ install()
 library(dmaps)
 
 
+
+
+
+
+
+
 ## Bivariate coropleth
 
 d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
@@ -62,7 +68,7 @@ opts <- list(
   highlightFillColor = "#999999",
   highlightBorderWidth = 1,
   palette = "PuBu",
-  choroLegend = list(shapeWidth = 40),
+  choroLegend = list(shapeWidth = 40, label = "Hola"),
   zoomable = TRUE
 )
 dmaps(mapName, data = d,

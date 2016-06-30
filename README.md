@@ -13,6 +13,8 @@
 
 # Todo
 
+Fix... it works only with data frames... not with tbl_df
+Fix bivariate legend to receive top and left % position
 Add topojsons as htmlwidgets attachments
 Fix tooltip default template when varnames have underscores
 On resize calculate new center when reset button is clicked
