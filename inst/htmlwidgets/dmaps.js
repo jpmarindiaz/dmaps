@@ -18,19 +18,22 @@ HTMLWidgets.widget({
         console.log(instance)
         var map = instance.map;
         map.resize();
-        
 
-        if(instance.legend.name == "choroLegend"){
-            map.choroLegend(instance.legend)
-        }
-        if(instance.legend.name == "bubbleColorLegend"){
-            map.bubbleColorLegend(instance.legend)
-        }
-        if(instance.legend.name == "bubbleSizeLegend"){
-            map.bubbleColorLegend(instance.legend)
-        }
-        if(instance.legend.name == "bivariateLegend"){
-            map.bivariateLegend(instance.legend)
+        if (instance.legend) {
+            if (instance.legend.name == "choroLegend") {
+                map.choroLegend(instance.legend)
+            }
+            if (instance.legend.name == "bubbleColorLegend") {
+                map.bubbleColorLegend(instance.legend)
+            }
+            if (instance.legend.name == "bubbleSizeLegend") {
+                map.bubbleColorLegend(instance.legend)
+            }
+            if (instance.legend.name == "bivariateLegend") {
+                map.bivariateLegend(instance.legend)
+            }
+
+
         }
 
 
@@ -389,6 +392,15 @@ HTMLWidgets.widget({
                         };
                     });
                 });
+
+                d3.select('.datamap').select('g').selectAll('.datamaps-subunit').on('click', function(event, data) {
+                    // console.log("CLICKED REGION", data)
+                    console.log("CLICKED EVENT", event.id)
+                    //.attr("class");
+                    //console.log("CLICKED REGION datamap", datamap.customTopo.objects[opts.scope].geometries[data].id)
+                    // alert(data.geography.id); //alerts "CA" if you clicked California
+                    Shiny.onInputChange('dmaps_click',event.id)
+                });
             },
             zoomable: opts.zoomable
         });
@@ -725,7 +737,7 @@ HTMLWidgets.widget({
                 .attr("transform", "translate(-5,0)");
 
             d3.selectAll(".axis path")
-                .style("stroke","#000");
+                .style("stroke", "#000");
 
             legend.append("text")
                 .attr("class", "x label")

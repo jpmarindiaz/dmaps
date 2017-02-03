@@ -1,6 +1,12 @@
+library(devtools)
+load_all()
+document()
+install()
+
+library(dmaps)
 
 
-
+dmaps("world_countries")
 
 
 # World
