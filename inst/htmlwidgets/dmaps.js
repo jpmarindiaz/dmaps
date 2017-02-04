@@ -395,11 +395,11 @@ HTMLWidgets.widget({
 
                 d3.select('.datamap').select('g').selectAll('.datamaps-subunit').on('click', function(event, data) {
                     // console.log("CLICKED REGION", data)
-                    console.log("CLICKED EVENT", event.id)
-                    //.attr("class");
-                    //console.log("CLICKED REGION datamap", datamap.customTopo.objects[opts.scope].geometries[data].id)
-                    // alert(data.geography.id); //alerts "CA" if you clicked California
-                    Shiny.onInputChange('dmaps_click',event.id)
+                    // console.log("CLICKED EVENT", event.id)
+                    if (typeof Shiny != "undefined") {
+                        Shiny.onInputChange('dmaps_clicked_region', event.id)
+                    }
+
                 });
             },
             zoomable: opts.zoomable

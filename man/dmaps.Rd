@@ -11,4 +11,3 @@ dmaps(mapName, data = NULL, regions = NULL, regionCols = NULL,
 \description{
 <Add Description>
 }
-

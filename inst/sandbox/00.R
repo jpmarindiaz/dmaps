@@ -218,6 +218,7 @@ htmlwidgets::saveWidget(s,"~/Desktop/index.html")
 library(shiny)
 app <- shinyApp(
   ui = bootstrapPage(
+    verbatimTextOutput("clicked"),
     dmapsOutput("viz")
   ),
   server = function(input, output) {
@@ -228,6 +229,9 @@ app <- shinyApp(
             regionCols = c("Municipio","Departamento"))
       htmlwidgets::saveWidget(e,"~/Desktop/index.html")
       e
+    })
+    output$clicked <- renderPrint({
+      input$dmaps_clicked_region
     })
   }
 )
