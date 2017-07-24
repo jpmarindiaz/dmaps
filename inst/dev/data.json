@@ -1,0 +1,301 @@
+{
+    "x":
+    {
+        "data":
+        {
+            "fills":
+            {
+                "91":
+                {
+                    "fillColor": "#A50026",
+                    "info": "<strong>departamento\u003c/strong>: AMAZONAS\n<br>\n<strong>count\u003c/strong>: 19",
+                    "fillKey": "[  9, 118)"
+                },
+                "05":
+                {
+                    "fillColor": "#313695",
+                    "info": "<strong>departamento\u003c/strong>: ANTIOQUIA\n<br>\n<strong>count\u003c/strong>: 1458",
+                    "fillKey": "[608,1628]"
+                },
+                "81":
+                {
+                    "fillColor": "#A50026",
+                    "info": "<strong>departamento\u003c/strong>: ARAUCA\n<br>\n<strong>count\u003c/strong>: 72",
+                    "fillKey": "[  9, 118)"
+                },
+                "08":
+                {
+                    "fillColor": "#313695",
+                    "info": "<strong>departamento\u003c/strong>: ATLÁNTICO\n<br>\n<strong>count\u003c/strong>: 608",
+                    "fillKey": "[608,1628]"
+                },
+                "11":
+                {
+                    "fillColor": "#313695",
+                    "info": "<strong>departamento\u003c/strong>: BOGOTÁ\n<br>\n<strong>count\u003c/strong>: 1628",
+                    "fillKey": "[608,1628]"
+                },
+                "13":
+                {
+                    "fillColor": "#313695",
+                    "info": "<strong>departamento\u003c/strong>: BOLIVAR\n<br>\n<strong>count\u003c/strong>: 561",
+                    "fillKey": "[370, 608)"
+                },
+                "15":
+                {
+                    "fillColor": "#90C3DD",
+                    "info": "<strong>departamento\u003c/strong>: BOYACÁ\n<br>\n<strong>count\u003c/strong>: 436",
+                    "fillKey": "[370, 608)"
+                },
+                "17":
+                {
+                    "fillColor": "#FFFFBF",
+                    "info": "<strong>departamento\u003c/strong>: CALDAS\n<br>\n<strong>count\u003c/strong>: 314",
+                    "fillKey": "[253, 370)"
+                },
+                "18":
+                {
+                    "fillColor": "#F98F52",
+                    "info": "<strong>departamento\u003c/strong>: CAQUETÁ\n<br>\n<strong>count\u003c/strong>: 130",
+                    "fillKey": "[118, 253)"
+                },
+                "85":
+                {
+                    "fillColor": "#F98F52",
+                    "info": "<strong>departamento\u003c/strong>: CASANARE\n<br>\n<strong>count\u003c/strong>: 143",
+                    "fillKey": "[118, 253)"
+                },
+                "19":
+                {
+                    "fillColor": "#90C3DD",
+                    "info": "<strong>departamento\u003c/strong>: CAUCA\n<br>\n<strong>count\u003c/strong>: 479",
+                    "fillKey": "[370, 608)"
+                },
+                "20":
+                {
+                    "fillColor": "#FFFFBF",
+                    "info": "<strong>departamento\u003c/strong>: CESAR\n<br>\n<strong>count\u003c/strong>: 266",
+                    "fillKey": "[253, 370)"
+                },
+                "27":
+                {
+                    "fillColor": "#F98F52",
+                    "info": "<strong>departamento\u003c/strong>: CHOCÓ\n<br>\n<strong>count\u003c/strong>: 119",
+                    "fillKey": "[118, 253)"
+                },
+                "23":
+                {
+                    "fillColor": "#90C3DD",
+                    "info": "<strong>departamento\u003c/strong>: CÓRDOBA\n<br>\n<strong>count\u003c/strong>: 418",
+                    "fillKey": "[370, 608)"
+                },
+                "25":
+                {
+                    "fillColor": "#313695",
+                    "info": "<strong>departamento\u003c/strong>: CUNDINAMARCA\n<br>\n<strong>count\u003c/strong>: 953",
+                    "fillKey": "[608,1628]"
+                },
+                "94":
+                {
+                    "fillColor": "#A50026",
+                    "info": "<strong>departamento\u003c/strong>: GUAINÍA\n<br>\n<strong>count\u003c/strong>: 9",
+                    "fillKey": "[  9, 118)"
+                },
+                "95":
+                {
+                    "fillColor": "#A50026",
+                    "info": "<strong>departamento\u003c/strong>: GUAVIARE\n<br>\n<strong>count\u003c/strong>: 31",
+                    "fillKey": "[  9, 118)"
+                },
+                "41":
+                {
+                    "fillColor": "#90C3DD",
+                    "info": "<strong>departamento\u003c/strong>: HUILA\n<br>\n<strong>count\u003c/strong>: 370",
+                    "fillKey": "[370, 608)"
+                },
+                "44":
+                {
+                    "fillColor": "#F98F52",
+                    "info": "<strong>departamento\u003c/strong>: LA GUAJIRA\n<br>\n<strong>count\u003c/strong>: 155",
+                    "fillKey": "[118, 253)"
+                },
+                "47":
+                {
+                    "fillColor": "#FFFFBF",
+                    "info": "<strong>departamento\u003c/strong>: MAGDALENA\n<br>\n<strong>count\u003c/strong>: 367",
+                    "fillKey": "[253, 370)"
+                },
+                "50":
+                {
+                    "fillColor": "#FFFFBF",
+                    "info": "<strong>departamento\u003c/strong>: META\n<br>\n<strong>count\u003c/strong>: 281",
+                    "fillKey": "[253, 370)"
+                },
+                "52":
+                {
+                    "fillColor": "#90C3DD",
+                    "info": "<strong>departamento\u003c/strong>: NARIÑO\n<br>\n<strong>count\u003c/strong>: 446",
+                    "fillKey": "[370, 608)"
+                },
+                "54":
+                {
+                    "fillColor": "#FFFFBF",
+                    "info": "<strong>departamento\u003c/strong>: NORTE SANTANDER\n<br>\n<strong>count\u003c/strong>: 331",
+                    "fillKey": "[253, 370)"
+                },
+                "86":
+                {
+                    "fillColor": "#F98F52",
+                    "info": "<strong>departamento\u003c/strong>: PUTUMAYO\n<br>\n<strong>count\u003c/strong>: 118",
+                    "fillKey": "[118, 253)"
+                },
+                "63":
+                {
+                    "fillColor": "#F98F52",
+                    "info": "<strong>departamento\u003c/strong>: QUINDÍO\n<br>\n<strong>count\u003c/strong>: 144",
+                    "fillKey": "[118, 253)"
+                },
+                "66":
+                {
+                    "fillColor": "#FFFFBF",
+                    "info": "<strong>departamento\u003c/strong>: RISARALDA\n<br>\n<strong>count\u003c/strong>: 246",
+                    "fillKey": "[118, 253)"
+                },
+                "88":
+                {
+                    "fillColor": "#A50026",
+                    "info": "<strong>departamento\u003c/strong>: SAN ANDRÉS\n<br>\n<strong>count\u003c/strong>: 16",
+                    "fillKey": "[  9, 118)"
+                },
+                "68":
+                {
+                    "fillColor": "#313695",
+                    "info": "<strong>departamento\u003c/strong>: SANTANDER\n<br>\n<strong>count\u003c/strong>: 702",
+                    "fillKey": "[608,1628]"
+                },
+                "70":
+                {
+                    "fillColor": "#FFFFBF",
+                    "info": "<strong>departamento\u003c/strong>: SUCRE\n<br>\n<strong>count\u003c/strong>: 253",
+                    "fillKey": "[253, 370)"
+                },
+                "73":
+                {
+                    "fillColor": "#90C3DD",
+                    "info": "<strong>departamento\u003c/strong>: TOLIMA\n<br>\n<strong>count\u003c/strong>: 478",
+                    "fillKey": "[370, 608)"
+                },
+                "76":
+                {
+                    "fillColor": "#313695",
+                    "info": "<strong>departamento\u003c/strong>: VALLE\n<br>\n<strong>count\u003c/strong>: 1172",
+                    "fillKey": "[608,1628]"
+                },
+                "97":
+                {
+                    "fillColor": "#A50026",
+                    "info": "<strong>departamento\u003c/strong>: VAUPÉS\n<br>\n<strong>count\u003c/strong>: 15",
+                    "fillKey": "[  9, 118)"
+                },
+                "99":
+                {
+                    "fillColor": "#A50026",
+                    "info": "<strong>departamento\u003c/strong>: VICHADA\n<br>\n<strong>count\u003c/strong>: 16",
+                    "fillKey": "[  9, 118)"
+                }
+            },
+            "fillKeys":
+            {
+                "[  9, 118)": "#A50026",
+                "[118, 253)": "#F98F52",
+                "[253, 370)": "#FFFFBF",
+                "[370, 608)": "#90C3DD",
+                "[608,1628]": "#313695",
+                "defaultFill": "#DCE5E0"
+            },
+            "bubblesData": null
+        },
+        "dmap":
+        {
+            "label": "Colombia departaments",
+            "file": "depto.topo.json",
+            "codes": "dane-codes-departamento.csv",
+            "scope": "depto",
+            "geographyName": "name",
+            "geographyId": "id",
+            "projections":
+            {
+                "mercator":
+                {
+                    "center": [-73.5, 4.2],
+                    "rotate": [0, 0],
+                    "scale": 2,
+                    "translate": [0, 0]
+                },
+                "equirectangular":
+                {
+                    "center": [-73.5, 4.2],
+                    "rotate": [0, 0],
+                    "scale": 2,
+                    "translate": [0, 0]
+                }
+            },
+            "path": "https://rawgit.com/jpmarindiaz/dmaps/master/inst/dmaps/co/depto.topo.json",
+            "codesPath": "/Library/Frameworks/R.framework/Versions/3.2/Resources/library/dmaps/dmaps/co/dane-codes-departamento.csv"
+        },
+        "settings":
+        {
+            "title":
+            {
+                "text": "",
+                "top": 0,
+                "left": 0
+            },
+            "notes":
+            {
+                "text": "",
+                "top": 80,
+                "left": 0
+            },
+            "nLevels": 5,
+            "projection": "mercator",
+            "projectionOpts":
+            {
+                "center": [-73.5, 4.2],
+                "rotate": [0, 0],
+                "scale": 2,
+                "translate": [0, 0]
+            },
+            "zoomable": true,
+            "defaultFill": "#DCE5E0",
+            "borderColor": "#ffffff",
+            "borderWidth": 1,
+            "highlightFillColor": "#999999",
+            "highlightBorderColor": "#444444",
+            "highlightBorderWidth": 0,
+            "showLegend": true,
+            "legend":
+            {
+                "title": "",
+                "defaultFillTitle": null,
+                "top": 0,
+                "left": 1,
+                "orientation": "horizontal"
+            },
+            "graticule": false,
+            "palette": "RdYlBu",
+            "styles": "#notes{\n  position: absolute;\n  top: 80%;\n  left: 0%;\n  text-align:center;\n  margin: 0;\n  font-size: smaller;\nz-index: 1002;\n}\n\n#title{\n  position: absolute;\n  top: 0%;\n  left: 0%;\n  text-align:center;\n  margin:0;\n  z-index: 1002;\n}\n\n.datamaps-legend dt, .datamaps-legend dd {\nfloat: none;\n}\n.datamaps-legend {\ntop: 0%;\nleft: 1%;\nmax-width: 30%;\nz-index: 1001;\n}\n.datamaps-hoverover {\ncolor: #444;\nmax-width:50%\n}\n\n",
+            "bubbleBorderWidth": 0.001,
+            "bubbleBorderColor": "#FF6A37",
+            "bubbleFillOpacity": 0.5,
+            "bubbleHighlightOnHover": true,
+            "bubbleHighlightFillColor": "rgba(255, 106, 55, 0.3)",
+            "bubbleHighlightBorderColor": "#FB4B3A",
+            "bubbleHighlightBorderWidth": 1,
+            "bubbleHighlightFillOpacity": 0.7,
+            "minSizeFactor": 1,
+            "maxSizeFactor": 50
+        }
+    },
+    "evals": []
+}

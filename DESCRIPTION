@@ -1,17 +1,16 @@
 Package: dmaps
 Title: R Htmlwidget for datamaps with latam maps
-Version: 0.0.1
+Version: 0.1.1
 Date: 2015-05-20
 Author: Juan Pablo Marin Diaz
-Maintainer: Juan Pablo Marín Díaz <jpmarindiaz@gmail.com>
+Maintainer: Juan Pablo Marin Diaz <jpmarindiaz@gmail.com>
 Description: R Htmlwidget for datamaps with latam maps
 Depends:
     R (>= 3.1.2),
     htmlwidgets,
-    leaflet,
-    yaml,
-    pystr,
-    reshape2,Hmisc
+    paletero,
+    tidyverse,
+    yaml
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 6.0.0
+RoxygenNote: 6.0.1

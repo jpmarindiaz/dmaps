@@ -1,7 +1,7 @@
-br_states:
+bra_states:
   label: Brazil states
-  file: br-states.topo.json
-  codes: br-states.csv
+  file: bra-states.topo.json
+  codes: bra-states.csv
   scope: bra_states
   geographyName: name
   geographyId: id

@@ -98,7 +98,7 @@ HTMLWidgets.widget({
             dataUrl: dmap.path,
             zoomable: usrOpts.zoomable || false,
             geographyName: dmap.geographyName,
-            projectionName: usrOpts.projection,
+            projectionName: usrOpts.projectionName,
             projectionOpts: usrOpts.projectionOpts,
             // projectionCenter: dmap.projection.center,
             // projectionRotate: dmap.projection.rotate,
@@ -395,7 +395,7 @@ HTMLWidgets.widget({
 
                 d3.select('.datamap').select('g').selectAll('.datamaps-subunit').on('click', function(event, data) {
                     // console.log("CLICKED REGION", data)
-                    // console.log("CLICKED EVENT", event.id)
+                    console.log("CLICKED REGION", event.id)
                     if (typeof Shiny != "undefined") {
                         Shiny.onInputChange('dmaps_clicked_region', event.id)
                     }

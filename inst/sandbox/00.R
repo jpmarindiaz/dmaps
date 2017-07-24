@@ -1,52 +1,65 @@
 library(devtools)
-load_all()
+#load_all()
 document()
 install()
 
 library(dmaps)
 
-
-dmaps("world_countries")
-
+dmaps(data = NULL, mapName = "world_countries")
 
 # World
-
-d <- read.csv("inst/data/world_countries/latam-pib.csv")
+data <- read.csv("inst/data/world_countries/latam-pib.csv")
 mapName <- "world_countries"
-data <- d
-s <- dmaps("world_countries", data = data,
+
+dmaps(data, mapName, regionCols = "País", groupCol = "Grupo")
+dmaps(data, mapName, regionCols = "País", valueCol = "PIB")
+
+
+palette <- dmaps:::getDefaultOpts()$palette
+
+previewColors(palette, data$PIB)
+
+opts <- list(
+  projectionOpts = list(
+    scale = 0.65,
+    center = c(-74,4)
+  )
+)
+
+s <- dmaps(data, mapName,
       regionCols = "País", valueCol = "PIB",
-      opts = list(
-        projectionOpts = list(
-          scale = 0.15,
-          center = c(0,0),
-          translate = c(0,0),
-          rotate = c(0,0),
-          distance = 1.5,
-          clipAngle = 60,
-          tilt = 25
-        )
-      )
-      )
+      opts = opts)
 s
-str(s)
-library(htmlwidgets)
-htmlwidgets::saveWidget(s,"~/Desktop/index2.html")
 
+
+
+opts <- list(
+  projectionName="satellite",
+  projectionOpts = list(
+    scale = .5,
+    rotate =  c(70, -4, -30),
+    center = c(0, 0),
+    distance = 2.1,
+    tilt =  15,
+    clipAngle = 60,
+    precision = .1
+  )
+)
 
 mapName <- "world_countries"
-dmaps("world_countries", opts = list(projection="satellite"))
+dmaps(data = NULL, "world_countries", opts = opts)
+
+
+### HERE
 
 d <- read.csv("inst/data/world_countries/world-countries-military-per-1000.csv")
-data <- d
-names(data) <- c("name","value")
-dmaps("world_countries",data = data,
+dmaps("world_countries",data = d, regionCols = "country", valueCol = "military",
       opts=list(
         legend = list(left=0,top=60,orientation="vertical"),
         title = list(text="Hello world"),
         notes = list(text="Lorem sdfa;lfk fd[osfdsa f alkre re e re re er r a sfdfaa",
                      top = 70),
-        infoTpl = "NAMEEE: {name}"
+        tooltip = list(choropleth_tpl = "NAMEEE: {country}")
         ,styles = "svg{background-color:#eee}"
       )
 )
@@ -197,7 +210,7 @@ value = c( 50, 20, 2,20,10)
 data <- data.frame(name = name, group = group)
 dmaps(mapName,data, infoTpl = "<strong>We are bold {name}</name>",opts = list(legend=list(left=80)))
 tpl <- "{name}<br>Group:{group}"
-data$info <- pystr::pystr_format(tpl, data)
+data$info <- pystr::str_tpl_format(tpl, data)
 dmaps(mapName,data, opts = list(legend=list(left=80)))
 
 

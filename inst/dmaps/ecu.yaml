@@ -1,7 +1,7 @@
-ec_provinces:
+ecu_provinces:
   label: Ecuardor provinces
-  file: ec-provinces.topo.json
-  codes: ec-provinces.csv
+  file: ecu-provinces.topo.json
+  codes: ecu-provinces.csv
   scope: ecuador
   geographyName: nombre
   geographyId: id

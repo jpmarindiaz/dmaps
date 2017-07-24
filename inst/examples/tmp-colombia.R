@@ -234,7 +234,7 @@ dmaps(mapName, data = data,
 d <- read.csv("inst/data/co/bubbles-poblacion-ciudades-colombia.csv")
 names(d) <- c("latitude","longitude","radius","group")
 infoTpl <- "<strong>{group}</strong><br><strong>Población:</strong> {radius}<br>"
-d$info <- pystr_format(infoTpl,d)
+d$info <- str_tpl_format(infoTpl,d)
 opts <- list(
   bubbleBorderWidth = 2,
   bubbleBorderColor= "rgba(0,0,0,1)",
@@ -261,7 +261,7 @@ bubbles <- data.frame(
   group=d$Organización
 )
 infoTpl <- "<strong>{Municipio}</strong><br><strong>Año:</strong> {Año}<br><strong>Iniciativa:</strong> {Iniciativa}<br><strong>Objetivo: </strong>{Objetivo} "
-bubbles$info <- pystr_format(infoTpl,d)
+bubbles$info <- str_tpl_format(infoTpl,d)
 opts <- list(
   bubbleBorderWidth = 0.001,
   bubbleBorderColor= "rgba(0,0,0,1)"

@@ -1,6 +1,6 @@
-co_departments:
+col_departments:
   label: Colombia departaments
-  file: depto.topo.json
+  file: col-depto.topo.json
   codes: dane-codes-departamento.csv
   scope: depto
   geographyName: name
@@ -16,9 +16,9 @@ co_departments:
       rotate: [0, 0]
       scale: 1.8
       translate: [0,0]
-co_municipalities:
+col_municipalities:
   label: Colombia municipalities
-  file: mpio.min.topo.json
+  file: col-mpio.topo.json
   codes: dane-codes-municipio.csv
   scope: mpio
   geographyName: NOMBRE_MPI

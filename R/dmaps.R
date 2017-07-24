@@ -5,145 +5,45 @@
 #' @import htmlwidgets
 #'
 #' @export
-dmaps <- function(mapName, data = NULL, regions = NULL,
+dmaps <- function(data = NULL, mapName, opts = NULL,
                   regionCols = NULL, codeCol = NULL,
                   groupCol = NULL, valueCol = NULL,
-                  bubbles = NULL, opts = NULL,
-                  width = '100%', height = '80%',...) {
-  # message(mapName)
-  # mapName <- "co_departments"
-  # mapName <- "co_municipalities"
-  # mapName <- "world_countries"
+                  regions = NULL,
+                  bubbles = NULL,
+                  width = '100%', height = '100%',...) {
+
   if(!mapName %in% availableDmaps())
     stop("No map with that name, check available maps with availableDmaps()")
 
-  #if(!is.null(data)){
-  #  regionCols <- regionCols %||% "name"
-  #}
+  str(opts)
 
   dmap <- dmapMeta(mapName)
+  message("makeGeoData")
+  dgeo <- makeGeoData(dmap, data = data, regions = regions,
+                  regionCols = regionCols, codeCol = codeCol,
+                  groupCol = groupCol, valueCol = valueCol,
+                  opts = opts)
+  message("getOpts")
+  str(opts)
+  opts <- getOpts(dmap, opts = opts, data = dgeo)
+  #opts$palette
+  str(dmap)
 
-  if(!is.null(data) && is.null(regionCols) && is.null(codeCol)){
-    stop("need to provide a regionCols")
-  }
-
-  if(!is.null(data) && (is.null(groupCol) && is.null(valueCol))){
-    stop("Need to povide a groupCol or a valueCol")
-  }
-
-  #str(data)
-  if(is.null(data$info) && !is.null(data)){
-    #message(opts$infoTpl)
-    infoTpl <- opts$infoTpl %||% defaultTpl(data)
-    #message(infoTpl)
-    data$info <- pystr_format(infoTpl,data)
-    #str(data)
-  }
-  if(!is.null(bubbles) && is.null(bubbles$info)){
-    infoTpl <- opts$bubbleInfoTpl %||% defaultTpl(bubbles)
-    bubbles$info <- pystr_format(infoTpl,bubbles)
-  }
-  bubbleSizeLegendShow <- TRUE
-  bubbleColorLegendShow <- TRUE
-
-  if(is.null(bubbles)){
-    bubbleSizeLegendShow <- FALSE
-    bubbleColorLegendShow <- FALSE
-  }
-  if(!is.null(bubbles) && is.null(bubbles$radius)){
-    bubbles$radius <- 5
-    bubbleSizeLegendShow <- FALSE
-  }
-  if(!is.null(bubbles) && is.null(bubbles$group)){
-    bubbleColorLegendShow <- FALSE
-  }
-  if(!is.null(groupCol)){
-    if(!groupCol%in% names(data)){
-      stop("groupCol not in data")
-    }else{
-      data$group <- as.character(data[[groupCol]])
-      data$group[is.na(data$group)] <- ""
-      opts$choroLegend$type <- opts$choroLegend$type %||% "categorical"
-    }
-  }
-
-  if(!is.null(valueCol)){
-    if(!valueCol%in% names(data)){
-      stop("valueCol not in data")
-    }else{
-      data$value <- data[[valueCol]]
-      data$group <- NULL ### removes groups so legendData doesn't use groupValues
-      opts$choroLegend$type <- opts$choroLegend$type %||% "numeric"
-    }
-  }
-
-
-  if(!is.null(regionCols)){
-    if(!all(regionCols %in% names(data))){
-      stop("regionCols not in data")
-    }
-    else{
-      data$name <- apply(data[regionCols],1,paste, collapse = " - ")
-    }
-  }else{
-    if(is.null(codeCol)){
-      warning('No codeCol provided')
-    }
-    }
-
-  if(!is.null(codeCol)){
-      data$name <- NULL
-      if(!codeCol %in% names(data))
-        stop("codeCols needs to be in names(data)")
-      data$code <- data[[codeCol]]
-  }
-
-  # Add region projection options
-  codeIds <- NULL
-  if(!is.null(regions)){
-    if(length(regions) > 1){
-      regionMeta <- dmap$regions[regions]
-      codeIds <- unname(unlist(lapply(regionMeta,function(i)i$ids)))
-    }else{
-      regionMeta <- dmap$regions[[regions]]
-      projectOptsRegions <- regionMeta[c("center","scale")]
-      o <- list()
-      for(i in c("center","rotate","scale","translate")){
-        o[[i]] <- opts$projectionOpts[[i]] %||% projectOptsRegions[[i]]
-      }
-      opts$projectionOpts <- o
-      codeIds <- regionMeta$ids
-    }
-  }
-
-  settings <- getSettings(dmap,opts, data)
-
-  settings$bubbleColorLegend$show <- bubbleColorLegendShow
-  settings$bubbleSizeLegend$show <- bubbleSizeLegendShow
-
-  #filter data to show only data in selected region
-  str(data)
-  # message("SETTINGS")
-  d <- getData(dmap,data, bubbles,
-               defaultFill = settings$defaultFill,
-               palette = settings$palette,
-               bubblePalette = settings$bubblePalette,
-               nLevels = settings$nLevels,
-               customPalette = settings$customPalette,
-               fillKeyLabels = settings$legend$labels, codeIds = codeIds)
-
+  message("prepData")
+  d <- prepData(dmap, opts, data = dgeo, bubbles = bubbles)
+  message("after prepData")
+  #str(d)
 
   # pass the data and settings using 'x'
   x <- list(
     data = d,
     dmap = dmap,
-    settings = settings
+    settings = opts
   )
 
-  #str(x)
   htmlwidgets::createWidget(
     name = "dmaps",
-    x,
+    x = x,
     width = width,
     height = height,
     package = 'dmaps',
