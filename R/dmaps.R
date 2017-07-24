@@ -19,18 +19,18 @@ dmaps <- function(data = NULL, mapName, opts = NULL,
 
   dmap <- dmapMeta(mapName)
   message("makeGeoData")
-  dgeo <- makeGeoData(dmap, data = data, regions = regions,
+  dgeo <- dmaps:::makeGeoData(dmap, data = data, regions = regions,
                   regionCols = regionCols, codeCol = codeCol,
                   groupCol = groupCol, valueCol = valueCol,
                   opts = opts)
   message("getOpts")
   str(opts)
-  opts <- getOpts(dmap, opts = opts, data = dgeo)
+  opts <- dmaps:::getOpts(dmap, opts = opts, data = dgeo)
   #opts$palette
   str(dmap)
 
   message("prepData")
-  d <- prepData(dmap, opts, data = dgeo, bubbles = bubbles)
+  d <- dmaps:::prepData(dmap, opts, data = dgeo, bubbles = bubbles)
   message("after prepData")
   #str(d)
 

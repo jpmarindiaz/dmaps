@@ -89,7 +89,7 @@ defaultTpl <- function(data, nms = NULL){
 
 makeInfoCol <- function(data, opts = NULL){
   if(is.null(data$..info) && !is.null(data)){
-    infoTpl <- opts$tooltip_tpl %||% defaultTpl(data)
+    infoTpl <- opts$tooltip$choropleth$template %||% defaultTpl(data)
     data$..info <- str_tpl_format(infoTpl,data)
   }
   data

@@ -4,10 +4,16 @@ getOpts <- function(dmap, opts = NULL, data = NULL,
                     regions = NULL){
 
   userOpts <- opts
-  defaultOpts <- getDefaultOpts()
+  defaultOpts <- getDefaultOpts(titleOpts = opts$title,
+                                legendOpts = opts$legend,
+                                notesOpts = opts$notes)
+
   if(!is.null(data)){
-    if(!all(is.na(data$..group)))
+    if(!all(is.na(data$..group))){
+      # Is group categories
       defaultOpts$palette <- "Set1"
+      defaultOpts$legend$choropleth$type <- "categorical"
+    }
   }
   if(!is.null(opts)){
     opts <- modifyList(defaultOpts, userOpts)
@@ -19,7 +25,8 @@ getOpts <- function(dmap, opts = NULL, data = NULL,
     opts$choroLegend$show <- FALSE # ?????
   }
 
-
+  opts$styles <- paste(defaultOpts$styles,
+                       opts$styles,sep="\n")
 
   if(is.null(userOpts$projectionName)){
     opts$projectionName <- names(dmap$projections[1]) # take first projection by default
@@ -39,9 +46,6 @@ getOpts <- function(dmap, opts = NULL, data = NULL,
 
   # settings$bubbleColorLegend$show <- bubbleColorLegendShow
   # settings$bubbleSizeLegend$show <- bubbleSizeLegendShow
-
-  # opts$styles <- paste(defaultOpts$styles,
-  #                      opts$styles,sep="\n")
 
   #projectionName <- opts[["projection"]] %||% names(dmap$projections)[1]
   #projectionOpts <- dmap$projections[[projectionName]]
@@ -69,8 +73,8 @@ getDefaultOpts <- function(titleOpts = NULL, legendOpts = NULL, notesOpts = NULL
     notes = list(text="",top=80,left=0),
     nLevels = 5,
     tooltip = list(
-      choropleth_tpl = NULL,
-      bubbles_tpl = NULL
+      choropleth = list(template = NULL),
+      bubbles = list(template = NULL)
     ),
     #tooltip_tpl = NULL,
     #bubblesInfoTpl = NULL,
@@ -92,7 +96,7 @@ getDefaultOpts <- function(titleOpts = NULL, legendOpts = NULL, notesOpts = NULL
     legend = list(
       show = TRUE,
       choropleth = list(
-        type = "categorical",
+        type = "numeric",
         title = "",
         defaultFillTitle = NULL,
         top = 1,

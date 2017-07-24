@@ -88,8 +88,8 @@ HTMLWidgets.widget({
         vizId = el.id;
 
 
-        // console.log("SETTINGS:\n", x.settings);
-        // console.log("DATA:\n", x.data);
+        console.log("SETTINGS:\n", x.settings);
+        console.log("DATA:\n", x.data);
         var usrOpts = x.settings;
         var dmap = x.dmap;
 
@@ -412,15 +412,17 @@ HTMLWidgets.widget({
 
         function addChoroLegend(layer, data, options) {
             data = data || {};
+            console.log("Chorolegend data", data)
             var orient = data.orient || "vertical";
-            var title = data.legendTitle;
+            var title = data.title;
             var top = data.top.toString().concat("%") || "1%";
             var left = data.left.toString().concat("%") || "1%";
             var shapeWidth = data.shapeWidth || 30;
             var type = data.type || "categorical"
             var legendDomain = data.domain;
             var legendRange = data.range;
-            var cells = data.cells || Math.min(legendDomain.length, 6);
+            var nLevels = data.nLevels;
+            var cells = data.cells || Math.min(legendDomain.length, nLevels);
             if (type == "numeric") {
                 var scale = d3.scale.linear()
                     .domain(legendDomain)
@@ -454,12 +456,14 @@ HTMLWidgets.widget({
         }
         map.addPlugin("choroLegend", addChoroLegend);
 
-        if (usrOpts.choroLegend.show) {
-            usrOpts.choroLegend.domain = x.data.legendData.key;
-            usrOpts.choroLegend.range = x.data.legendData.keyColor;
-            instance.legend = usrOpts.choroLegend;
+console.log("usrOpts.legend",usrOpts.legend)
+        if (usrOpts.legend.show) {
+            usrOpts.legend.choropleth.domain = x.data.legendData.key;
+            usrOpts.legend.choropleth.range = x.data.legendData.keyColor;
+            usrOpts.legend.choropleth.nLevels = x.settings.nLevels;
+            instance.legend = usrOpts.legend.choropleth;
             instance.legend.name = "choroLegend";
-            map.choroLegend(usrOpts.choroLegend)
+            map.choroLegend(usrOpts.legend.choropleth)
         }
         // console.log("outIf",d3.select(el).select("#dmapLegend"));
 
@@ -762,12 +766,12 @@ HTMLWidgets.widget({
         map.addPlugin("bivariateLegend", addBivariateLegend);
 
         // console.log("bivariateLegend\n", usrOpts.bivariateLegend)
-        if (usrOpts.bivariateLegend.show) {
-            usrOpts.bivariateLegend.domain = x.data.legendData.key;
-            usrOpts.bivariateLegend.range = x.data.legendData.keyColor;
-            instance.legend = usrOpts.bivariateLegend;
+        if (usrOpts.legend.bivariate.show) {
+            usrOpts.legend.bivariate.domain = x.data.legendData.key;
+            usrOpts.legend.bivariate.range = x.data.legendData.keyColor;
+            instance.legend = usrOpts.legend.bivariate;
             instance.legend.name = "bivariateLegend";
-            map.bivariateLegend(usrOpts.bivariateLegend)
+            map.bivariateLegend(usrOpts.legend.bivariate)
         }
 
         // Do not scale geoboundaries on zoom

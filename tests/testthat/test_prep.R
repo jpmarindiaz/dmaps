@@ -64,6 +64,37 @@ test_that("opts",{
   expect_equal(opts$projectionOpts$center, opt2$projectionOpts$center)
   expect_equal(sort_list(opt2$projectionOpts), sort_list(opts$projectionOpts))
 
+  # Make sure chorolegend is categoric/numeric depending on input data
+  d <- data_frame(countryName = c("Colombia","United States","Germany", "Flatland"),
+                     countryCode = c("COL","USA","DEU", "XXX"),
+                     value = c(1,2,3, 4),
+                     continent = c("America","America","Europe", "XXX"))
+  dmap <- dmapMeta("world_countries")
+  data <- dmaps:::makeGeoData(dmap, data = d,
+                              regionCols = "countryName",
+                              valueCol = "value")
+  dopts <- getOpts(dmap, opts = NULL, data = data)
+  expect_equal(dopts$legend$choropleth$type, "numeric")
+
+  data <- dmaps:::makeGeoData(dmap, data = d,
+                              regionCols = "countryName",
+                              groupCol = "continent")
+  dopts <- getOpts(dmap, opts = NULL, data = data)
+  expect_equal(dopts$legend$choropleth$type, "categorical")
+
+  opts <- list(
+    legend = list(left=0,top=60,orient="horizontal", title = "HEELLO"),
+    title = list(text="Hello world"),
+    notes = list(text="Lorem sdfa;lfk fd[osfdsa f alkre re e re re er r a sfdfaa",
+                 top = 70),
+    tooltip = list(choropleth = list(template = "NAMEEE: {country}"))
+    ,styles = "svg{background-color:#eee}"
+  )
+  getOpts(dmap, opts = opts)
+
+  opts=list(title = list(text="Hola",left=90))
+  getOpts(dmap, opts = opts)
+
 })
 
 
@@ -90,7 +121,7 @@ test_that("params",{
                      continent = c("America","America","Europe", "XXX"))
 
   expect_error(makeGeoData(dmap, data = data,
-                               regionCols = NULL, codeCol = NULL),
+                           regionCols = NULL, codeCol = NULL),
                "Need to provide regionCols or codeCol")
 
   expect_error(makeGeoData(dmap, data = data,
@@ -103,10 +134,10 @@ test_that("params",{
 
   dmap <- dmapMeta(mapName)
   g1 <- makeGeoData(dmap, data = data,
-              regionCols = "countryName", valueCol = "value")
+                    regionCols = "countryName", valueCol = "value")
   expect_false(any(is.na(g1$..code)))
   g2 <- makeGeoData(dmap, data = data,
-                           codeCol = "countryCode", valueCol = "value")
+                    codeCol = "countryCode", valueCol = "value")
   expect_false(any(is.na(g2$..code)))
 
   ## TEST make geo data with no NA's
@@ -121,11 +152,11 @@ test_that("params",{
   dmap <- dmapMeta(mapName)
 
   g <- makeGeoData(dmap, data = data,
-                    regionCols = c("Municipio","Departamento"), groupCol = "Aval Partidos 2011")
+                   regionCols = c("Municipio","Departamento"), groupCol = "Aval Partidos 2011")
   # OJO g tiene 1107 rows, data 1103.
   gRegion <- makeGeoData(dmap, data = data,
-                   regionCols = c("Municipio","Departamento"), groupCol = "Aval Partidos 2011",
-                   region = c("Catatumbo", "Valle de Aburrá"))
+                         regionCols = c("Municipio","Departamento"), groupCol = "Aval Partidos 2011",
+                         region = c("Catatumbo", "Valle de Aburrá"))
   all(gRegion$..code %in% c(dmap$regions$Catatumbo$ids,dmap$regions$`Valle de Aburrá`$ids))
 
   # Provide bubbles
