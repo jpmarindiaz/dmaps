@@ -20,16 +20,20 @@ makeGeoData <- function(dmap, data = NULL,
   if(!is.null(regionCols)){
     geo$..name <- apply(data[regionCols],1,paste, collapse = " - ")
   }
-  # Create name col from regionCols
-  if(!is.null(codeCol)){
-    geo$..code <- data[[codeCol]]
-  }
+
   # Match code from name
   codes0 <- read_csv(dmap$codesPath)
   codes <- codes0 %>%
     gather(col, name, name, alternativeNames,na.rm = TRUE) %>%
     select(-col) %>%
-    select(..code = id, ..name = name, everything())
+    #select(..code = id, ..name = name, everything())
+    select(..code = id, ..name = name, one_of(c("lat","lon")))
+
+  # Create code col
+  if(!is.null(codeCol)){
+    geo$..code <- match_replace(data[[codeCol]], codes[c(1,1)])
+  }
+
   if(suppressWarnings(is.null(geo$..code))){
     geo <- geo %>% mutate(..name = remove_accents(tolower(..name)))
     codes <- codes %>% mutate(...name = remove_accents(tolower(..name)))
@@ -37,9 +41,10 @@ makeGeoData <- function(dmap, data = NULL,
     geo$..name <- match_replace(geo$..code, codes)
     ## TODO Add approximate match
   }else{
-    geo$..name <- match_replace(geo$..code, codes)
+    geo$..name <- dmaps:::match_replace(geo$..code, codes)
   }
-  d <- left_join(geo, data)
+  geo <- geo %>% select(..code,..name, one_of(c("lat","lon")))
+  d <- cbind(geo, data)
   d <- makeInfoCol(d, opts = opts)
 
   #
@@ -48,6 +53,8 @@ makeGeoData <- function(dmap, data = NULL,
   }
   # Add value cols
   if(!is.null(valueCol)){
+    if(!is.numeric(data[[valueCol]]))
+      stop("valueCol must be numeric")
     if(!valueCol%in% names(data)){
       stop("valueCol not in data")
     }else{

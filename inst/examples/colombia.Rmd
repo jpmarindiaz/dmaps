@@ -13,8 +13,48 @@ library(dmaps)
 
 ```{r, echo=FALSE, warning=FALSE}
 data <- read.csv(system.file("data/co/ncolegios-departamento.csv",package="dmaps"))
-dmaps("co_departments",data, regionCols = "departamento", valueCol = "count")
+dmaps(data, "col_departments", regionCols = "departamento", valueCol = "count")
 ```
 
+```{r, echo=FALSE, warning=FALSE}
 
+opts <- list(legend = list(choropleth = list(title = "legend Title")))
+dmaps(data, "col_departments", regionCols = "departamento", valueCol = "count", opts = opts)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+d <- read_csv(system.file("data/co/co_municipalities-2-vars.csv", package = "dmaps"),
+              col_types = cols(.default = "c"))
+mapName <- "col_municipalities"
+names(d)
+dmaps(d ,mapName,
+      valueCol = "conf_uso_2",
+      regionCols = c("municipio","departamento"),
+      regions = "Altillanura",
+      opts = opts
+)
+```
+
+```{r}
+d <- read_csv(system.file("data/co/co_municipalities-2-vars.csv", package = "dmaps"))
+mapName <- "col_municipalities"
+opts <- list(
+  defaultFill = "#000000",
+  borderColor = "#9FCC44",
+  borderWidth = 0.1,
+  highlightFillColor = "#99FFAA",
+  highlightBorderWidth = 0,
+  palette = "viridis",
+  nLevels = 5
+  #projectionOpts = list(scale = 20)
+)
+
+dmaps(mapName, data = d,
+      valueCol = "conf_uso_2",
+      codeCol = "code",
+      regions = "Cesar",
+      opts = opts
+)
+
+```
 

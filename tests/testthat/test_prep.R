@@ -12,6 +12,8 @@ test_that("Resource exists",{
   geoFileFound <- map_lgl(geoFiles, function(x) !httr::http_error(x))
   geoFileFound %>% keep(. == FALSE)
   expect_true(all(codeFileFound))
+
+  ## TODO CHECK scope and ids correspond in codes and topojson
 })
 
 context("Opts")
@@ -111,13 +113,14 @@ test_that("params",{
   bubbles = NULL
 
   mapName <- "world_countries"
-  dmap <- dmapMeta()
+  dmap <- dmapMeta(mapName)
 
   expect_true(is.null(makeGeoData(dmap, data = NULL)))
 
   data <- data_frame(countryName = c("Colombia","United States","Germany", "Flatland"),
                      countryCode = c("COL","USA","DEU", "XXX"),
                      value = c(1,2,3, 4),
+                     valueChr = c('1','2','3','4'),
                      continent = c("America","America","Europe", "XXX"))
 
   expect_error(makeGeoData(dmap, data = data,
@@ -131,6 +134,10 @@ test_that("params",{
   expect_error(makeGeoData(dmap, data = data,
                            codeCol = "countryCode"),
                "Need to povide a groupCol or a valueCol")
+  expect_error(makeGeoData(dmap, data = data,
+                           codeCol = "countryCode",
+                           valueCol = "valueChr"),
+               "valueCol must be numeric")
 
   dmap <- dmapMeta(mapName)
   g1 <- makeGeoData(dmap, data = data,
@@ -143,8 +150,7 @@ test_that("params",{
   ## TEST make geo data with no NA's
 
   expect_equal(names(g1), names(g2))
-  expect_equal(names(g1), c("..code","..name","..info",names(data)))
-  identical(g1 %>% select(..code, ..name), g2 %>% select(..code, ..name))
+  expect_equal(names(g1), c("..code","..name","..info","..value","..group",names(data)))
   expect_equal(g1 %>% select(..code, ..name), g2 %>% select(..code, ..name))
 
   mapName <- "col_municipalities"

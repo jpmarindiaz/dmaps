@@ -1,47 +1,23 @@
 library(devtools)
-library(htmlwidgets)
 document()
-load_all()
+#load_all()
 install()
 
 library(dmaps)
 
-availableDmaps()
-
-library(tidyverse)
-
 ## TEST regions
 
-d <- read_csv("inst/data/co_municipalities/co_municipalities-2-vars.csv", col_types = cols(.default = "c"))
-d <- read.csv("inst/data/co_municipalities/co_municipalities-2-vars.csv")
+opts = NULL
+regionCols = NULL
+codeCol = NULL
+groupCol = NULL
+valueCol = NULL
+regions = NULL
+bubbles = NULL
 
 
-mapName <- "co_municipalities"
-names(d)
-opts <- list(
-  defaultFill = "#FFFFFF",
-  borderColor = "#CCCCCC",
-  borderWidth = 0.3,
-  highlightFillColor = "#999999",
-  highlightBorderWidth = 1,
-  palette = "PuBu",
-  nLevels = 3,
-  choroLegend = list(shapeWidth = 40)
-  #projectionOpts = list(scale = 20)
-)
-dmaps(mapName, data = d,
-      valueCol = "conf_uso_2",
-      regionCols = c("municipio","departamento"),
-      regions = "Altillanura",
-      opts = opts
-)
 
-dmaps(mapName, data = d,
-      valueCol = "conf_uso_2",
-      codeCol = "code",
-      regions = "Cesar",
-      opts = opts
-)
+
 dmaps(mapName, data = d,
       valueCol = "conf_uso_2",
       codeCol = "code",

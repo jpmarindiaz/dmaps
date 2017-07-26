@@ -15,10 +15,8 @@ dmaps <- function(data = NULL, mapName, opts = NULL,
   if(!mapName %in% availableDmaps())
     stop("No map with that name, check available maps with availableDmaps()")
 
-  str(opts)
-
   dmap <- dmapMeta(mapName)
-  message("makeGeoData")
+  #message("makeGeoData")
   dgeo <- dmaps:::makeGeoData(dmap, data = data, regions = regions,
                   regionCols = regionCols, codeCol = codeCol,
                   groupCol = groupCol, valueCol = valueCol,

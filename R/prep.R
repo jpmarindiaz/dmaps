@@ -9,12 +9,12 @@ prepData <- function(dmap,opts = NULL, data = NULL, bubbles = NULL, arcs = NULL,
   data$value <- data$..value
   data$group <-  data$..group
 
-  data <- discard_all_na_cols(data)
+  data <- dmaps:::discard_all_na_cols(data)
 
 
   message("getDataFills")
   str(data)
-  dataFills <- getDataFills(data, opts)
+  dataFills <- dmaps:::getDataFills(data, opts)
 
   message("after getDataFills")
 
