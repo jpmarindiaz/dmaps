@@ -13,7 +13,31 @@ test_that("Resource exists",{
   geoFileFound %>% keep(. == FALSE)
   expect_true(all(codeFileFound))
 
-  ## TODO CHECK scope and ids correspond in codes and topojson
+  # Check all regions have proper codes
+
+  dm <- dmaps:::dmapMeta()
+  dmWithRegions <- dm %>% keep(~!is.null(.$regions))
+  dmReg <- dmWithRegions %>% map(function(x){
+    x$codes = readDmapCode(x)
+    x
+  })
+
+  # all codes have names: id, name, alternativeNames
+  map(dmReg, "codes") %>% map(names)
+  expect_equal (map(dmReg, "codes") %>% map(names) %>% reduce(intersect),
+                c("id","name","alternativeNames"))
+
+  dmRegIdsNoCodes <- dmReg %>% map(function(dmap){
+    df_regions <- map(dmap$regions, function(x){data_frame(ids=x$ids)}) %>% bind_rows(.id = "region")
+    df_regions %>% filter(!ids %in% dmap$codes$id)
+  })
+
+  whichRegionsWithWrongCode <- dmRegIdsNoCodes %>% keep(~nrow(.) != 0) %>% map(~ unique(.$region))
+  nms <- unlist(whichRegionsWithWrongCode)
+  dmRegIdsNoCodes
+  message("Regions with wrong code", paste(names(nms), nms))
+  expect_true(length(nms) == 0)
+
 })
 
 context("Opts")
@@ -68,9 +92,9 @@ test_that("opts",{
 
   # Make sure chorolegend is categoric/numeric depending on input data
   d <- data_frame(countryName = c("Colombia","United States","Germany", "Flatland"),
-                     countryCode = c("COL","USA","DEU", "XXX"),
-                     value = c(1,2,3, 4),
-                     continent = c("America","America","Europe", "XXX"))
+                  countryCode = c("COL","USA","DEU", "XXX"),
+                  value = c(1,2,3, 4),
+                  continent = c("America","America","Europe", "XXX"))
   dmap <- dmapMeta("world_countries")
   data <- dmaps:::makeGeoData(dmap, data = d,
                               regionCols = "countryName",
@@ -159,7 +183,6 @@ test_that("params",{
 
   g <- makeGeoData(dmap, data = data,
                    regionCols = c("Municipio","Departamento"), groupCol = "Aval Partidos 2011")
-  # OJO g tiene 1107 rows, data 1103.
   gRegion <- makeGeoData(dmap, data = data,
                          regionCols = c("Municipio","Departamento"), groupCol = "Aval Partidos 2011",
                          region = c("Catatumbo", "Valle de Aburrá"))

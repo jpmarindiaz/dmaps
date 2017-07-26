@@ -1,7 +1,7 @@
 ---
-title: "Maps Colombia"
+title: "Dmaps Colombia"
 author: "jpmarindiaz"
-date: "Diciembre 11, 2015"
+date: "2017-07-25"
 output:
   html_document
 ---
@@ -10,8 +10,11 @@ output:
 library(dmaps)
 ```
 
+# A bunch of examples for Colombia
 
-```{r, echo=FALSE, warning=FALSE}
+## Number of schools per department
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 data <- read.csv(system.file("data/co/ncolegios-departamento.csv",package="dmaps"))
 dmaps(data, "col_departments", regionCols = "departamento", valueCol = "count")
 ```
@@ -24,7 +27,7 @@ dmaps(data, "col_departments", regionCols = "departamento", valueCol = "count", 
 
 ```{r, echo=FALSE, warning=FALSE}
 d <- read_csv(system.file("data/co/co_municipalities-2-vars.csv", package = "dmaps"),
-              col_types = cols(.default = "c"))
+              col_types = cols(code = "c"))
 mapName <- "col_municipalities"
 names(d)
 dmaps(d ,mapName,
@@ -57,4 +60,21 @@ dmaps(mapName, data = d,
 )
 
 ```
+
+
+
+```{r}
+casosgeo <- read_csv(system.file("data/co/casosgeo.csv", package = "dmaps"))
+opts <- list(
+  tooltip = list(choropleth = list(template = "DEPTO: {departamento}<br> <strong>TOTAL</strong>: {Total}")),
+  legend =  list(choropleth = list(title = "TItle"))
+)
+viz <- dmaps(data = casosgeo, "col_departments",
+              valueCol = "Total",
+              regionCols = c("departamento"),
+             opts = opts)
+
+viz
+```
+
 

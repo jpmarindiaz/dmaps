@@ -16,21 +16,23 @@ regions = NULL
 bubbles = NULL
 
 
-
-
-dmaps(mapName, data = d,
-      valueCol = "conf_uso_2",
-      codeCol = "code",
-      regions = c("Cesar","Meta","Catatumbo","La Guajira"),
-      opts = opts
-)
-
+d <- read_csv(system.file("data/co/co_municipalities-2-vars.csv", package = "dmaps"),
+              col_types = cols(code = "c"))
+mapName <- "col_municipalities"
 
 dmaps(mapName, data = d,
       valueCol = "conf_uso_2",
       #regionCols = c("municipio","departamento"),
       codeCol = "code",
       regions = "Altiplano Cundiboyacense",
+      opts = opts
+)
+
+dmaps(mapName, data = d,
+      valueCol = "conf_uso_2",
+      #regionCols = c("municipio","departamento"),
+      codeCol = "code",
+      regions = "Valle de Aburrá",
       opts = opts
 )
 

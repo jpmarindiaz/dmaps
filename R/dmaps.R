@@ -21,15 +21,13 @@ dmaps <- function(data = NULL, mapName, opts = NULL,
                   regionCols = regionCols, codeCol = codeCol,
                   groupCol = groupCol, valueCol = valueCol,
                   opts = opts)
-  message("getOpts")
-  str(opts)
+  #message("getOpts")
+  #str(opts)
   opts <- dmaps:::getOpts(dmap, opts = opts, data = dgeo)
-  #opts$palette
-  str(dmap)
-
-  message("prepData")
+  #str(dmap)
+  # message("prepData")
   d <- dmaps:::prepData(dmap, opts, data = dgeo, bubbles = bubbles)
-  message("after prepData")
+  # message("after prepData")
   #str(d)
 
   # pass the data and settings using 'x'

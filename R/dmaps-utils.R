@@ -22,7 +22,7 @@ makeGeoData <- function(dmap, data = NULL,
   }
 
   # Match code from name
-  codes0 <- read_csv(dmap$codesPath)
+  codes0 <- readDmapCode(dmap)
   codes <- codes0 %>%
     gather(col, name, name, alternativeNames,na.rm = TRUE) %>%
     select(-col) %>%
@@ -33,10 +33,12 @@ makeGeoData <- function(dmap, data = NULL,
   if(!is.null(codeCol)){
     geo$..code <- match_replace(data[[codeCol]], codes[c(1,1)])
   }
-
   if(suppressWarnings(is.null(geo$..code))){
     geo <- geo %>% mutate(..name = remove_accents(tolower(..name)))
-    codes <- codes %>% mutate(...name = remove_accents(tolower(..name)))
+    codes <- codes %>%
+      mutate(...name = remove_accents(tolower(..name))) %>%
+      # when alternative names very only in caps and accents, remove dups.
+      distinct(...name, .keep_all = TRUE)
     geo <- left_join(geo, codes, by = c("..name"="...name"))
     geo$..name <- match_replace(geo$..code, codes)
     ## TODO Add approximate match
@@ -119,3 +121,10 @@ getAvailableProjections <- function(mapName){
   dmap <- dmapMeta(mapName)
   names(dmap$projections)
 }
+
+readDmapCode <- function(dmap){
+  read_csv(dmap$codesPath)
+}
+
+
+

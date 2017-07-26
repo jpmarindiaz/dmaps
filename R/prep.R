@@ -12,8 +12,8 @@ prepData <- function(dmap,opts = NULL, data = NULL, bubbles = NULL, arcs = NULL,
   data <- dmaps:::discard_all_na_cols(data)
 
 
-  message("getDataFills")
-  str(data)
+  #message("getDataFills")
+  #str(data)
   dataFills <- dmaps:::getDataFills(data, opts)
 
   message("after getDataFills")
