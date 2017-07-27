@@ -14,18 +14,18 @@ library(dmaps)
 
 ## Number of schools per department
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
 data <- read.csv(system.file("data/co/ncolegios-departamento.csv",package="dmaps"))
 dmaps(data, "col_departments", regionCols = "departamento", valueCol = "count")
 ```
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
 opts <- list(legend = list(choropleth = list(title = "legend Title")))
 dmaps(data, "col_departments", regionCols = "departamento", valueCol = "count", opts = opts)
 ```
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
 d <- read_csv(system.file("data/co/co_municipalities-2-vars.csv", package = "dmaps"),
               col_types = cols(code = "c"))
 mapName <- "col_municipalities"
@@ -38,7 +38,7 @@ dmaps(d ,mapName,
 )
 ```
 
-```{r}
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
 d <- read_csv(system.file("data/co/co_municipalities-2-vars.csv", package = "dmaps"))
 mapName <- "col_municipalities"
 opts <- list(
@@ -63,11 +63,12 @@ dmaps(mapName, data = d,
 
 
 
-```{r}
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
 casosgeo <- read_csv(system.file("data/co/casosgeo.csv", package = "dmaps"))
 opts <- list(
   tooltip = list(choropleth = list(template = "DEPTO: {departamento}<br> <strong>TOTAL</strong>: {Total}")),
-  legend =  list(choropleth = list(title = "TItle"))
+  legend =  list(choropleth = list(title = "TItle")),
+  palette = "PuBu"
 )
 viz <- dmaps(data = casosgeo, "col_departments",
               valueCol = "Total",
