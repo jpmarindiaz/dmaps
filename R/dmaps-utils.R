@@ -1,4 +1,14 @@
 
+preprocessData <- function(data, mapName){
+  if(mapName == "col_municipalities"){
+    data$code <- sprintf("%05d", as.numeric(data$code))
+  }
+  if(mapName == "col_departments"){
+    data$code <- sprintf("%02d", as.numeric(data$code))
+  }
+  data
+}
+
 makeGeoData <- function(dmap, data = NULL,
                         regionCols = NULL, codeCol = NULL,
                         groupCol = NULL, valueCol = NULL,
@@ -22,12 +32,18 @@ makeGeoData <- function(dmap, data = NULL,
   }
 
   # Match code from name
-  codes0 <- readDmapCode(dmap)
-  codes <- codes0 %>%
-    gather(col, name, name, alternativeNames,na.rm = TRUE) %>%
-    select(-col) %>%
-    #select(..code = id, ..name = name, everything())
-    select(..code = id, ..name = name, one_of(c("lat","lon")))
+  codes0 <- dmap$codes
+  if(!is.null(dmap$altnames)){
+    altnames <- dmap$altnames #%>% rename(name = altname)
+    c <- left_join(altnames, codes0 %>% select(-name), by = "id") %>%
+      select(name = altname, everything())
+    codes <- bind_rows(codes0,c)
+    codes <- codes %>%
+      select(..code = id, ..name = name, one_of(c("lat","lon")))
+  }else{
+    codes <- codes0 %>%
+      select(..code = id, ..name = name, one_of(c("lat","lon")))
+  }
 
   # Create code col
   if(!is.null(codeCol)){
@@ -79,8 +95,7 @@ makeGeoData <- function(dmap, data = NULL,
 
   # Filter data for values in region
   if(!is.null(regions)){
-    regionMeta <- dmap$regions[regions]
-    codeIds <- map(regionMeta, "ids") %>% flatten_chr()
+    codeIds <- dmap$regions %>% filter(region %in% regions) %>% .$id
     d <- d %>% filter(..code %in% codeIds)
   }
   # Filter data only valid codes
@@ -106,25 +121,22 @@ makeInfoCol <- function(data, opts = NULL){
 
 #' @export
 getAvailableRegions <- function(mapName){
-  dmap <- dmapMeta(mapName)
+  dmap <- geodataMeta(mapName)
   names(dmap$regions)
 }
 
 #' @export
 getCodesData <- function(mapName){
-  dmap <- dmapMeta(mapName)
+  dmap <- geodataMeta(mapName)
   read_csv(dmap$codesPath)
 }
 
 #' @export
 getAvailableProjections <- function(mapName){
-  dmap <- dmapMeta(mapName)
+  dmap <- geodataMeta(mapName)
   names(dmap$projections)
 }
 
-readDmapCode <- function(dmap){
-  read_csv(dmap$codesPath)
-}
 
 
 

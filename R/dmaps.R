@@ -15,18 +15,25 @@ dmaps <- function(data = NULL, mapName, opts = NULL,
   if(!mapName %in% availableDmaps())
     stop("No map with that name, check available maps with availableDmaps()")
 
-  dmap <- dmapMeta(mapName)
+  dmap <- geodataMeta(mapName)
+  # Add quick fix
+  # https://rawgit.com/jpmarindiaz/geodata/master/inst/geodata/col/col-adm2-municipalities.topojson
+  basepath <- "https://rawgit.com/jpmarindiaz/geodata/master/inst/geodata"
+  dmap$path <- file.path(basepath,dmap$geoname,paste0(dmap$basename,".topojson"))
   #message("makeGeoData")
+
+  data <- preprocessData(data, mapName)
+
   dgeo <- dmaps:::makeGeoData(dmap, data = data, regions = regions,
                   regionCols = regionCols, codeCol = codeCol,
                   groupCol = groupCol, valueCol = valueCol,
                   opts = opts)
   #message("getOpts")
   #str(opts)
-  opts <- dmaps:::getOpts(dmap, opts = opts, data = dgeo)
+  opts <- getOpts(dmap, opts = opts, data = dgeo)
   #str(dmap)
   # message("prepData")
-  d <- dmaps:::prepData(dmap, opts, data = dgeo, bubbles = bubbles)
+  d <- prepData(dmap, opts, data = dgeo, bubbles = bubbles)
   # message("after prepData")
   #str(d)
 

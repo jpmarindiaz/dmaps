@@ -1,13 +1,15 @@
 
+#' @export
+availableDmaps <- availableGeodata
 
 
 #' #' @export
 #' availableDmaps <- function(){
-#'   names(dmapMeta())
+#'   names(geodataMeta())
 #' }
 #'
 #' #' @export
-#' dmapMeta <- function(mapName = NULL){
+#' geodataMeta <- function(mapName = NULL){
 #'   dir <- system.file("dmaps",package="dmaps", mustWork=TRUE)
 #'   files <- list.files(dir,pattern = ".*.yaml",full.names = TRUE)
 #'   l <- map(files,function(x){
@@ -32,13 +34,13 @@
 #'
 #' #' @export
 #' dmapProjections <- function(mapName){
-#'   l <- dmapMeta(mapName)
+#'   l <- geodataMeta(mapName)
 #'   names(l$projections)
 #' }
 #'
 #' #' @export
 #' dmapProjectionOptions <- function(mapName, projection, withDefaults = TRUE){
-#'   l <- dmapMeta(mapName)
+#'   l <- geodataMeta(mapName)
 #'   if(!projection %in% names(l$projections))
 #'     stop(mapName, "does not support this projection")
 #'   projection <- l$projections[[projection]]

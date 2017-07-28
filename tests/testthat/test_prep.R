@@ -1,52 +1,10 @@
-context("Resources")
-
-
-test_that("Resource exists",{
-
-  geoCodesFiles <- dmapMeta() %>% map("codesPath")
-  codeFileFound <- map_lgl(geoCodesFiles, function(x) !httr::http_error(x))
-  codeFileFound %>% keep(. == FALSE)
-  expect_true(all(codeFileFound))
-
-  geoFiles <- dmapMeta() %>% map("path")
-  geoFileFound <- map_lgl(geoFiles, function(x) !httr::http_error(x))
-  geoFileFound %>% keep(. == FALSE)
-  expect_true(all(codeFileFound))
-
-  # Check all regions have proper codes
-
-  dm <- dmaps:::dmapMeta()
-  dmWithRegions <- dm %>% keep(~!is.null(.$regions))
-  dmReg <- dmWithRegions %>% map(function(x){
-    x$codes = readDmapCode(x)
-    x
-  })
-
-  # all codes have names: id, name, alternativeNames
-  map(dmReg, "codes") %>% map(names)
-  expect_equal (map(dmReg, "codes") %>% map(names) %>% reduce(intersect),
-                c("id","name","alternativeNames"))
-
-  dmRegIdsNoCodes <- dmReg %>% map(function(dmap){
-    df_regions <- map(dmap$regions, function(x){data_frame(ids=x$ids)}) %>% bind_rows(.id = "region")
-    df_regions %>% filter(!ids %in% dmap$codes$id)
-  })
-
-  whichRegionsWithWrongCode <- dmRegIdsNoCodes %>% keep(~nrow(.) != 0) %>% map(~ unique(.$region))
-  nms <- unlist(whichRegionsWithWrongCode)
-  dmRegIdsNoCodes
-  message("Regions with wrong code", paste(names(nms), nms))
-  expect_true(length(nms) == 0)
-
-})
-
 context("Opts")
 
 
 test_that("opts",{
 
   mapName <- "world_countries"
-  dmap <- dmapMeta(mapName)
+  dmap <- geodataMeta(mapName)
 
   opt1 <- getOpts(dmap)
 
@@ -95,7 +53,7 @@ test_that("opts",{
                   countryCode = c("COL","USA","DEU", "XXX"),
                   value = c(1,2,3, 4),
                   continent = c("America","America","Europe", "XXX"))
-  dmap <- dmapMeta("world_countries")
+  dmap <- geodataMeta("world_countries")
   data <- dmaps:::makeGeoData(dmap, data = d,
                               regionCols = "countryName",
                               valueCol = "value")
@@ -137,7 +95,7 @@ test_that("params",{
   bubbles = NULL
 
   mapName <- "world_countries"
-  dmap <- dmapMeta(mapName)
+  dmap <- geodataMeta(mapName)
 
   expect_true(is.null(makeGeoData(dmap, data = NULL)))
 
@@ -163,7 +121,7 @@ test_that("params",{
                            valueCol = "valueChr"),
                "valueCol must be numeric")
 
-  dmap <- dmapMeta(mapName)
+  dmap <- geodataMeta(mapName)
   g1 <- makeGeoData(dmap, data = data,
                     regionCols = "countryName", valueCol = "value")
   expect_false(any(is.na(g1$..code)))
@@ -179,7 +137,7 @@ test_that("params",{
 
   mapName <- "col_municipalities"
   data <- read_csv(system.file("data/co/alcaldias-partido-2011.csv", package = "dmaps"))
-  dmap <- dmapMeta(mapName)
+  dmap <- geodataMeta(mapName)
 
   g <- makeGeoData(dmap, data = data,
                    regionCols = c("Municipio","Departamento"), groupCol = "Aval Partidos 2011")
