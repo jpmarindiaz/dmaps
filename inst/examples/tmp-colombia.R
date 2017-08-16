@@ -5,6 +5,15 @@ install()
 
 library(dmaps)
 
+
+mapName <- "col_dc_districts"
+dmaps(data = NULL, mapName)
+
+
+
+
+
+
 ## TEST regions
 
 opts = NULL

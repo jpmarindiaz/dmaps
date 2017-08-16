@@ -53,6 +53,7 @@ HTMLWidgets.widget({
 
         // document.getElementById(el.id).innerHTML="";
         // d3.select("#dmapLegend").select("svg").selectAll("*").remove();
+        
         console.log("rendering")
         d3.select(el).selectAll("*").remove();
         d3.select(".datamaps-legend").remove();
@@ -302,6 +303,15 @@ HTMLWidgets.widget({
                 animationSpeed: 600
             },
             done: function(datamap) {
+                // Handle clicks before zooms
+                d3.select('.datamap').select('g').selectAll('.datamaps-subunit').on('click', function(event, data) {
+                    // console.log("CLICKED REGION", data)
+                    console.log("CLICKED REGION", event.id)
+                    if (typeof Shiny != "undefined") {
+                        Shiny.onInputChange('dmaps_clicked_region', event.id)
+                    }
+
+                });
 
                 if (!datamap.options.zoomable) {
                     return null
@@ -391,15 +401,6 @@ HTMLWidgets.widget({
                             zoomed();
                         };
                     });
-                });
-
-                d3.select('.datamap').select('g').selectAll('.datamaps-subunit').on('click', function(event, data) {
-                    // console.log("CLICKED REGION", data)
-                    console.log("CLICKED REGION", event.id)
-                    if (typeof Shiny != "undefined") {
-                        Shiny.onInputChange('dmaps_clicked_region', event.id)
-                    }
-
                 });
             },
             zoomable: opts.zoomable
