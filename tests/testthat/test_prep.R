@@ -4,12 +4,12 @@ context("Opts")
 test_that("opts",{
 
   mapName <- "world_countries"
-  dmap <- geodataMeta(mapName)
+  dmap_t <- geodataMeta(mapName)
 
-  opt1 <- getOpts(dmap)
+  opt1 <- getOpts(dmap_t)
 
   # take the first projection by default
-  expect_equal(opt1$projectionOpts, dmap$projections[[1]])
+  expect_equal(opt1$projectionOpts, dmap_t$projections[[1]])
 
   #defaultOpts <- getDefaultOpts()
   #expext_equal(opt1, defaultOpts)
@@ -25,7 +25,7 @@ test_that("opts",{
       tilt = 25
     )
   )
-  getOpts(dmap, opts)
+  getOpts(dmap_t, opts)
 
 
   opts <- list(
@@ -40,9 +40,9 @@ test_that("opts",{
       tilt = 15
     )
   )
-  expect_error(getOpts(dmap, opts = list(projectionName = "xxx")), "Projection not defined for the given dmap")
+  expect_error(getOpts(dmap_t, opts = list(projectionName = "xxx")), "Projection not defined for the given dmap_t")
 
-  opt2 <- getOpts(dmap, opts)
+  opt2 <- getOpts(dmap_t, opts)
   expect_equal(opts$projectionName, opt2$projectionName)
   expect_equal(opts$projectionOpts$scale, opt2$projectionOpts$scale)
   expect_equal(opts$projectionOpts$center, opt2$projectionOpts$center)
@@ -53,17 +53,17 @@ test_that("opts",{
                   countryCode = c("COL","USA","DEU", "XXX"),
                   value = c(1,2,3, 4),
                   continent = c("America","America","Europe", "XXX"))
-  dmap <- geodataMeta("world_countries")
-  data <- dmaps:::makeGeoData(dmap, data = d,
+  dmap_t <- geodataMeta("world_countries")
+  data <- dmap_ts:::makeGeoData(dmap_t, data = d,
                               regionCols = "countryName",
                               valueCol = "value")
-  dopts <- getOpts(dmap, opts = NULL, data = data)
+  dopts <- getOpts(dmap_t, opts = NULL, data = data)
   expect_equal(dopts$legend$choropleth$type, "numeric")
 
-  data <- dmaps:::makeGeoData(dmap, data = d,
+  data <- dmap_ts:::makeGeoData(dmap_t, data = d,
                               regionCols = "countryName",
                               groupCol = "continent")
-  dopts <- getOpts(dmap, opts = NULL, data = data)
+  dopts <- getOpts(dmap_t, opts = NULL, data = data)
   expect_equal(dopts$legend$choropleth$type, "categorical")
 
   opts <- list(
@@ -74,10 +74,10 @@ test_that("opts",{
     tooltip = list(choropleth = list(template = "NAMEEE: {country}"))
     ,styles = "svg{background-color:#eee}"
   )
-  getOpts(dmap, opts = opts)
+  getOpts(dmap_t, opts = opts)
 
   opts=list(title = list(text="Hola",left=90))
-  getOpts(dmap, opts = opts)
+  getOpts(dmap_t, opts = opts)
 
 })
 
@@ -95,9 +95,9 @@ test_that("params",{
   bubbles = NULL
 
   mapName <- "world_countries"
-  dmap <- geodataMeta(mapName)
+  dmap_t <- geodataMeta(mapName)
 
-  expect_true(is.null(makeGeoData(dmap, data = NULL)))
+  expect_true(is.null(makeGeoData(dmap_t, data = NULL)))
 
   data <- data_frame(countryName = c("Colombia","United States","Germany", "Flatland"),
                      countryCode = c("COL","USA","DEU", "XXX"),
@@ -105,27 +105,27 @@ test_that("params",{
                      valueChr = c('1','2','3','4'),
                      continent = c("America","America","Europe", "XXX"))
 
-  expect_error(makeGeoData(dmap, data = data,
+  expect_error(makeGeoData(dmap_t, data = data,
                            regionCols = NULL, codeCol = NULL),
                "Need to provide regionCols or codeCol")
 
-  expect_error(makeGeoData(dmap, data = data,
+  expect_error(makeGeoData(dmap_t, data = data,
                            regionCols = "xxx"))
-  expect_error(makeGeoData(dmap, data = data,
+  expect_error(makeGeoData(dmap_t, data = data,
                            codeCol = "xxx"))
-  expect_error(makeGeoData(dmap, data = data,
+  expect_error(makeGeoData(dmap_t, data = data,
                            codeCol = "countryCode"),
                "Need to povide a groupCol or a valueCol")
-  expect_error(makeGeoData(dmap, data = data,
+  expect_error(makeGeoData(dmap_t, data = data,
                            codeCol = "countryCode",
                            valueCol = "valueChr"),
                "valueCol must be numeric")
 
-  dmap <- geodataMeta(mapName)
-  g1 <- makeGeoData(dmap, data = data,
+  dmap_t <- geodataMeta(mapName)
+  g1 <- makeGeoData(dmap_t, data = data,
                     regionCols = "countryName", valueCol = "value")
   expect_false(any(is.na(g1$..code)))
-  g2 <- makeGeoData(dmap, data = data,
+  g2 <- makeGeoData(dmap_t, data = data,
                     codeCol = "countryCode", valueCol = "value")
   expect_false(any(is.na(g2$..code)))
 
@@ -136,20 +136,20 @@ test_that("params",{
   expect_equal(g1 %>% select(..code, ..name), g2 %>% select(..code, ..name))
 
   mapName <- "col_municipalities"
-  data <- read_csv(system.file("data/co/alcaldias-partido-2011.csv", package = "dmaps"))
-  dmap <- geodataMeta(mapName)
+  data <- read_csv(system.file("data/co/alcaldias-partido-2011.csv", package = "dmap_ts"))
+  dmap_t <- geodataMeta(mapName)
 
-  g <- makeGeoData(dmap, data = data,
+  g <- makeGeoData(dmap_t, data = data,
                    regionCols = c("Municipio","Departamento"), groupCol = "Aval Partidos 2011")
-  gRegion <- makeGeoData(dmap, data = data,
+  gRegion <- makeGeoData(dmap_t, data = data,
                          regionCols = c("Municipio","Departamento"), groupCol = "Aval Partidos 2011",
                          region = c("Catatumbo", "Valle de Aburrá"))
-  all(gRegion$..code %in% c(dmap$regions$Catatumbo$ids,dmap$regions$`Valle de Aburrá`$ids))
+  all(gRegion$..code %in% c(dmap_t$regions$Catatumbo$ids,dmap_t$regions$`Valle de Aburrá`$ids))
 
   # Provide bubbles
-  # dmaps("co_departments")
-  # dmaps("co_municipalities")
-  # dmaps("world_countries")
+  # dmap_ts("co_departments")
+  # dmap_ts("co_municipalities")
+  # dmap_ts("world_countries")
   #
   # getAvailableRegions("co_municipalities")
   # getAvailableProjections("co_municipalities")
