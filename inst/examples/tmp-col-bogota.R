@@ -15,6 +15,13 @@ opts <- list(
 )
 dmaps(data = NULL, mapName, opts = opts)
 
+dmaps(data = data_frame(id = c("19","8"), group = c("x","x")), mapName,
+      groupCol = "group", codeCol = "id",
+      palette = "PuBu",
+      opts = opts)
+
+
+
 
 library(shiny)
 app <- shinyApp(
