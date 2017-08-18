@@ -18,7 +18,7 @@ dmaps <- function(data = NULL, mapName, opts = NULL,
   dmap <- geodataMeta(mapName)
   # Add quick fix
   # https://rawgit.com/jpmarindiaz/geodata/master/inst/geodata/col/col-adm2-municipalities.topojson
-  basepath <- "https://rawgit.com/jpmarindiaz/geodata/master/inst/geodata"
+  basepath <- "https://cdn.rawgit.com/jpmarindiaz/geodata/master/inst/geodata"
   dmap$path <- file.path(basepath,dmap$geoname,paste0(dmap$basename,".topojson"))
   #message("makeGeoData")
 

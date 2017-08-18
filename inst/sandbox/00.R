@@ -5,6 +5,10 @@ install()
 
 library(dmaps)
 
+
+dmaps(data = NULL, "world_countries", opts = list(legend = list(show = FALSE)))
+dmaps(data = NULL, "latam_countries", opts = list(legend = list(show = FALSE)))
+
 mapName <- "world_countries"
 d <- read.csv("inst/data/world_countries/world-countries-military-per-1000.csv")
 opts <- list(
