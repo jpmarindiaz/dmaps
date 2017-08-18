@@ -5,6 +5,8 @@ install()
 
 library(dmaps)
 
+dmaps(data = NULL, "latam_countries")
+
 
 dmaps(data = NULL, "world_countries", opts = list(legend = list(show = FALSE)))
 dmaps(data = NULL, "latam_countries", opts = list(legend = list(show = FALSE)))
