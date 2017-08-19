@@ -97,6 +97,7 @@ HTMLWidgets.widget({
         var opts = {
             scope: dmap.scope,
             dataUrl: dmap.path,
+            // dataJson: dmap.path,
             zoomable: usrOpts.zoomable || false,
             geographyName: dmap.geographyName,
             projectionName: usrOpts.projectionName,
@@ -254,6 +255,7 @@ HTMLWidgets.widget({
                 highlightFillColor: opts.highlightFillColor,
                 highlightBorderColor: opts.highlightBorderColor,
                 highlightBorderWidth: opts.highlightBorderWidth,
+                // dataJson: opts.dataJson,
                 dataUrl: opts.dataUrl,
                 popupTemplate: function(geography, data) {
                     // console.log(data)

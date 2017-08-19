@@ -20,6 +20,11 @@ dmaps <- function(data = NULL, mapName, opts = NULL,
   # https://rawgit.com/jpmarindiaz/geodata/master/inst/geodata/col/col-adm2-municipalities.topojson
   basepath <- "https://cdn.rawgit.com/jpmarindiaz/geodata/master/inst/geodata"
   dmap$path <- file.path(basepath,dmap$geoname,paste0(dmap$basename,".topojson"))
+
+  #topojsonPath <- file.path("geodata",dmap$geoname,paste0(dmap$basename,".topojson"))
+  #topojson <- paste0(readLines(system.file(topojsonPath, package = "geodata")),collapse = "")
+  #dmap$path
+
   #message("makeGeoData")
 
   data <- preprocessData(data, mapName)

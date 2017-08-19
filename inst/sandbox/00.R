@@ -5,7 +5,10 @@ install()
 
 library(dmaps)
 
+dmaps(data = NULL, "mex_states")
+
 dmaps(data = NULL, "latam_countries")
+
 
 
 dmaps(data = NULL, "world_countries", opts = list(legend = list(show = FALSE)))
