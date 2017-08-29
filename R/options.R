@@ -103,6 +103,7 @@ getDefaultOpts <- function(titleOpts = NULL, legendOpts = NULL, notesOpts = NULL
         left = 1,
         orient = "vertical",
         shapeWidth = 40,
+        labelFormat = ".1f",
         labels = NULL,
         show = TRUE
       ),

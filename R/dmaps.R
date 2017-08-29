@@ -34,8 +34,8 @@ dmaps <- function(data = NULL, mapName, opts = NULL,
                   groupCol = groupCol, valueCol = valueCol,
                   opts = opts)
   #message("getOpts")
-  #str(opts)
   opts <- getOpts(dmap, opts = opts, data = dgeo)
+  str(opts)
   #str(dmap)
   # message("prepData")
   d <- prepData(dmap, opts, data = dgeo, bubbles = bubbles)
