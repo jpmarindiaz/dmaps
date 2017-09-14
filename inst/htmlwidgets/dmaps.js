@@ -307,10 +307,11 @@ HTMLWidgets.widget({
             done: function(datamap) {
                 // Handle clicks before zooms
                 d3.select('.datamap').select('g').selectAll('.datamaps-subunit').on('click', function(event, data) {
-                    // console.log("CLICKED REGION", data)
-                    console.log("CLICKED REGION", event.id)
                     if (typeof Shiny != "undefined") {
-                        Shiny.onInputChange('dmaps_clicked_region', event.id)
+                        Shiny.onInputChange('dmaps_clicked_region_id', event.id)
+                        var now = new Date().getTime();
+                        Shiny.onInputChange('dmaps_clicked_region', {id:event.id, time: now})
+                        console.log("CLICKED REGION", {id:event.id, time: now})
                     }
 
                 });

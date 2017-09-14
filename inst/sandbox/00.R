@@ -195,16 +195,16 @@ app <- shinyApp(
     dmapsOutput("viz")
   ),
   server = function(input, output) {
-    data <- read.csv(system.file("data/co_municipalities/iniciativas.csv", package = "dmaps"))
+    data <- read.csv(system.file("data/co/iniciativas.csv", package = "dmaps"))
     output$viz <- renderDmaps({
-      e <- dmaps("co_municipalities",data = data,
+      e <- dmaps("col_municipalities",data = data,
                  groupCol = "Organización",
                  regionCols = c("Municipio","Departamento"))
       htmlwidgets::saveWidget(e,"~/Desktop/index.html")
       e
     })
     output$clicked <- renderPrint({
-      input$dmaps_clicked_region
+      paste(input$dmaps_clicked_region,sample(letters,1))
     })
   }
 )
