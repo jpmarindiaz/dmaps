@@ -310,7 +310,7 @@ HTMLWidgets.widget({
                     if (typeof Shiny != "undefined") {
                         Shiny.onInputChange('dmaps_clicked_region_id', event.id)
                         var now = new Date().getTime();
-                        Shiny.onInputChange('dmaps_clicked_region', {id:event.id, time: now})
+                        Shiny.onInputChange('dmaps_clicked_region', {id:event.id, timestamp: now})
                         console.log("CLICKED REGION", {id:event.id, time: now})
                     }
 
