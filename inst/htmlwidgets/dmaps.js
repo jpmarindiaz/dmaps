@@ -426,6 +426,8 @@ HTMLWidgets.widget({
             var legendDomain = data.domain;
             var legendRange = data.range;
             var nLevels = data.nLevels;
+            //var labelFormat = d3.format(".2f");
+            var labelFormat = d3.format(data.labelFormat);
             var cells = data.cells || Math.min(legendDomain.length, nLevels);
             if (type == "numeric") {
                 var scale = d3.scale.linear()
@@ -450,6 +452,7 @@ HTMLWidgets.widget({
                 .cells(cells)
                 .title(title)
                 .orient(orient)
+                .labelFormat(labelFormat)
                 .scale(scale);
 
             legend.select("#dmapLegend").call(legendLinear);
@@ -460,11 +463,12 @@ HTMLWidgets.widget({
         }
         map.addPlugin("choroLegend", addChoroLegend);
 
-console.log("usrOpts.legend",usrOpts.legend)
+        console.log("usrOpts.legend",usrOpts.legend)
         if (usrOpts.legend.show) {
             usrOpts.legend.choropleth.domain = x.data.legendData.key;
             usrOpts.legend.choropleth.range = x.data.legendData.keyColor;
             usrOpts.legend.choropleth.nLevels = x.settings.nLevels;
+            usrOpts.legend.choropleth.labelFormat = x.settings.choroLegend.labelFormat;
             instance.legend = usrOpts.legend.choropleth;
             instance.legend.name = "choroLegend";
             map.choroLegend(usrOpts.legend.choropleth)

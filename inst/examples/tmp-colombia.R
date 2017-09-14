@@ -6,6 +6,33 @@ install()
 library(dmaps)
 
 
+## Test Regions
+
+#d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
+d <- read.csv("inst/data/co/co_municipalities-2-vars.csv")
+
+mapName <- "col_municipalities"
+names(d)
+opts <- list(
+  defaultFill = "#FFFFFF",
+  borderColor = "#CCCCCC",
+  borderWidth = 0.3,
+  highlightFillColor = "#999999",
+  highlightBorderWidth = 1,
+  palette = "PuBu",
+  nLevels = 3,
+  choroLegend = list(shapeWidth = 40, labelFormat = ".0f"),
+  projectionOpts = list(scale = 20)
+)
+dmaps(mapName, data = d,
+      valueCol = "conf_uso_2",
+      regionCols = c("municipio","departamento"),
+      regions = "Cesar",
+      opts = opts
+)
+
+
+
 mapName <- "col_dc_districts"
 dmaps(data = NULL, mapName)
 
@@ -56,30 +83,7 @@ dmaps(mapName, data = d,
 getAvailableRegions("co_municipalities")
 
 
-## Test Regions
 
-#d <- read.csv("inst/data/co_municipalities/carto-2-vars.csv")
-d <- read.csv("inst/data/co_municipalities/co_municipalities-2-vars.csv")
-
-mapName <- "co_municipalities"
-names(d)
-opts <- list(
-  defaultFill = "#FFFFFF",
-  borderColor = "#CCCCCC",
-  borderWidth = 0.3,
-  highlightFillColor = "#999999",
-  highlightBorderWidth = 1,
-  palette = "PuBu",
-  nLevels = 3,
-  choroLegend = list(shapeWidth = 40),
-  projectionOpts = list(scale = 20)
-)
-dmaps(mapName, data = d,
-      valueCol = "conf_uso_2",
-      regionCols = c("municipio","departamento"),
-      regions = "Cesar",
-      opts = opts
-)
 
 
 dmaps(mapName, data = d,
